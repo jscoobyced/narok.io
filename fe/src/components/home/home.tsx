@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './home.scss';
 import * as Config from '../../services/config/config';
-import { DataService } from '../../services/data/data';
+import GoogleButton from '../google/GoogleButton';
 
 interface HomeState {
   hello: String
@@ -13,20 +13,6 @@ export class Home extends React.Component<{}, HomeState> {
     this.state = {
       hello: 'Nothing yet...',
     };
-  }
-
-  componentDidMount = async () => {
-    new DataService().getHelloScala()
-      .then((data) => {
-        this.setState({
-          hello: data.hello,
-        });
-      })
-      .catch((error:Error) => {
-        this.setState({
-          hello: error.message,
-        });
-      });
   }
 
   render = () => {
@@ -65,6 +51,7 @@ export class Home extends React.Component<{}, HomeState> {
               .
             </p>
           </section>
+          <GoogleButton />
         </div>
         <footer>
           &copy; Copyright

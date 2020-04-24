@@ -92,7 +92,7 @@ module.exports = (env, argv) => {
             historyApiFallback: true,
             port: 9000,
             disableHostCheck: true,
-            host: "0.0.0.0"
+            host: "dev.narok.io"
         };
     }
 
