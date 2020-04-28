@@ -1,0 +1,20 @@
+@import "../../styles/_variables";
+
+.google-button {
+    padding: 6px 10px 6px 5px;
+    cursor: pointer;
+
+    svg {
+        margin: -3px 5px -3px 0;
+    }
+}
+
+.signed-in {
+    &_true {
+        background-color: $primary-dark;
+        color: $on-primary;
+    }
+    &_false {
+        background-color: $on-primary;
+    }
+}

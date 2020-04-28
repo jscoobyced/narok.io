@@ -6,5 +6,12 @@
     "copyright": {
         "year": 2020,
         "author": "Cédric Rochefolle"
+    },
+    "google": {
+        "clientId": "1043504553067-c3tp3a90ktjt9m8souf3ind2riohn05k.apps.googleusercontent.com",
+        "scope": "profile email",
+        "accessType": "offline",
+        "cookiePolicy": "single_host_origin",
+        "fetchBasicProfile": true
     }
 }

@@ -1,0 +1,11 @@
+{
+    "en_US": {
+        "SIGNIN": "Sign In",
+        "SIGNOUT": "Sign Out",
+        "HELLO": "Hello"
+    },
+    "fr_FR": {
+        "SIGNIN": "Connexion",
+        "SIGNOUT": "Deconnexion"
+    }
+}

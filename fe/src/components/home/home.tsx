@@ -1,66 +1,32 @@
 import * as React from 'react';
 import './home.scss';
+import * as i18n from '../../services/i18n/i18n';
+import { AppContext } from '../../services/context/context';
 import * as Config from '../../services/config/config';
 import GoogleButton from '../google/GoogleButton';
 
-interface HomeState {
-  hello: String
-}
+export const Home = () => {
 
-export class Home extends React.Component<{}, HomeState> {
-  public constructor(props: {}, state: HomeState) {
-    super(props, state);
-    this.state = {
-      hello: 'Nothing yet...',
-    };
-  }
+  const context = React.useContext(AppContext);
+  const signInText = i18n.getByLanguage(context.currentLangage, i18n.CMS.SIGNIN);
 
-  render = () => {
-    const server = Config.getApplicationConfig().Server;
-    const port = Config.getApplicationConfig().Port;
-    const { hello } = this.state;
-    return (
-      <>
-        <header>
-          <h1>Hello, TypeScript + React!</h1>
-        </header>
-        <div className="container">
-          <section>
-            <p>
-              This sample application can run in developer mode with hot-reload.
-              <br />
-              Simply start it from the
-              <strong><i>fe</i></strong>
-              folder by typing:
-            </p>
-            <pre>
-              yarn start
-            </pre>
-            <br />
-            <p>
-              The API service is running at
-              {' '}
-              <a
-                href={`http://${server}:${port}/hello`}
-              >
-                {`http://${server}:${port}/hello`}
-              </a>
-              . It says:
-              {' '}
-              {hello}
-              .
-            </p>
-          </section>
-          <GoogleButton />
-        </div>
-        <footer>
-          &copy; Copyright
+  return (
+    <>
+      <header>
+        <h1>Hello, TypeScript + React!</h1>
+      </header>
+      <div className="container">
+        <section>
+          <GoogleButton signInText={signInText} />
+        </section>
+      </div>
+      <footer>
+        &copy; Copyright
           {' '}
-          {Config.getCopyright().Year}
-          {' '}
-          {Config.getCopyright().Author}
-        </footer>
-      </>
-    );
-  }
+        {Config.getCopyright().Year}
+        {' '}
+        {Config.getCopyright().Author}
+      </footer>
+    </>
+  );
 }
