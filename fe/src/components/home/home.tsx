@@ -9,6 +9,8 @@ export const Home = () => {
   const context = React.useContext(AppContext);
   const { currentLangage } = context;
   const signInText = i18n.getByLanguage(currentLangage, i18n.CMS.SIGNIN);
+  const year = Config.getCopyright().Year;
+  const author = Config.getCopyright().Author;
 
   return (
     <>
@@ -22,10 +24,9 @@ export const Home = () => {
       </div>
       <footer>
         &copy; Copyright
+        {year}
         {' '}
-        {Config.getCopyright().Year}
-        {' '}
-        {Config.getCopyright().Author}
+        {author}
       </footer>
     </>
   );

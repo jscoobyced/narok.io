@@ -4,13 +4,13 @@ services:
     build:
       context: ./fe
       dockerfile: Dockerfile
-    image: jscdroiddev/jscfe
+    image: jscdroiddev/narokio-fe
     ports:
       - "80:80"
   jscbe:
     build:
       context: ./be
       dockerfile: Dockerfile
-    image: jscdroiddev/jscbe
+    image: jscdroiddev/narokio-be
     ports:
       - "8080:8080"
