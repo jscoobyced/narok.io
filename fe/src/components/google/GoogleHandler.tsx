@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import Loader from '../../common/loader';
 import * as Config from '../../services/config/config';
 
+/* global gapi */
+
 const googleHandler = (props: {
   isSignedIn: boolean;
   onSignInSuccess: (user: gapi.auth2.GoogleUser) => {};
@@ -11,6 +13,7 @@ const googleHandler = (props: {
   const [loaded, setLoaded] = useState(false);
   const loader = new Loader();
 
+  /* istanbul ignore next */
   const initGoogle = () => {
     if (!gapi.auth2.getAuthInstance()) {
       const googleParams = Config.getGoogleParams();
@@ -43,18 +46,20 @@ const googleHandler = (props: {
     }
   });
 
+  /* istanbul ignore next */
   const signIn = ((event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     if (event) {
       event.preventDefault();
     }
     if (loaded) {
       gapi.auth2.getAuthInstance().signIn({}).then(
-        (response: any) => props.onSignInSuccess(response.getBasicProfile()),
+        (response: gapi.auth2.GoogleUser) => props.onSignInSuccess(response),
         (error: any) => props.onFailure(error),
       );
     }
   });
 
+  /* istanbul ignore next */
   const signOut = ((event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     if (event) {
       event.preventDefault();
@@ -62,7 +67,7 @@ const googleHandler = (props: {
     if (loaded) {
       const auth2 = gapi.auth2.getAuthInstance();
       auth2.signOut().then(
-        auth2.disconnect().then(props.onSignOutSuccess)
+        auth2.disconnect().then(props.onSignOutSuccess),
       );
     }
   });

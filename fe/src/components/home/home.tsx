@@ -6,9 +6,9 @@ import * as Config from '../../services/config/config';
 import GoogleButton from '../google/GoogleButton';
 
 export const Home = () => {
-
   const context = React.useContext(AppContext);
-  const signInText = i18n.getByLanguage(context.currentLangage, i18n.CMS.SIGNIN);
+  const { currentLangage } = context;
+  const signInText = i18n.getByLanguage(currentLangage, i18n.CMS.SIGNIN);
 
   return (
     <>
@@ -22,11 +22,11 @@ export const Home = () => {
       </div>
       <footer>
         &copy; Copyright
-          {' '}
+        {' '}
         {Config.getCopyright().Year}
         {' '}
         {Config.getCopyright().Author}
       </footer>
     </>
   );
-}
+};

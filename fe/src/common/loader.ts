@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 const myWindow = (<any>window);
 
 export default class Loader {

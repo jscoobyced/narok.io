@@ -5,9 +5,11 @@ import Icon from './icon';
 import './GoogleButton.scss';
 
 const GoogleButton = (props: { signInText: string }) => {
-  const [userName, setUserName] = useState(props.signInText);
+  const { signInText } = props;
+  const [userName, setUserName] = useState(signInText);
   const [isSignedIn, setSignedIn] = useState(false);
 
+  /* istanbul ignore next */
   const googleHandlerProps = {
     isSignedIn,
     onSignInSuccess: (user: gapi.auth2.GoogleUser) => {
@@ -16,7 +18,7 @@ const GoogleButton = (props: { signInText: string }) => {
       return 0;
     },
     onSignOutSuccess: () => {
-      setUserName(props.signInText);
+      setUserName(signInText);
       setSignedIn(false);
       return 0;
     },
@@ -27,12 +29,12 @@ const GoogleButton = (props: { signInText: string }) => {
   };
   const { signIn, signOut } = googleHandler(googleHandlerProps);
   const method = isSignedIn ? signOut : signIn;
-  const icon = isSignedIn ? <></> : <Icon />
+  const icon = isSignedIn ? <></> : <Icon />;
 
   return (
     <span
       role="none"
-      className={'google-button signed-in_' + isSignedIn}
+      className={`google-button signed-in_${isSignedIn}`}
       onClick={method}
     >
       {icon}

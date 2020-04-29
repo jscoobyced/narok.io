@@ -17,14 +17,4 @@ describe('Home', () => {
     expect(home.find('section')).toHaveLength(1);
     expect(home.find('footer')).toHaveLength(1);
   });
-
-  it('should handle error to fetch data', async () => {
-    const error = 'Async error';
-    (HttpService.fetchData as jest.Mock).mockRejectedValue(new Error(error));
-    const home = mount(<Home />);
-    (home.instance() as Home).componentDidMount()
-      .then(() => {
-        expect(home.state('hello')).toEqual(error);
-      });
-  });
 });
