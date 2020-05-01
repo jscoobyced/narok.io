@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
-import googleHandler from './GoogleHandler';
-import Icon from './icon';
+import googleHandler from './googleHandler';
+import Icon from './GoogleIcon';
 import './GoogleButton.scss';
 
 const GoogleButton = (props: { signInText: string }) => {

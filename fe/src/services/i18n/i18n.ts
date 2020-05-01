@@ -1,4 +1,4 @@
-const i18n = require('./i18n.json');
+const cms = require('./cms.json');
 
 export const languages = {
   default: 'en_US',
@@ -7,25 +7,19 @@ export const languages = {
 };
 
 const get = (lang: string, id: string): string => {
-  let cms = i18n[lang][id];
-  if (!cms) {
-    cms = '';
+  let content = cms[lang][id];
+  if (!content) {
+    content = '';
   }
-  return cms;
+  return content;
 };
 
 const getDefault = (id: string): string => get(languages.default, id);
 
 export const getByLanguage = (lang: string, id: string): string => {
-  let cms = get(lang, id);
-  if (cms.length === 0) {
-    cms = getDefault(id);
+  let content = get(lang, id);
+  if (content.length === 0) {
+    content = getDefault(id);
   }
-  return cms;
-};
-
-export const CMS = {
-  SIGNIN: 'SIGNIN',
-  SIGNOUT: 'SIGNOUT',
-  HELLO: 'HELLO',
+  return content;
 };

@@ -5,11 +5,6 @@ export const getApplicationConfig = () => ({
   Server: config.api.server,
 });
 
-export const getCopyright = () => ({
-  Year: config.copyright.year,
-  Author: config.copyright.author,
-});
-
 export const getGoogleParams = () => ({
   client_id: config.google.clientId,
   scope: config.google.scope,

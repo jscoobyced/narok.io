@@ -1,0 +1,11 @@
+@import "../../styles/_variables";
+
+footer {
+    width: 100%;
+    color: $secondary;
+    background-color: $primary-dark;
+    min-height: 3vh;
+    height: 3vh;
+    line-height: 3vh;
+    text-align: center;
+}

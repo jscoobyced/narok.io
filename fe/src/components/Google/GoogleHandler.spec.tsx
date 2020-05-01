@@ -1,6 +1,6 @@
 import { mount, shallow } from 'enzyme';
 import * as React from 'react';
-import googleHandler from './GoogleHandler';
+import googleHandler from './googleHandler';
 
 const registerMock = jest.fn();
 const loadMock = jest.fn();

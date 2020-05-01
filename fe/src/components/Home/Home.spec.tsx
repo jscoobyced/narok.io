@@ -1,6 +1,6 @@
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import * as React from 'react';
-import { Home } from './home';
+import { Home } from './Home';
 import HttpService from '../../services/http/http';
 
 jest.mock('../../services/http/http');
@@ -11,10 +11,8 @@ beforeEach(() => {
 
 describe('Home', () => {
   it('should display all elements.', async () => {
-    const home = shallow(<Home />);
-    expect(home.find('header')).toHaveLength(1);
+    const home = mount(<Home />);
     expect(home.find('.container')).toHaveLength(1);
     expect(home.find('section')).toHaveLength(1);
-    expect(home.find('footer')).toHaveLength(1);
   });
 });

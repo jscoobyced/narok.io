@@ -38,7 +38,7 @@
                 "arrow-parens": "off",
                 "max-len": [
                     1,
-                    100
+                    120
                 ],
                 "react/jsx-filename-extension": "off",
                 "jsx-a11y/anchor-is-valid": "off",

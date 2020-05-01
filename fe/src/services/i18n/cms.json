@@ -1,0 +1,19 @@
+{
+    "en_US": {
+        "SIGNIN": "Sign In",
+        "SIGNOUT": "Sign Out",
+        "LANGUAGE_EN": "English",
+        "LANGUAGE_FR": "Français",
+        "COPYRIGHT": "Copyright",
+        "COPYYEAR": "2020",
+        "COPYAUTHOR": "Cédric Rochefolle",
+        "WEBSITE_TITLE": "Narok.io",
+        "WEBSITE_SUBTITLE": "Web-Security and hacking..."
+    },
+    "fr_FR": {
+        "SIGNIN": "Connexion",
+        "SIGNOUT": "Deconnexion",
+        "COPYRIGHT": "Droits d'auteur",
+        "WEBSITE_SUBTITLE": "Sécurité web et hacking..."
+    }
+}

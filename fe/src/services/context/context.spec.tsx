@@ -4,9 +4,9 @@ import { AppContext } from './context';
 
 const Empty = () => {
   const context = React.useContext(AppContext);
-  const { currentLangage } = context;
+  const { language } = context;
   return (
-    <div className="test">{currentLangage}</div>
+    <div className="test">{language}</div>
   );
 };
 
@@ -14,7 +14,7 @@ describe('context service', () => {
   it('should contain current language', () => {
     const expected = 'en_US';
     const component = mount(
-      <AppContext.Provider value={{ currentLangage: expected }}>
+      <AppContext.Provider value={{ language: expected, setLanguage: () => { }, getContent: (s: string) => '' }}>
         <Empty />
       </AppContext.Provider>,
     );

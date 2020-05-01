@@ -5,7 +5,7 @@ import GoogleButton from './GoogleButton';
 const signInMock = jest.fn();
 const signOutMock = jest.fn();
 
-jest.mock('./GoogleHandler', () => ({
+jest.mock('./googleHandler', () => ({
   __esModule: true,
   default: jest.fn(() => ({
     signIn: signInMock,
