@@ -1,0 +1,9 @@
+## Development Dockerfile
+# In order to test your production build without rebuilding the whole image all
+# of the time.
+# How to use: see README.md in this directory
+
+FROM nginx:latest
+LABEL maintainer="JscDroidDev"
+EXPOSE 80 443
+VOLUME ["/usr/share/nginx/html/"]
