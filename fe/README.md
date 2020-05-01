@@ -6,7 +6,9 @@ This is the front-end part of the website.
 # Quick Start
 To start the application as it is, just run from command line:
 ```
-docker build -t owner/myapp-fe .
+docker build --build-arg -t owner/myapp-fe .
+// or if you run from within "fe" folder
+docker build --build-arg JSCCURRENT="." -t owner/myapp-fe .
 docker run --name myapp-fe -d --rm -p 80:80 owner/myapp-fe
 ```
 Then you can open your browser on `http://localhost`.

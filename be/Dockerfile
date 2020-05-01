@@ -7,7 +7,8 @@ RUN set -ex; apt-get install -qqy apt-utils && apt-get update && apt-get -qqy up
     && apt-get install -qqy p7zip-full
 
 # Build application
-COPY . src
+ARG JSCCURRENT="./be"
+COPY ${JSCCURRENT} src
 RUN mkdir -p dist/jscbe
 
 RUN cd src && sbt clean && sbt compile && sbt universal:packageBin

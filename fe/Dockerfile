@@ -8,7 +8,8 @@ RUN set -ex; apt-get install -qqy --no-install-recommends \
         software-properties-common dirmngr python
 
 # Build application
-COPY . .
+ARG JSCCURRENT="./fe"
+COPY ${JSCCURRENT} .
 RUN yarn install
 RUN yarn build
 
