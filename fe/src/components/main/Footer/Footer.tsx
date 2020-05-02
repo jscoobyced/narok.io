@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { AppContext } from '../../services/context/context';
-import CMS from '../../services/i18n/cms';
+import { AppContext } from '../../../services/context/context';
+import CMS from '../../../services/i18n/cms';
 import './Footer.scss';
 
 export const Footer = () => {

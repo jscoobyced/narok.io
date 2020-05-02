@@ -1,6 +1,6 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
-import { AppContext } from '../../services/context/context';
+import { AppContext } from '../../../services/context/context';
 import { Header } from './Header';
 
 describe('Header', () => {

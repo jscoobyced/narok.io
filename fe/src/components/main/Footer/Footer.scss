@@ -1,4 +1,4 @@
-@import "../../styles/_variables";
+@import "../../../styles/_variables";
 
 footer {
     width: 100%;
@@ -8,4 +8,5 @@ footer {
     height: 3vh;
     line-height: 3vh;
     text-align: center;
+    z-index: 10;
 }
