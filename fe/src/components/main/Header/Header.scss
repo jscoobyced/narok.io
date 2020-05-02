@@ -13,7 +13,7 @@ header {
 
     .header__title {
         display: inline-block;
-        padding-top: 10px;;
+        padding-top: 10px;
         font-size: $font-size-bigger;
     }
 
@@ -28,5 +28,16 @@ header {
         background-color: $background;
         color: $primary;
         border: solid 1px $primary;
+    }
+}
+
+@media screen and (max-width: $media-width-medium) {
+    header {
+        min-height: 10vh;
+        height: 10vh;
+
+        .header__title {
+            font-size: $font-size-big;
+        }
     }
 }
