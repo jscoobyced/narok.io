@@ -36,6 +36,10 @@ header {
         min-height: 10vh;
         height: 10vh;
 
+        img {
+            padding: 10px 10px 0 20px;
+        }
+
         .header__title {
             font-size: $font-size-big;
         }
