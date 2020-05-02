@@ -7,13 +7,15 @@
         "COPYRIGHT": "Copyright",
         "COPYYEAR": "2020",
         "COPYAUTHOR": "Cédric Rochefolle",
-        "WEBSITE_TITLE": "Narok.io",
-        "WEBSITE_SUBTITLE": "Web-Security and hacking..."
+        "WEBSITE_TITLE": "Narok",
+        "WEBSITE_SUBTITLE": "Web-Security and hacking...",
+        "COMINGSOON": "Coming soon..."
     },
     "fr_FR": {
         "SIGNIN": "Connexion",
         "SIGNOUT": "Deconnexion",
         "COPYRIGHT": "Droits d'auteur",
-        "WEBSITE_SUBTITLE": "Sécurité web et hacking..."
+        "WEBSITE_SUBTITLE": "Sécurité web et hacking...",
+        "COMINGSOON": "Bientôt disponible..."
     }
 }

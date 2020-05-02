@@ -1,0 +1,16 @@
+@import "../../styles/_variables";
+
+.container {
+    section {
+        img {
+            float: left;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        div {
+            margin-left: 150px;
+            padding: 10px;
+        }
+    }
+}

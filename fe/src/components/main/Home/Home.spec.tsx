@@ -1,9 +1,9 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
 import { Home } from './Home';
-import HttpService from '../../services/http/http';
+import HttpService from '../../../services/http/http';
 
-jest.mock('../../services/http/http');
+jest.mock('../../../services/http/http');
 
 beforeEach(() => {
   (HttpService.fetchData as jest.Mock).mockReturnValue({});
