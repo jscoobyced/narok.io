@@ -2,15 +2,19 @@
 
 .container {
     section {
-        img {
-            float: left;
-            z-index: 0;
-            overflow: hidden;
-        }
-
         div {
             margin-left: 150px;
-            padding: 10px;
+            padding-top: 10px;
+        }
+    }
+}
+
+@media screen and (max-width: $media-width-medium) {
+    .container {
+        section {
+            div {
+                margin-left: 80px;
+            }
         }
     }
 }
