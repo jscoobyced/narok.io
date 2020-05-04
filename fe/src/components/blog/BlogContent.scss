@@ -12,24 +12,40 @@
             grid-column: span 1;
         }
 
-        .article__created {
-            grid-column: span 1;
-            margin-left: auto;
-            align-self: flex-end;
-        }
+        .article {
+            &__created {
+                grid-column: span 1;
+                margin-left: auto;
+                align-self: flex-end;
+            }
 
-        .article__content {
-            padding-top: 10px;;
-            grid-column: span 2;
-            text-align: justify;
-            text-indent: 40px;
-        }
+            &__content {
+                padding-top: 10px;
+                grid-column: span 2;
+                text-align: justify;
+                text-indent: 40px;
+            }
 
-        .article__separator {
-            display: flex;
-            padding: 20px;
-            grid-column: span 2;
-            justify-content: center;
+            &__image {
+                display: flex;
+                padding-top: 10px;
+                grid-column: span 2;
+
+                &-center {
+                    justify-content: center;
+                }
+
+                &-right {
+                    justify-content: flex-end;
+                }
+            }
+
+            &__separator {
+                display: flex;
+                padding: 20px;
+                grid-column: span 2;
+                justify-content: center;
+            }
         }
     }
 }
