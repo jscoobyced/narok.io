@@ -14,7 +14,7 @@ export const BlogPage = () => {
     const contents = [getContent(CMS.LOREMIPSUM), getContent(CMS.LOREMIPSUM)];
     let key = 0;
     const loadedArticles = contents.map(content => {
-      const article: IArticle = toArticle('This is a title', [content, content], '2020-05-04 12:54');
+      const article: IArticle = toArticle('Coming soon...', [content, content], '2020-05-04 12:54');
       key += 1;
       return <BlogContent key={`bc-${key}`} article={article} />;
     });
