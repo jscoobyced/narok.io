@@ -1,0 +1,35 @@
+@import "../../styles/variables";
+
+.container {
+    article {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        padding-bottom: 20px;
+        font-family: $font-family-blog;
+
+        h2 {
+            display: inline;
+            grid-column: span 1;
+        }
+
+        .article__created {
+            grid-column: span 1;
+            margin-left: auto;
+            align-self: flex-end;
+        }
+
+        .article__content {
+            padding-top: 10px;;
+            grid-column: span 2;
+            text-align: justify;
+            text-indent: 40px;
+        }
+
+        .article__separator {
+            display: flex;
+            padding: 20px;
+            grid-column: span 2;
+            justify-content: center;
+        }
+    }
+}
