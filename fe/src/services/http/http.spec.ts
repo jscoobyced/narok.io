@@ -12,7 +12,8 @@ beforeEach(() => {
 
 describe('HTTPService', () => {
   it('should return data from API', async () => {
-    await HttpService.fetchData('any');
+    const httpService = new HttpService();
+    await httpService.fetchData('any');
     expect(myGlobal.fetch).toHaveBeenCalledTimes(1);
   });
 
@@ -23,8 +24,9 @@ describe('HTTPService', () => {
       status: 200,
     }));
     let error = false;
+    const httpService = new HttpService();
     try {
-      await HttpService.fetchData('any');
+      await httpService.fetchData('any');
     } catch {
       error = true;
     }

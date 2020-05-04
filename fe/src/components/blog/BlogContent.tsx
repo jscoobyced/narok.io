@@ -9,7 +9,7 @@ export const BlogContent = (props: { article: IArticle }) => {
   } = article;
 
   const buildContent = (icontent: IContent, index: number) => {
-    let result = <></>;
+    let result = <span key={`bp-ac-${index}`} />;
     switch (icontent.kind) {
       case 'text':
         result = <span key={`bp-ac-${index}`} className="article__content">{icontent.text}</span>;
