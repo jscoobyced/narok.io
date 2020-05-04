@@ -2,9 +2,10 @@
 
 .container {
     section {
-        div {
+        padding-top: 10px;
+
+        article {
             margin-left: 150px;
-            padding-top: 10px;
         }
     }
 }
@@ -13,7 +14,7 @@
     .container {
         section {
             div {
-                margin-left: 80px;
+                margin-left: 40px;
             }
         }
     }
