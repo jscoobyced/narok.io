@@ -1,7 +1,13 @@
 {
     "api": {
-        "port": 8080,
-        "server": "localhost"
+        "development": {
+            "port": 9001,
+            "server": "localhost"
+        },
+        "production": {
+            "port": 9001,
+            "server": "narok.io"
+        }
     },
     "google": {
         "clientId": "1043504553067-c3tp3a90ktjt9m8souf3ind2riohn05k.apps.googleusercontent.com",
