@@ -1,23 +1,23 @@
 import * as React from 'react';
-import { IArticle, IContent } from '../../models/blog/Article';
-import './BlogContent.scss';
+import { Article, BlogContent, BlogContentType } from '../../models/blog/Article';
+import './BlogArticle.scss';
 
-export const BlogContent = (props: { article: IArticle }) => {
+export const BlogArticle = (props: { article: Article }) => {
   const { article } = props;
   const {
     id, title, contents, created,
   } = article;
 
-  const buildContent = (icontent: IContent, index: number) => {
+  const buildContent = (icontent: BlogContent, index: number) => {
     let result = <span key={`bp-ac-${index}`} />;
-    switch (icontent.kind) {
-      case 'text':
-        result = <span key={`bp-ac-${index}`} className="article__content">{icontent.text}</span>;
+    switch (icontent.contentType) {
+      case BlogContentType.Text:
+        result = <span key={`bp-ac-${index}`} className="article__content">{icontent.value}</span>;
         break;
-      case 'image':
+      case BlogContentType.Image:
         result = (
           <span key={`bp-ac-${index}`} className={`article__image article__image-${icontent.align}`}>
-            <img alt={icontent.altText} key={`bp-ac-img-${index}`} src={icontent.source} />
+            <img alt={icontent.altText} key={`bp-ac-img-${index}`} src={icontent.value} />
           </span>
         );
         break;

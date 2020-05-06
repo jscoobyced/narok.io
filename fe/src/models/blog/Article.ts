@@ -1,34 +1,31 @@
-export interface IArticle {
+export interface Article {
   id: number;
   title: string;
-  contents: IContent[];
+  contents: BlogContent[];
   created: string;
   modified: string;
 }
-
-export type IContentText = {
-  kind: 'text',
-  text: string
-};
 
 export enum Align {
   Left = 'left', Right = 'right', Center = 'center'
 }
 
-export type IContentImage = {
-  kind: 'image',
-  source: string,
+export enum BlogContentType {
+  Text = 'text', Image = 'image'
+}
+
+export interface BlogContent {
+  contentType: BlogContentType;
+  value: string;
   align?: Align,
   altText?: string
-};
-
-export type IContent = IContentText | IContentImage;
+}
 
 export const toArticle = (id: number,
   title: string,
-  contents: IContent[],
+  contents: BlogContent[],
   created: string,
-  modified?: string): IArticle => {
+  modified?: string): Article => {
   const modifiedDate = (!modified) ? created : modified;
   return {
     id,
@@ -39,10 +36,21 @@ export const toArticle = (id: number,
   };
 };
 
-export const toContentText = (text: string): IContentText => ({ text, kind: 'text' });
-export const toContentImage = (source: string, align?: Align, altText?: string): IContentImage => {
+const toBlogContent = (value: string, contentType: BlogContentType, align?: Align, altText?: string): BlogContent => {
   const computedAlign = align || Align.Left;
   return ({
-    source, kind: 'image', align: computedAlign, altText,
+    value, contentType, align: computedAlign, altText,
   });
 };
+
+export const toBlogContentText = (
+  value: string, align?: Align, altText?: string,
+): BlogContent => toBlogContent(
+  value, BlogContentType.Text, align, altText,
+);
+
+export const toBlogContentImage = (
+  value: string, align?: Align, altText?: string,
+): BlogContent => toBlogContent(
+  value, BlogContentType.Image, align, altText,
+);

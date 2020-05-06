@@ -1,6 +1,11 @@
-import { IArticle } from '../../models/blog/Article';
+import { Article } from '../../models/blog/Article';
 import * as Config from '../config/config';
 import HttpService from '../http/http';
+
+interface Parameter {
+  name: string;
+  value: string | number;
+}
 
 export default class DataService {
   private httpService: HttpService;
@@ -9,17 +14,20 @@ export default class DataService {
     this.httpService = httpService;
   }
 
-  public getHomePageBlog = async (): Promise<IArticle[]> => this.getBlogsByPage(0, 5)
+  public getHomePageBlog = async (): Promise<Article[]> => this.getBlogsByPage(0, 5)
 
-  public getBlogsByPage = async (page: number, perPage: number): Promise<IArticle[]> => {
-    const parameters = [page, perPage];
-    return this.get('blogs', parameters);
+  public getBlogsByPage = async (page: number, perPage: number): Promise<Article[]> => {
+    const parameters = [{ name: 'page', value: page }, { name: 'perPage', value: perPage }];
+    return this.get('articles', parameters);
   }
 
-  private get = async <T>(service: String, parameters?: (string | number)[]): Promise<T> => {
+  private get = async <T>(service: String, parameters?: Parameter[]): Promise<T> => {
     const server = Config.getApplicationConfig().Server;
     const port = Config.getApplicationConfig().Port;
-    const url = `http://${server}:${port}/${service}`;
+    const queryString = parameters ? `?${parameters
+      .map(parameter => `${parameter.name}=${parameter.value}`)
+      .join('&')}` : '';
+    const url = `http://${server}:${port}/${service}${queryString}`;
     return this.httpService.fetchData<T>(url);
   }
 }

@@ -3,12 +3,12 @@ import { act } from 'react-dom/test-utils';
 import { mount } from 'enzyme';
 import { BlogPage } from './BlogPage';
 import { mountComponent } from '../jestUtil';
-import { IArticle, toArticle } from '../../models/blog/Article';
+import { Article, toArticle } from '../../models/blog/Article';
 
 describe('BlogPage', () => {
   it('should render articles', async () => {
     let blogPage = mount(<></>);
-    const articles: IArticle[] = [toArticle(1, 'test', [], 'created')];
+    const articles: Article[] = [toArticle(1, 'test', [], 'created')];
     await act(async () => {
       blogPage = mountComponent(<BlogPage />, () => { }, articles);
     });

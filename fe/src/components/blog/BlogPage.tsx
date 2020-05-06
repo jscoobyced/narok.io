@@ -1,10 +1,7 @@
 import * as React from 'react';
 import { AppContext } from '../../services/context/context';
 import CMS from '../../services/i18n/cms';
-import { BlogContent } from './BlogContent';
-import {
-  IArticle, toArticle, IContentText, IContentImage, toContentText, toContentImage, Align,
-} from '../../models/blog/Article';
+import { BlogArticle } from './BlogArticle';
 import './BlogPage.scss';
 
 export const BlogPage = () => {
@@ -17,7 +14,7 @@ export const BlogPage = () => {
       const noResult = getContent(CMS.NORESULT);
       return [<span key="bc-0">{noResult}</span>];
     }
-    const loadedArticles = data.map(article => <BlogContent key={`bc-${article.id}`} article={article} />);
+    const loadedArticles = data.map(article => <BlogArticle key={`bc-${article.id}`} article={article} />);
     return loadedArticles;
   };
 

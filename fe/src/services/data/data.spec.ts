@@ -1,22 +1,22 @@
 import DataService from './data';
 import HttpServiceMock from '../http/http.mock';
-import { IArticle, toContentText, toArticle } from '../../models/blog/Article';
+import { Article, toArticle, toBlogContentText } from '../../models/blog/Article';
 
-const createArticle = (title: string, content: string): IArticle => toArticle(
+const createArticle = (title: string, content: string): Article => toArticle(
   0,
   title,
-  [toContentText(content)],
+  [toBlogContentText(content)],
   '',
 );
 
-const getDataService = (mockedValue: IArticle): DataService => {
+const getDataService = (mockedValue: Article): DataService => {
   const httpService = new HttpServiceMock(mockedValue);
   const dataService = new DataService(httpService);
   return dataService;
 };
 
 describe('data service', () => {
-  const mockSuccessResponse: IArticle = createArticle('Hello, World!', 'This is content');
+  const mockSuccessResponse: Article = createArticle('Hello, World!', 'This is content');
   it('should return blog data', async () => {
     const result = await getDataService(mockSuccessResponse).getHomePageBlog();
     expect(result).toEqual(mockSuccessResponse);
