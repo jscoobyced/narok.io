@@ -10,11 +10,11 @@ import HttpService from '../../../services/http/http';
 import DataService from '../../../services/data/data';
 import './Home.scss';
 
-export const Home = (props: { httpService: HttpService }) => {
+export const Home = (props: { mode: string, httpService: HttpService }) => {
   const [language, setLanguage] = React.useState(i18n.languages.default);
   const getContent = (content: string) => i18n.getByLanguage(language, content);
-  const { httpService } = props;
-  const dataService = new DataService(httpService);
+  const { mode, httpService } = props;
+  const dataService = new DataService(mode, httpService);
 
   document.title = `${getContent(CMS.WEBSITE_TITLE)} - ${getContent(CMS.WEBSITE_SUBTITLE)}`;
 

@@ -11,7 +11,7 @@ const createArticle = (title: string, content: string): Article => toArticle(
 
 const getDataService = (mockedValue: Article): DataService => {
   const httpService = new HttpServiceMock(mockedValue);
-  const dataService = new DataService(httpService);
+  const dataService = new DataService('development', httpService);
   return dataService;
 };
 

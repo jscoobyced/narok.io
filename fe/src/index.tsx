@@ -22,6 +22,6 @@ if (mode === 'production') {
 }
 
 ReactDOM.render(
-  <Home httpService={httpService} />,
+  <Home httpService={httpService} mode={mode} />,
   document.getElementById('root'),
 );

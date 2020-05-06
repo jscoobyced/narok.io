@@ -10,7 +10,10 @@ interface Parameter {
 export default class DataService {
   private httpService: HttpService;
 
-  constructor(httpService: HttpService) {
+  private mode: string;
+
+  constructor(mode: string, httpService: HttpService) {
+    this.mode = mode;
     this.httpService = httpService;
   }
 
@@ -22,8 +25,8 @@ export default class DataService {
   }
 
   private get = async <T>(service: String, parameters?: Parameter[]): Promise<T> => {
-    const server = Config.getApplicationConfig().Server;
-    const port = Config.getApplicationConfig().Port;
+    const server = Config.getApplicationConfig(this.mode).Server;
+    const port = Config.getApplicationConfig(this.mode).Port;
     const queryString = parameters ? `?${parameters
       .map(parameter => `${parameter.name}=${parameter.value}`)
       .join('&')}` : '';
