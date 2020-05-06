@@ -1,0 +1,20 @@
+version: '3'
+services:
+  jscfe:
+    build:
+      context: ./fe
+      dockerfile: Dockerfile
+      args:
+        - JSCCURRENT=.
+    image: jscdroiddev/narokio-fe
+    ports:
+      - "8080:80"
+  jscbe:
+    build:
+      context: ./be
+      dockerfile: Dockerfile
+      args:
+        - JSCCURRENT=.
+    image: jscdroiddev/narokio-be
+    ports:
+      - "9001:9001"
