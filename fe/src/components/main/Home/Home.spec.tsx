@@ -12,7 +12,7 @@ describe('Home', () => {
     const articles: Article[] = [toArticle(1, 'test', [], 'created')];
     const httpService = new HttpServiceMock(articles);
     await act(async () => {
-      home = mountComponent(<Home httpService={httpService} />);
+      home = mountComponent(<Home httpService={httpService} mode="development" />);
     });
     expect(home.find('.container')).toHaveLength(1);
     expect(home.find('section')).toHaveLength(1);
@@ -22,7 +22,7 @@ describe('Home', () => {
     let home = mount(<></>);
     const httpService = new HttpServiceMock({});
     await act(async () => {
-      home = mountComponent(<Home httpService={httpService} />);
+      home = mountComponent(<Home httpService={httpService} mode="development" />);
     });
     expect(home.find('.container')).toHaveLength(1);
     expect(home.find('section')).toHaveLength(1);

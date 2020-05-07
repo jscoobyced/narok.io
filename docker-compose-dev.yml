@@ -6,6 +6,7 @@ services:
       dockerfile: Dockerfile
       args:
         - JSCCURRENT=.
+        - JSCMODE=none
     image: jscdroiddev/narokio-fe
     ports:
       - "8080:80"

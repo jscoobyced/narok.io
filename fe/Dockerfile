@@ -9,9 +9,10 @@ RUN set -ex; apt-get install -qqy --no-install-recommends \
 
 # Build application
 ARG JSCCURRENT="./fe"
+ARG JSCMODE="prod"
 COPY ${JSCCURRENT} .
 RUN yarn install
-RUN yarn build
+RUN /bin/bash -c 'yarn build:${JSCMODE}'
 
 # Deploy
 FROM nginx:latest

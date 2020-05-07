@@ -22,8 +22,8 @@ It is located in the `fe` folder and support the following commands:
 - `yarn lint`: runs the ES Linter. You can customize the rules in [fe/.eslintrc.json](fe/.eslintrc.json)
 - `yarn start`: this will start the application in `development` mode, with hot-reload. It is useful while implementing the Front-End code
 - `yarn test`: runs the ES Linter then the Jest tests. It also generates coverage in the `coverage` folder.
-- `yarn test:coverage`: runs the same as `yarn test` but also display the test coverage on the console.
-- `yarn build`: generates all the assets and place them in the `dist` folder.
+- `yarn build:prod`: generates all the assets and place them in the `dist` folder.
+- `yarn build:none`: this is a special build that will build production assets but use development API configuration. This build is used when you want to test your built docker images locally (i.e. using the root directory file: docker-compose-dev.yml)
 - `yarn dist`: generates all the assets and zip them in root fodler. You must have [7z](https://www.7-zip.org/) installed and available in the PATH.
 
 You can use the `fe/public` folder to place any static assets. They will be copied at the root of the web-application folder. You can create sub-folders if you don't want to mix everything.
