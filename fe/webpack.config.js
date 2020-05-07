@@ -101,6 +101,7 @@ module.exports = (env, argv) => {
     }
 
     if (argv.mode === 'production') {
+        // placeholder for future enhancements
     }
 
     return config;

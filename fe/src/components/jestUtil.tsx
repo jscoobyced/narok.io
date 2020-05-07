@@ -12,7 +12,7 @@ export const mountComponent = (
   const language = 'en_US';
   const setLanguage = customSetLanguage || ((lang: string) => { });
   const getContent = (value: string) => '';
-  const dataService = new DataService(new HttpServiceMock(data));
+  const dataService = new DataService('development', new HttpServiceMock(data));
 
   return mount(
     <AppContext.Provider value={{ language, setLanguage, getContent, dataService }}>
