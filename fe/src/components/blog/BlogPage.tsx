@@ -19,14 +19,11 @@ export const BlogPage = () => {
   };
 
   React.useEffect(() => {
-    const isLoaded = (articles && articles.length > 0);
-    if (!isLoaded) {
-      buildArticles()
-        .then(data => {
-          setArticles(data);
-        });
-    }
-  });
+    buildArticles()
+      .then(data => {
+        setArticles(data);
+      });
+  }, []);
 
   if (!articles || articles.length === 0) return <></>;
   return (

@@ -32,19 +32,17 @@ const googleHandler = (props: {
   };
 
   useEffect(() => {
-    if (!loaded) {
-      loader.registerEvent('jsc', () => {
-        if (!loaded) {
-          gapi.load('client:auth2', initGoogle);
-        }
-      });
-      loader.load(document,
-        'jsc-google-login',
-        'https://apis.google.com/js/api.js?onload=jscGoogleApi',
-        'jsc',
-        'jscGoogleApi');
-    }
-  });
+    loader.registerEvent('jsc', () => {
+      if (!loaded) {
+        gapi.load('client:auth2', initGoogle);
+      }
+    });
+    loader.load(document,
+      'jsc-google-login',
+      'https://apis.google.com/js/api.js?onload=jscGoogleApi',
+      'jsc',
+      'jscGoogleApi');
+  }, []);
 
   /* istanbul ignore next */
   const signIn = ((event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
