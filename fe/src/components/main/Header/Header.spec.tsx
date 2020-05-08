@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { AppContext } from '../../../services/context/context';
 import { Header } from './Header';
 import { mountComponent } from '../../jestUtil';
 

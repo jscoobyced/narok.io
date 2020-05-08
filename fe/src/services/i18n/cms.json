@@ -9,13 +9,21 @@
         "COPYAUTHOR": "Cédric Rochefolle",
         "WEBSITE_TITLE": "Narok",
         "WEBSITE_SUBTITLE": "Web-Security and hacking...",
-        "NORESULT": "No result found."
+        "NORESULT": "No result found.",
+        "CODEHOSTED": "Code hosted in ",
+        "BUILTWITH": "Built with",
+        "COVERAGE": "Coverage at",
+        "CONTAINER": "Container in"
     },
     "fr_FR": {
         "SIGNIN": "Connexion",
         "SIGNOUT": "Deconnexion",
         "COPYRIGHT": "Droits d'auteur",
         "WEBSITE_SUBTITLE": "Sécurité web et hacking...",
-        "NORESULT": "Pas de résultat trouvé."
+        "NORESULT": "Pas de résultat trouvé.",
+        "CODEHOSTED": "Code hébergé à",
+        "BUILTWITH": "Compilé sur",
+        "COVERAGE": "Couverture du code à",
+        "CONTAINER": "Container à"
     }
 }
