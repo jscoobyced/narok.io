@@ -46,6 +46,7 @@ workflows:
       - release:
           requires:
             - typescript
+            - typescript_test
           filters:
             branches:
               only: master
