@@ -9,6 +9,10 @@ const createArticle = (title: string, content: string): Article => toArticle(
   '',
 );
 
+beforeEach(() => {
+  jest.resetAllMocks();
+});
+
 const getDataService = (mockedValue: Article): DataService => {
   const httpService = new HttpServiceMock(mockedValue);
   const dataService = new DataService('development', httpService);
@@ -24,6 +28,13 @@ describe('data service', () => {
 
   it('should return homepage blog data', async () => {
     const result = await getDataService(mockSuccessResponse).getBlogsByPage(0, 5);
+    expect(result).toEqual(mockSuccessResponse);
+  });
+
+  it('should fetch on secure URL', async () => {
+    const httpService = new HttpServiceMock(mockSuccessResponse);
+    const dataService = new DataService('production', httpService);
+    const result = await dataService.getBlogsByPage(0, 5);
     expect(result).toEqual(mockSuccessResponse);
   });
 });

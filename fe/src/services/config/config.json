@@ -5,8 +5,8 @@
             "server": "localhost"
         },
         "production": {
-            "port": 9001,
-            "server": "narok.io"
+            "port": 80,
+            "server": "api.narok.io"
         }
     },
     "google": {

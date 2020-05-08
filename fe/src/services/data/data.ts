@@ -30,7 +30,8 @@ export default class DataService {
     const queryString = parameters ? `?${parameters
       .map(parameter => `${parameter.name}=${parameter.value}`)
       .join('&')}` : '';
-    const url = `http://${server}:${port}/${service}${queryString}`;
+    const secure = this.mode === 'production' ? 's' : '';
+    const url = `http${secure}://${server}:${port}/${service}${queryString}`;
     return this.httpService.fetchData<T>(url);
   }
 }
