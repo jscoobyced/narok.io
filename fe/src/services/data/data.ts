@@ -25,12 +25,13 @@ export default class DataService {
   }
 
   private get = async <T>(service: String, parameters?: Parameter[]): Promise<T> => {
-    const server = Config.getApplicationConfig(this.mode).Server;
-    const port = Config.getApplicationConfig(this.mode).Port;
+    const applicationConfiguration = Config.getApplicationConfig(this.mode);
+    const server = applicationConfiguration.Server;
+    const port = applicationConfiguration.Port;
     const queryString = parameters ? `?${parameters
       .map(parameter => `${parameter.name}=${parameter.value}`)
       .join('&')}` : '';
-    const secure = this.mode === 'production' ? 's' : '';
+    const secure = applicationConfiguration.isSecure ? 's' : '';
     const url = `http${secure}://${server}:${port}/${service}${queryString}`;
     return this.httpService.fetchData<T>(url);
   }

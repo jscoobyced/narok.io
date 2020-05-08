@@ -8,6 +8,7 @@ export const getApplicationConfig = (mode: string) => {
   return {
     Port: applicationConfig.port,
     Server: applicationConfig.server,
+    isSecure: applicationConfig.secure,
   };
 };
 

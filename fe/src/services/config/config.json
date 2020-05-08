@@ -2,10 +2,12 @@
     "api": {
         "development": {
             "port": 9001,
+            "secure": false,
             "server": "localhost"
         },
         "production": {
             "port": 443,
+            "secure": true,
             "server": "api.narok.io"
         }
     },

@@ -6,6 +6,7 @@ describe('config service', () => {
     expect(application.Port).not.toBeNull();
     expect(application.Port).not.toBeNaN();
     expect(application.Server).not.toBeNull();
+    expect(application.isSecure).toBeFalsy();
   });
 
   it('should contain production application data', () => {
@@ -13,6 +14,7 @@ describe('config service', () => {
     expect(application.Port).not.toBeNull();
     expect(application.Port).not.toBeNaN();
     expect(application.Server).not.toBeNull();
+    expect(application.isSecure).toBeTruthy();
   });
 
   it('should contain google data', () => {

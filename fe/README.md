@@ -46,3 +46,13 @@ docker run --name myapp-fe -d --rm -p 80:80 -v "$(pwd)/dist:/usr/share/nginx/htm
 yarn build
 ```
 Applicatin will be available on `http://localhost` as usual. You can make the necessary code change to fix packaged code, run the `yarn build` command again, reload the page and see the result.
+
+## Production deployement
+To setup the API URL properly, you need to edit the [config.json](./src/services/config/config.json) file and change the production server name where your API is going to run from:
+```
+"production": {
+            "port": 443,
+            "secure": true,
+            "server": "api.narok.io"
+        }
+```
