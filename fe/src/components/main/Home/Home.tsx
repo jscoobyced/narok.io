@@ -3,11 +3,12 @@ import { BrowserRouter } from 'react-router-dom';
 import { Routes } from '../../routes';
 import { Header } from '../Header/Header';
 import { Footer } from '../Footer/Footer';
+import { SidePanel } from '../Side/SidePanel';
 import { AppContext } from '../../../services/context/context';
-import * as i18n from '../../../services/i18n/i18n';
 import CMS from '../../../services/i18n/cms';
 import HttpService from '../../../services/http/http';
 import DataService from '../../../services/data/data';
+import * as i18n from '../../../services/i18n/i18n';
 import './Home.scss';
 
 export const Home = (props: { mode: string, httpService: HttpService }) => {
@@ -29,7 +30,9 @@ export const Home = (props: { mode: string, httpService: HttpService }) => {
           <section>
             <Routes />
           </section>
-          <aside />
+          <aside>
+            <SidePanel />
+          </aside>
         </div>
         <Footer />
       </BrowserRouter>
