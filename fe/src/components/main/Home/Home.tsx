@@ -9,10 +9,12 @@ import CMS from '../../../services/i18n/cms';
 import HttpService from '../../../services/http/http';
 import DataService from '../../../services/data/data';
 import * as i18n from '../../../services/i18n/i18n';
+import { newSecureUser } from '../../../authentication/models/User';
 import './Home.scss';
 
 export const Home = (props: { mode: string, httpService: HttpService }) => {
   const [language, setLanguage] = React.useState(i18n.languages.default);
+  const [user, setUser] = React.useState(newSecureUser());
   const getContent = (content: string) => i18n.getByLanguage(language, content);
   const { mode, httpService } = props;
   const dataService = new DataService(mode, httpService);
@@ -21,7 +23,7 @@ export const Home = (props: { mode: string, httpService: HttpService }) => {
 
   return (
     <AppContext.Provider value={{
-      language, setLanguage, getContent, dataService,
+      language, setLanguage, getContent, dataService, user, setUser,
     }}
     >
       <BrowserRouter>

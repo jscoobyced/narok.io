@@ -49,3 +49,25 @@
         }
     }
 }
+
+@media screen and (max-width: $media-width-medium) {
+    .container {
+        article {
+            display: block;
+            padding-bottom: 20px;
+            font-family: $font-family-blog;
+
+            h2 {
+                display: block;
+                padding-bottom: 10px;
+            }
+
+            .article {
+                &__created {
+                    display: block;
+                    padding-bottom: 10px;
+                }
+            }
+        }
+    }
+}

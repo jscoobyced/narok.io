@@ -14,8 +14,13 @@ jest.mock('./googleHandler', () => ({
 }));
 
 describe('GoogleButton', () => {
+  const setUser = jest.fn();
   it('should render the default button', () => {
-    const googleButton = mount(<GoogleButton signInText="hi" />);
+    const googleButton = mount(<GoogleButton
+      signInText="Sign In"
+      signOutText="Sign Out"
+      setUser={setUser}
+    />);
     const button = googleButton.find('.google-button').first();
     button.simulate('click');
     expect(signInMock).toHaveBeenCalledTimes(1);
