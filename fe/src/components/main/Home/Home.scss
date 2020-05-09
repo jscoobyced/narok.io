@@ -1,11 +1,12 @@
 @import "../../../styles/_variables";
 
 .container {
-    min-height: 89vh;
+    min-height: 88vh;
     width: 100%;
     background-image: url("/images/thorn-vertical-large.png");
     background-repeat: repeat-y;
     display: flex;
+    flex-direction: row;
 
     section {
         flex: 75%;
@@ -20,28 +21,25 @@
     section,
     aside {
         display: flex;
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: $media-width-medium) {
+    .container {
+        min-height: 82vh;
     }
 }
 
 @media screen and (max-width: $media-width-medium) {
     .container {
         min-height: 87vh;
-        height: 87vh;
         background-image: url("/images/thorn-vertical-small.png");
+        display: block;
 
         aside,
         section {
-            width: 100%;
-        }
-
-        section {
-            height: 70%;
-            min-height: 70%;
-        }
-
-        aside {
-            height: 30%;
-            min-height: 30%;
+            width: 95%;
         }
     }
 }

@@ -3,6 +3,7 @@ import * as React from 'react';
 import { AppContext } from '../services/context/context';
 import DataService from '../services/data/data';
 import HttpServiceMock from '../services/http/http.mock';
+import { newSecureUser, SecureUser } from '../authentication/models/User';
 
 export const mountComponent = (
   children: JSX.Element,
@@ -13,9 +14,11 @@ export const mountComponent = (
   const setLanguage = customSetLanguage || ((lang: string) => { });
   const getContent = (value: string) => '';
   const dataService = new DataService('development', new HttpServiceMock(data));
+  const user = newSecureUser();
+  const setUser = jest.fn();
 
   return mount(
-    <AppContext.Provider value={{ language, setLanguage, getContent, dataService }}>
+    <AppContext.Provider value={{ language, setLanguage, getContent, dataService, user, setUser }}>
       {children}
     </AppContext.Provider>,
   );

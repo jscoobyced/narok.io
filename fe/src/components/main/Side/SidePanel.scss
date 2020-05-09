@@ -2,12 +2,11 @@
 
 .container {
     aside {
-        flex-direction: column;
-
         margin: 20px 30px 0 20px;
 
         span {
-            padding-bottom: 10px;;
+            padding-bottom: 10px;
+            align-self: flex-end;
             img {
                 vertical-align: middle;
             }
@@ -16,9 +15,17 @@
         span:first-of-type {
             flex-grow: 1;
         }
+    }
+}
 
-        .aside__links {
-            align-self: flex-end;
+@media screen and (max-width: $media-width-medium) {
+    .container {
+        aside {
+            margin: unset;
+
+            span {
+                padding-right: 20px;
+            }
         }
     }
 }

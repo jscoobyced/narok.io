@@ -4,7 +4,7 @@ import CMS from '../../../services/i18n/cms';
 import './SidePanel.scss';
 
 export const SidePanel = () => {
-  const { getContent } = React.useContext(AppContext);
+  const { getContent, user } = React.useContext(AppContext);
   const codehosted = getContent(CMS.CODEHOSTED);
   const builtwith = getContent(CMS.BUILTWITH);
   const coverage = getContent(CMS.COVERAGE);
@@ -12,7 +12,7 @@ export const SidePanel = () => {
 
   return (
     <>
-      <span />
+      <span>{user.user.name}</span>
       <span className="aside__links">
         {`${codehosted} `}
         <a

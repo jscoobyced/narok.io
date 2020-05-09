@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Loader from '../../common/loader';
-import * as Config from '../../services/config/config';
+import * as Config from '../../../services/config/config';
 
 /* global gapi */
 

@@ -1,2 +1,2 @@
-src/components/google/GoogleIcon.tsx
+src/authentication/components/Google/GoogleIcon.tsx
 src/components/jestUtil.tsx
