@@ -15,6 +15,7 @@ export enum BlogContentType {
 }
 
 export interface BlogContent {
+  id: number;
   contentType: BlogContentType;
   value: string;
   align?: Align,
