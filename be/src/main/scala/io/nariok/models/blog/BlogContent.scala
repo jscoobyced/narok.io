@@ -1,6 +1,8 @@
 package io.nariok.models.blog
 
-case class BlogContent(value: String,
+case class BlogContent(id: Int,
+                       value: String,
                        contentType: String,
+                       blogId: Int,
                        altText: Option[String] = None,
                        align: Option[String] = None)

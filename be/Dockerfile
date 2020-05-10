@@ -15,7 +15,8 @@ RUN cd src && sbt clean && sbt compile && sbt universal:packageBin
 RUN cd src && JSCBEVERSION=$(sbt version | tail -n 1 | cut -d" " -f2) \
     && 7z x target/universal/jscbe-${JSCBEVERSION}.zip \
     && mv jscbe-${JSCBEVERSION}/lib ../dist/jscbe/ \
-    && mv jscbe-${JSCBEVERSION}/bin ../dist/jscbe/
+    && mv jscbe-${JSCBEVERSION}/bin ../dist/jscbe/ \
+    && mkdir ../dist/jscbe/conf
 
 # Deploy
 FROM openjdk:11-jdk
@@ -27,7 +28,10 @@ RUN mkdir -p /opt/jscbe
 
 COPY --from=build-env /build/dist/jscbe /opt/jscbe
 RUN chmod u+x /opt/jscbe/bin/*
+
+WORKDIR /opt/jscbe
+
 ENTRYPOINT ["bash"]
 CMD ["/opt/jscbe/bin/jscbe"]
-EXPOSE 8080
-
+EXPOSE 9001
+VOLUME [ "/opt/jscbe/conf" ]

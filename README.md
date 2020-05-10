@@ -19,6 +19,10 @@ docker-compose -f docker-compose-dev.yml up --build -d
 ### Ports in use
 The front-end application needs port 8080 to be available. Otherwise update in the [docker-compose.yml](./docker-compose.yml) end [docker-compose-dev.yml](./docker-compose-dev.yml) files.
 
+### Database configuration
+If you want to customize the database configuration you can change the `MYSQL_` environment variables in the `jscdb` service of the docker-compose file.
+Then update the configuration in `./conf/application.conf` to match the database information accordingly. You might need to restart the application. Note that the `./conf/application.conf` file is created the first time the application is started.
+
 ## Front-End
 
 ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/jscdroiddev/narokio-fe)
