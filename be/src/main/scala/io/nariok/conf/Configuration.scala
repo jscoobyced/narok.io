@@ -19,3 +19,5 @@ object Configuration {
     }
   }
 }
+
+final case class RawConfiguration(config: Config)
