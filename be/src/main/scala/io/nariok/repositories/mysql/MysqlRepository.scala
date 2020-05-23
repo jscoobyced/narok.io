@@ -4,7 +4,7 @@ import java.sql.{Connection, DriverManager, ResultSet, SQLException}
 
 import com.google.inject.Inject
 import com.typesafe.config.Config
-import io.nariok.conf.RawConfiguration
+import io.nariok.configuration.RawConfiguration
 import io.nariok.repositories.DatabaseRepository
 
 class MysqlRepository @Inject()(private val rawConfiguration: RawConfiguration) extends DatabaseRepository {

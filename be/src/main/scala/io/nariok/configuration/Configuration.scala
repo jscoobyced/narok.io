@@ -1,4 +1,4 @@
-package io.nariok.conf
+package io.nariok.configuration
 
 import java.io.{File, FileOutputStream}
 

@@ -4,7 +4,7 @@ import akka.http.scaladsl.model.headers.RawHeader
 import akka.http.scaladsl.server.Directives.{complete, get, path, respondWithHeaders}
 import akka.http.scaladsl.server.Route
 import com.google.inject.Inject
-import io.nariok.conf.RawConfiguration
+import io.nariok.configuration.RawConfiguration
 import io.nariok.services.BlogService
 
 import scala.concurrent.ExecutionContext

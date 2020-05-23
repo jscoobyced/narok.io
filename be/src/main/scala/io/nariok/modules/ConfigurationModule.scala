@@ -1,7 +1,7 @@
 package io.nariok.modules
 
 import com.google.inject.AbstractModule
-import io.nariok.conf.{Configuration, RawConfiguration}
+import io.nariok.configuration.{Configuration, RawConfiguration}
 import net.codingwell.scalaguice.ScalaModule
 
 class ConfigurationModule extends AbstractModule with ScalaModule {

@@ -7,7 +7,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.directives.RouteDirectives
 import com.google.inject.Inject
-import io.nariok.conf.RawConfiguration
+import io.nariok.configuration.RawConfiguration
 import io.nariok.repositories.DatabaseRepository
 import io.nariok.routes.WebRoute
 
