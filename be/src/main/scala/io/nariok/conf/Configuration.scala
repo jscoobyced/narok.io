@@ -12,7 +12,10 @@ object Configuration {
       val configBytes = ClassLoader
         .getSystemResourceAsStream("application.conf")
         .readAllBytes()
-      println(applicationConf)
+      val parentDirectory = applicationConf.getParentFile();
+      if (!parentDirectory.exists()) {
+        parentDirectory.mkdir()
+      }
       applicationConf.createNewFile()
       val fos = new FileOutputStream(applicationConf)
       fos.write(configBytes)
