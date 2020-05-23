@@ -1,23 +1,28 @@
-package io.nariok.routes
+package io.nariok
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.Http.ServerBinding
-import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.directives.RouteDirectives
 import com.google.inject.Inject
 import io.nariok.conf.RawConfiguration
+import io.nariok.repositories.DatabaseRepository
+import io.nariok.routes.WebRoute
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
-class WebStarter @Inject()(private val routes: Set[WebRoute], private val rawConfiguration: RawConfiguration)(
+class Starter @Inject()(private val databaseRepository: DatabaseRepository,
+                        private val routes: Set[WebRoute],
+                        private val rawConfiguration: RawConfiguration)(
     implicit actorSystem: ActorSystem,
     executionContext: ExecutionContext
 ) {
 
   def start(): Future[ServerBinding] = {
+    databaseRepository.connect()
     val binding = Http()
       .bindAndHandle(
         handler = (routes).map(_.route).foldLeft[Route](RouteDirectives.reject)(_ ~ _),
@@ -29,7 +34,7 @@ class WebStarter @Inject()(private val routes: Set[WebRoute], private val rawCon
         case Failure(e) => println("Failed to launch http server", e)
         case Success(binding: Http.ServerBinding) =>
           println(
-            s"`Server is listening on http://${binding.localAddress.getHostName}:${binding.localAddress.getPort}"
+            s"Server is listening on http://${binding.localAddress.getHostName}:${binding.localAddress.getPort}"
           )
       }
     binding

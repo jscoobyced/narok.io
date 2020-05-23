@@ -14,6 +14,7 @@ class ApplicationModule(implicit executionContext: ExecutionContext, actorSystem
     bind[ExecutionContext].toInstance(executionContext)
 
     install(new ConfigurationModule())
+    install(new RepositoryModule())
     install(new ServiceModule())
     install(new WebRouteModule())
   }

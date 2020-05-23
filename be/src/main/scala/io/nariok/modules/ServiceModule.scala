@@ -8,5 +8,5 @@ import scala.concurrent.ExecutionContext
 
 class ServiceModule(implicit executionContext: ExecutionContext) extends AbstractModule with ScalaModule {
   override def configure(): Unit =
-    bind[BlogService].toInstance(new BlogServiceImpl())
+    bind[BlogService].to[BlogServiceImpl].in[com.google.inject.Singleton]
 }

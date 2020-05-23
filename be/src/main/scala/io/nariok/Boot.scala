@@ -5,7 +5,6 @@ import java.util.concurrent.Executors
 import akka.actor.ActorSystem
 import com.google.inject.Guice
 import io.nariok.modules.ApplicationModule
-import io.nariok.routes.WebStarter
 
 import scala.concurrent.ExecutionContext
 
@@ -16,5 +15,5 @@ object Boot extends App {
 
   private val injector = Guice.createInjector(new ApplicationModule())
 
-  injector.getInstance(classOf[WebStarter]).start()
+  injector.getInstance(classOf[Starter]).start()
 }
