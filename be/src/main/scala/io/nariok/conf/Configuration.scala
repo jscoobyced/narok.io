@@ -12,6 +12,7 @@ object Configuration {
       val configBytes = ClassLoader
         .getSystemResourceAsStream("application.conf")
         .readAllBytes()
+      println(applicationConf)
       applicationConf.createNewFile()
       val fos = new FileOutputStream(applicationConf)
       fos.write(configBytes)
@@ -19,5 +20,3 @@ object Configuration {
     }
   }
 }
-
-final case class RawConfiguration(config: Config)

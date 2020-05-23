@@ -13,7 +13,7 @@ docker run -d --name jscdb \
         -e MYSQL_DATABASE=narokio \
         -e MYSQL_USER=narokio \
         -e MYSQL_PASSWORD=narokio \
-        -p 3306:3306
+        -p 3306:3306 \
         mariadb
 docker exec -i jscdb sh -c 'exec mysql -unarokio -pnarokio' < ./db/scripts/create.sql
 ```
