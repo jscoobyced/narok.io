@@ -8,13 +8,13 @@ import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.directives.RouteDirectives
 import com.google.inject.Inject
 import io.nariok.configuration.RawConfiguration
-import io.nariok.repositories.DatabaseRepository
+import io.nariok.repositories.SqlConnectionCreator
 import io.nariok.routes.WebRoute
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
-class Starter @Inject()(private val databaseRepository: DatabaseRepository,
+class Starter @Inject()(private val sqlConnectionCreator: SqlConnectionCreator,
                         private val routes: Set[WebRoute],
                         private val rawConfiguration: RawConfiguration)(
     implicit actorSystem: ActorSystem,
@@ -22,10 +22,10 @@ class Starter @Inject()(private val databaseRepository: DatabaseRepository,
 ) {
 
   def start(): Future[ServerBinding] = {
-    databaseRepository.connect()
+    sqlConnectionCreator.getConnection
     val binding = Http()
       .bindAndHandle(
-        handler = (routes).map(_.route).foldLeft[Route](RouteDirectives.reject)(_ ~ _),
+        handler = routes.map(_.route).foldLeft[Route](RouteDirectives.reject)(_ ~ _),
         interface = rawConfiguration.config.getString("http.interface"),
         port = rawConfiguration.config.getInt("http.port")
       )
