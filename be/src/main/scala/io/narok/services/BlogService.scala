@@ -41,11 +41,30 @@ class Database @Inject()(databaseRepository: DatabaseRepository) {
       .executeSingleUpdate(insertArticleSql, Some(List((1, article.title), (2, new Date()), (3, new Date())))) match {
       case 0 => false
       case id: Int =>
-        val values: List[List[(Int, Any)]] = article.contents.map(content => {
-          List((1, content.value), (2, content.contentType), (3, id), (4, content.altText), (5, content.align))
-        })
-        val subSql = insertArticleContentValuesSql * article.contents.length
-        databaseRepository.executeUpdate(insertArticleContentSql + subSql.dropRight(1), Some(values)) == 1
+        if (article.contents.isEmpty) id > 0
+        else {
+          val values: List[List[(Int, Any)]] = article.contents.map(content => {
+            List(
+              (1, content.value),
+              (2, content.contentType match {
+                case "text"  => 0
+                case "image" => 1
+                case _       => 0
+              }),
+              (3, id),
+              (4, content.altText.getOrElse("")),
+              (5, content.align.get match {
+                case "left"   => 0
+                case "center" => 1
+                case "right"  => 2
+                case _        => 0
+              })
+            )
+          })
+          val subSql  = insertArticleContentValuesSql * article.contents.length
+          val fullSql = insertArticleContentSql + subSql.dropRight(1)
+          databaseRepository.executeUpdate(fullSql, Some(values)) == 1
+        }
     }
 }
 

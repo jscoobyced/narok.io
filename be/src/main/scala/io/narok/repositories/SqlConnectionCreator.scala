@@ -9,21 +9,18 @@ import io.narok.configuration.RawConfiguration
 import scala.util.Try
 
 trait SqlConnectionCreator {
-  def getConnection: Some[Connection]
+  def getConnection: Option[Connection]
 }
 
 class SqlConnectionCreatorImpl @Inject()(private val rawConfiguration: RawConfiguration) extends SqlConnectionCreator {
   val config: Config         = rawConfiguration.config
-  val host: String           = config.getString("db.host")
-  val port: Int              = config.getInt("db.port")
-  val name: String           = config.getString("db.name")
-  val url: String            = s"jdbc:mysql://$host:$port/$name"
-  val driver: String         = "com.mysql.jdbc.Driver"
+  val url: String            = config.getString("db.url")
+  val driver: String         = config.getString("db.driver")
   val username: String       = config.getString("db.user")
   val password: String       = config.getString("db.password")
   var connection: Connection = _
 
-  def connect(): Some[Connection] = {
+  def connect(): Option[Connection] = {
     try {
       Class.forName(driver)
       connection = DriverManager.getConnection(url, username, password)
@@ -35,7 +32,7 @@ class SqlConnectionCreatorImpl @Inject()(private val rawConfiguration: RawConfig
     Some(connection)
   }
 
-  override def getConnection: Some[Connection] =
+  override def getConnection: Option[Connection] =
     if (Try(connection.isClosed).getOrElse(true)) connect()
     else Some(connection)
 
