@@ -8,7 +8,7 @@ import com.google.inject.Inject
 import io.narok.repositories.{DatabaseRepository, SqlConnectionCreator}
 
 import scala.annotation.tailrec
-import scala.util.Try
+import scala.util.{Failure, Success, Try}
 
 class MysqlRepository @Inject()(private val sqlConnectionCreator: SqlConnectionCreator) extends DatabaseRepository {
 
@@ -20,11 +20,11 @@ class MysqlRepository @Inject()(private val sqlConnectionCreator: SqlConnectionC
     var results = List[T]()
     prepareStatement(sql, parameters).get match {
       case preparedStatement: PreparedStatement =>
-        Try(preparedStatement.executeQuery()).get match {
-          case resultSet: ResultSet =>
+        Try(preparedStatement.executeQuery()) match {
+          case Success(resultSet: ResultSet) =>
             results = mapper(resultSet)
             resultSet.close()
-          case _ =>
+          case Failure(_) =>
         }
       case _ =>
     }
@@ -35,17 +35,18 @@ class MysqlRepository @Inject()(private val sqlConnectionCreator: SqlConnectionC
     var insertedKey = -1
     prepareStatement(sql, parameters, withKey = true).get match {
       case preparedStatement: PreparedStatement =>
-        Try(preparedStatement.executeUpdate()).get match {
-          case 1 =>
-            Try(preparedStatement.getGeneratedKeys).get match {
-              case resultSet =>
+        Try(preparedStatement.executeUpdate()) match {
+          case Success(1) =>
+            Try(preparedStatement.getGeneratedKeys) match {
+              case Success(resultSet: ResultSet) =>
                 if (resultSet.next()) {
                   insertedKey = resultSet.getInt(1)
                   resultSet.close()
                 }
-              case _ =>
+              case Failure(_) =>
             }
-          case _ =>
+          case Success(number: Int) => insertedKey = number
+          case Failure(_)           =>
         }
       case _ =>
     }
@@ -66,9 +67,10 @@ class MysqlRepository @Inject()(private val sqlConnectionCreator: SqlConnectionC
     val reindexedParameters = Some(reindexParameters(parameters.getOrElse(List()), List()))
     prepareStatement(sql, reindexedParameters).get match {
       case preparedStatement: PreparedStatement =>
-        Try(preparedStatement.executeUpdate()).get match {
-          case 1 => insertedRows = insertedRows + 1
-          case _ =>
+        Try(preparedStatement.executeUpdate()) match {
+          case Success(1) => insertedRows = insertedRows + 1
+          case Success(_) =>
+          case Failure(_) =>
         }
       case _ =>
     }
@@ -83,9 +85,9 @@ class MysqlRepository @Inject()(private val sqlConnectionCreator: SqlConnectionC
       case connection: Connection =>
         Some(connection.prepareStatement(sql, key)).get match {
           case statement: PreparedStatement =>
-            Try(bindParameters(statement, parameters)).get match {
-              case preparedStatement: PreparedStatement => Some(preparedStatement)
-              case _                                    => None
+            Try(bindParameters(statement, parameters)) match {
+              case Success(preparedStatement: PreparedStatement) => Some(preparedStatement)
+              case Failure(_)                                    => None
             }
           case _ => None
         }
@@ -107,5 +109,4 @@ class MysqlRepository @Inject()(private val sqlConnectionCreator: SqlConnectionC
         }
     statement
   }
-
 }

@@ -1,3 +1,5 @@
 package io.narok.models.http
 
-case class SuccessResponse[T](data: T) extends AbstractResponse[T](data = Some(data), error = None)
+case class ResponseData(message: String, insertedKey: Int)
+
+case class SuccessResponse(data: ResponseData) extends AbstractResponse[ResponseData](data = Some(data), error = None)

@@ -5,7 +5,7 @@ import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives.{complete, handleExceptions}
 import akka.http.scaladsl.server.{ExceptionHandler, Route}
 import io.narok.models.blog.{Article, BlogContent}
-import io.narok.models.http.FailResponse
+import io.narok.models.http.{FailResponse, ResponseData, SuccessResponse}
 import spray.json.{DefaultJsonProtocol, RootJsonFormat}
 
 trait WebRoute {
@@ -13,9 +13,11 @@ trait WebRoute {
 }
 
 trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
-  implicit val blogContentFormat: RootJsonFormat[BlogContent] = jsonFormat6(BlogContent)
-  implicit val articleFormat: RootJsonFormat[Article]         = jsonFormat5(Article)
-  implicit val failedResponse: RootJsonFormat[FailResponse]   = jsonFormat1(FailResponse)
+  implicit val blogContentFormat: RootJsonFormat[BlogContent]         = jsonFormat6(BlogContent)
+  implicit val articleFormat: RootJsonFormat[Article]                 = jsonFormat5(Article)
+  implicit val failedResponse: RootJsonFormat[FailResponse]           = jsonFormat1(FailResponse)
+  implicit val responseDataFormat: RootJsonFormat[ResponseData]       = jsonFormat2(ResponseData)
+  implicit val successResponseFormat: RootJsonFormat[SuccessResponse] = jsonFormat1(SuccessResponse)
 }
 
 abstract class BaseRoute extends WebRoute with JsonSupport {

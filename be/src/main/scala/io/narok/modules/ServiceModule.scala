@@ -1,7 +1,7 @@
 package io.narok.modules
 
 import com.google.inject.AbstractModule
-import io.narok.services.{BlogService, BlogServiceImpl}
+import io.narok.services.blog.{BlogService, BlogServiceImpl}
 import net.codingwell.scalaguice.ScalaModule
 
 import scala.concurrent.ExecutionContext

@@ -10,6 +10,7 @@ CREATE TABLE `blog` (
   `title` varchar(64) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
+  `status` int(1) DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -20,7 +21,8 @@ CREATE TABLE `blog_content` (
   `content` text DEFAULT NULL,
   `alttext` varchar(64) DEFAULT NULL,
   `align` int(11) DEFAULT 0,
+  `status` int(1) DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `blog_id` (`blog_id`),
-  CONSTRAINT `blog_content_ibfk_1` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`id`)
+  CONSTRAINT `blog_content_blog` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
