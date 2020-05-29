@@ -8,7 +8,7 @@ import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.directives.RouteDirectives
 import com.google.inject.Inject
 import io.narok.configuration.RawConfiguration
-import io.narok.repositories.SqlConnectionCreator
+import io.narok.repositories.db.SqlConnectionCreator
 import io.narok.routes.WebRoute
 
 import scala.concurrent.{ExecutionContext, Future}

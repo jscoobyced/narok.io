@@ -2,7 +2,7 @@ package io.narok.services.blog
 
 import com.google.inject.Inject
 import io.narok.models.blog.Article
-import io.narok.repositories.DatabaseRepository
+import io.narok.repositories.db.DatabaseRepository
 import io.narok.routes.JsonSupport
 
 import scala.concurrent.ExecutionContext

@@ -20,6 +20,7 @@ object BlogContentMapper extends AbstractMapper {
             case _ => "text"
           },
           result.getInt(4),
+          result.getInt(7),
           Some(result.getString(5)),
           result.getInt(6) match {
             case 0 => Some("left")

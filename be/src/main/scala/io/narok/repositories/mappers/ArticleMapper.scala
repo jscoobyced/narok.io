@@ -14,7 +14,8 @@ object ArticleMapper extends AbstractMapper {
         result.getString(2),
         List(),
         result.getDate(3).toString,
-        result.getDate(4).toString
+        result.getDate(4).toString,
+        result.getInt(5)
       )
     })
     articles.toList
