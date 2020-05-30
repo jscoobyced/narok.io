@@ -13,9 +13,7 @@ object Configuration {
     val applicationConf = new File(s"./conf/$configuration")
     if (applicationConf.exists()) ConfigFactory.parseFile(applicationConf)
     else {
-      Try(
-        ClassLoader
-          .getSystemResourceAsStream(s"$configuration")) match {
+      Try(getClass.getResourceAsStream(s"$configuration")) match {
         case Success(inputStream) =>
           Try(inputStream.readAllBytes()) match {
             case Success(configBytes) =>
