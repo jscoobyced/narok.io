@@ -62,6 +62,8 @@ workflows:
   version: 2
   do_it_all:
     jobs:
+      - scala
+      - typescript
       - typescript_test:
           requires:
             - typescript
