@@ -17,15 +17,20 @@ object Configuration {
         ClassLoader
           .getSystemResourceAsStream(s"$configuration")) match {
         case Success(inputStream) =>
-          val configBytes     = inputStream.readAllBytes()
-          val parentDirectory = applicationConf.getParentFile
-          if (!parentDirectory.exists()) {
-            parentDirectory.mkdir()
+          Try(inputStream.readAllBytes()) match {
+            case Success(configBytes) =>
+              val parentDirectory = applicationConf.getParentFile
+              if (!parentDirectory.exists()) {
+                parentDirectory.mkdir()
+              }
+              applicationConf.createNewFile()
+              val fos = new FileOutputStream(applicationConf)
+              fos.write(configBytes)
+              getConfig(configuration)
+            case Failure(error: Throwable) =>
+              println(s"Configuration file cannot be read: ${error.getMessage}")
+              ConfigFactory.empty()
           }
-          applicationConf.createNewFile()
-          val fos = new FileOutputStream(applicationConf)
-          fos.write(configBytes)
-          getConfig(configuration)
         case Failure(error: Throwable) =>
           println(s"Configuration file not found: ${error.getMessage}")
           ConfigFactory.empty()
