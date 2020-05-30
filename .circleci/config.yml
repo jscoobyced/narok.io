@@ -50,7 +50,6 @@ workflows:
       - scala_test
       - release:
           requires:
-            - typescript_test
             - scala_test
           filters:
             branches:
