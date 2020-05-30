@@ -26,7 +26,10 @@ jobs:
       - checkout
       - run:
           name: Test
-          command: cd be && sbt clean compile coverage test coverageReport && ls -al target/scala-2.13/test-classes
+          command: cd be && sbt clean compile
+      - run:
+          name: Test
+          command: cd be && ls -al target/scala-2.13/test-classes && sbt coverage test coverageReport
       - run:
           name: Codecov
           command: codecov -y ./codecov.yml -f ./be/target/scala-2.13/coverage-report/cobertura.xml
@@ -44,7 +47,6 @@ workflows:
   version: 2
   do_it_all:
     jobs:
-      - typescript_test
       - scala_test
       - release:
           requires:
