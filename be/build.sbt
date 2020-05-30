@@ -24,5 +24,3 @@ libraryDependencies ++= {
 wartremoverErrors ++= Warts.unsafe
 
 fork in run := true
-
-coverageEnabled := true
