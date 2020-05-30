@@ -32,6 +32,5 @@ RUN chmod u+x /opt/jscbe/bin/*
 WORKDIR /opt/jscbe
 
 ENTRYPOINT ["bash"]
-CMD ["/opt/jscbe/bin/jscbe"]
+CMD ["/opt/jscbe/bin/jscbe", "-Dsbt.gigahorse=false", "-Dconfig.resource=\"production.conf\""]
 EXPOSE 9001
-VOLUME [ "/opt/jscbe/conf" ]

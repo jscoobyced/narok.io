@@ -26,7 +26,7 @@ jobs:
       - checkout
       - run:
           name: Test
-          command: cd be && sbt clean compile coverage test coverageReport
+          command: cd be && sbt clean coverage test coverageReport
       - run:
           name: Codecov
           command: codecov -y ./codecov.yml -f ./be/target/scala-2.13/coverage-report/cobertura.xml
