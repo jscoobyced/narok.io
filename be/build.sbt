@@ -25,5 +25,4 @@ wartremoverErrors ++= Warts.unsafe
 
 fork := true
 
-run / javaOptions += "-Dsbt.gigahorse=false -Dconfig.resource=\"production.conf\""
 Test / javaOptions += "-Dconfig.resource=test.conf"
