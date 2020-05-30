@@ -7,7 +7,7 @@ import net.codingwell.scalaguice.ScalaModule
 class ConfigurationModule extends AbstractModule with ScalaModule {
   override def configure(): Unit = {
 
-    val rawConfiguration = RawConfiguration(Configuration.getConfig)
+    val rawConfiguration = RawConfiguration(Configuration.getConfig("application.conf"))
     bind[RawConfiguration].toInstance(rawConfiguration)
   }
 }

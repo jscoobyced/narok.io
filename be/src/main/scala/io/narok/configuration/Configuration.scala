@@ -4,14 +4,16 @@ import java.io.{File, FileOutputStream}
 
 import com.typesafe.config.{Config, ConfigFactory}
 
+import scala.annotation.tailrec
+
 object Configuration {
-  @scala.annotation.tailrec
-  def getConfig: Config = {
-    val applicationConf = new File("./conf/application.conf")
+  @tailrec
+  def getConfig(configuration: String): Config = {
+    val applicationConf = new File(s"./conf/$configuration")
     if (applicationConf.exists()) ConfigFactory.parseFile(applicationConf)
     else {
       val configBytes = ClassLoader
-        .getSystemResourceAsStream("application.conf")
+        .getSystemResourceAsStream(s"$configuration")
         .readAllBytes()
       val parentDirectory = applicationConf.getParentFile
       if (!parentDirectory.exists()) {
@@ -20,7 +22,7 @@ object Configuration {
       applicationConf.createNewFile()
       val fos = new FileOutputStream(applicationConf)
       fos.write(configBytes)
-      getConfig
+      getConfig(configuration)
     }
   }
 }
