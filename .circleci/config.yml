@@ -45,8 +45,10 @@ workflows:
   do_it_all:
     jobs:
       - scala_test
+      - typescript_test
       - release:
           requires:
+            - typescript_test
             - scala_test
           filters:
             branches:
