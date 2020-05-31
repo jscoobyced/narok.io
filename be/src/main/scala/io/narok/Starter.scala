@@ -26,8 +26,8 @@ class Starter @Inject()(private val sqlConnectionCreator: SqlConnectionCreator,
     val binding = Http()
       .bindAndHandle(
         handler = routes.map(_.route).foldLeft[Route](RouteDirectives.reject)(_ ~ _),
-        interface = rawConfiguration.config.getString("http.interface"),
-        port = rawConfiguration.config.getInt("http.port")
+        interface = rawConfiguration.config.getString("app.http.interface"),
+        port = rawConfiguration.config.getInt("app.http.port")
       )
     binding
       .onComplete {

@@ -15,10 +15,10 @@ trait SqlConnectionCreator {
 
 class SqlConnectionCreatorImpl @Inject()(private val rawConfiguration: RawConfiguration) extends SqlConnectionCreator {
   val config: Config               = rawConfiguration.config
-  val url: String                  = config.getString("db.url")
-  val driver: String               = config.getString("db.driver")
-  val username: String             = config.getString("db.user")
-  val password: String             = config.getString("db.password")
+  val url: String                  = config.getString("app.db.url")
+  val driver: String               = config.getString("app.db.driver")
+  val username: String             = config.getString("app.db.user")
+  val password: String             = config.getString("app.db.password")
   val cpConfig                     = new HikariConfig()
   val dataSource: HikariDataSource = configure()
 

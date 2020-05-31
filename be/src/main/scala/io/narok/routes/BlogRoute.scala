@@ -18,52 +18,53 @@ class BlogRoute @Inject()(implicit executionContext: ExecutionContext,
     extends BaseRoute {
   override protected def routes: Route = blogRoutes
 
-  def blogRoutes: Route = concat(
-    path("articles") {
-      get {
-        respondWithHeaders(RawHeader("Access-Control-Allow-Origin", rawConfiguration.config.getString("http.origin"))) {
-          complete(blogService.getArticles)
-        }
-      }
-    },
-    pathPrefix("article") {
-      pathEnd {
-        post {
-          decodeRequest {
-            entity(as[Article]) { article =>
-              respondWithHeaders(
-                RawHeader("Access-Control-Allow-Origin", rawConfiguration.config.getString("http.origin"))) {
-                val insertedBlogId = blogService.saveArticle(article)
-                if (insertedBlogId > 0)
-                  complete(SuccessResponse(ResponseData("Article saved successfully", insertedBlogId)))
-                else complete(FailResponse("Article not saved."))
-              }
-            }
+  def blogRoutes: Route = {
+    val origin = rawConfiguration.config.getString("app.http.origin")
+    concat(
+      path("articles") {
+        get {
+          respondWithHeaders(RawHeader("Access-Control-Allow-Origin", origin)) {
+            complete(blogService.getArticles)
           }
         }
-      } ~
-        path(Segment) {
-          id =>
-            put {
-              decodeRequest {
-                entity(as[Article]) {
-                  article =>
-                    respondWithHeaders(
-                      RawHeader("Access-Control-Allow-Origin", rawConfiguration.config.getString("http.origin"))) {
-                      Try(id.toInt) match {
-                        case Success(blogId) =>
-                          val result = blogService.updateArticle(blogId, article)
-                          if (result)
-                            complete(SuccessResponse(ResponseData("Article updated successfully", blogId)))
-                          else complete(FailResponse("Article not saved."))
-                        case Failure(error) =>
-                          complete(FailResponse(s"Not an article reference. ${error.getMessage}"))
-                      }
-                    }
+      },
+      pathPrefix("article") {
+        pathEnd {
+          post {
+            decodeRequest {
+              entity(as[Article]) { article =>
+                respondWithHeaders(RawHeader("Access-Control-Allow-Origin", origin)) {
+                  val insertedBlogId = blogService.saveArticle(article)
+                  if (insertedBlogId > 0)
+                    complete(SuccessResponse(ResponseData("Article saved successfully", insertedBlogId)))
+                  else complete(FailResponse("Article not saved."))
                 }
               }
             }
-        }
-    }
-  )
+          }
+        } ~
+          path(Segment) {
+            id =>
+              put {
+                decodeRequest {
+                  entity(as[Article]) {
+                    article =>
+                      respondWithHeaders(RawHeader("Access-Control-Allow-Origin", origin)) {
+                        Try(id.toInt) match {
+                          case Success(blogId) =>
+                            val result = blogService.updateArticle(blogId, article)
+                            if (result)
+                              complete(SuccessResponse(ResponseData("Article updated successfully", blogId)))
+                            else complete(FailResponse("Article not saved."))
+                          case Failure(error) =>
+                            complete(FailResponse(s"Not an article reference. ${error.getMessage}"))
+                        }
+                      }
+                  }
+                }
+              }
+          }
+      }
+    )
+  }
 }
