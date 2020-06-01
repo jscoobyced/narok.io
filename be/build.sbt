@@ -18,7 +18,8 @@ libraryDependencies ++= {
     "net.codingwell"    %% "scala-guice"          % guiceVersion,
     "mysql"             % "mysql-connector-java"  % mysqlVersion,
     "com.zaxxer"        % "HikariCP"              % hikaryVersion,
-    "org.scalatest"     %% "scalatest"            % scalaTestVersion % "test"
+    "org.scalatest"     %% "scalatest"            % scalaTestVersion % "test",
+    "org.apache.derby"  % "derby"                 % "10.15.2.0" % "test"
   )
 }
 wartremoverErrors ++= Warts.unsafe
