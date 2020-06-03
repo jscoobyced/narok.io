@@ -4,6 +4,7 @@ import java.sql.ResultSet
 
 import io.narok.models.blog.Article
 
+// $COVERAGE-OFF$
 object ArticleMapper extends AbstractMapper {
 
   def toArticle(resultSet: ResultSet): List[Article] = {
@@ -20,5 +21,5 @@ object ArticleMapper extends AbstractMapper {
     })
     articles.toList
   }
-
 }
+// $COVERAGE-ON$

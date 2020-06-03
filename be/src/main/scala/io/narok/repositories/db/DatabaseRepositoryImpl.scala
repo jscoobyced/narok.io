@@ -9,13 +9,16 @@ import com.google.inject.Inject
 import scala.annotation.tailrec
 import scala.util.{Failure, Success, Try}
 
+// $COVERAGE-OFF$
 case class DatabaseResources(preparedStatement: PreparedStatement, connection: Connection) {
   def close(): Try[Unit] = {
     Try(preparedStatement.close())
     Try(connection.close())
   }
 }
+// $COVERAGE-ON$
 
+// $COVERAGE-OFF$
 class DatabaseRepositoryImpl @Inject()() extends DatabaseRepository {
   override def executeQuery[T](
       sql: String,
@@ -125,3 +128,4 @@ class DatabaseRepositoryImpl @Inject()() extends DatabaseRepository {
     preparedStatement
   }
 }
+// $COVERAGE-ON$

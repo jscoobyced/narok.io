@@ -12,6 +12,7 @@ import io.narok.services.blog.BlogService
 import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success, Try}
 
+// $COVERAGE-OFF$
 class BlogRoute @Inject()(implicit executionContext: ExecutionContext, private val blogService: BlogService)
     extends BaseRoute {
   override protected def routes: Route = blogRoutes
@@ -66,3 +67,4 @@ class BlogRoute @Inject()(implicit executionContext: ExecutionContext, private v
     )
   }
 }
+// $COVERAGE-ON$

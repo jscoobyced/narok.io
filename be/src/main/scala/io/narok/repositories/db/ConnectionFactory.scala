@@ -7,6 +7,7 @@ import io.narok.configuration.DbConfiguration
 
 import scala.util.Try
 
+// $COVERAGE-OFF$
 object ConnectionFactory {
   val cpConfig                     = new HikariConfig()
   val dataSource: HikariDataSource = configure()
@@ -25,3 +26,4 @@ object ConnectionFactory {
     Try(dataSource.getConnection())
 
 }
+// $COVERAGE-ON$

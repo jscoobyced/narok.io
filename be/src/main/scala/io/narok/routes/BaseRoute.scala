@@ -22,11 +22,13 @@ trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
 
 abstract class BaseRoute extends WebRoute with JsonSupport {
 
+  // $COVERAGE-OFF$
   implicit protected def unhandledExceptionsHandler: ExceptionHandler =
     ExceptionHandler {
       case e: Exception =>
         complete(StatusCodes.InternalServerError -> FailResponse(e.getMessage))
     }
+  // $COVERAGE-ON$
 
   final override val route: Route = handleExceptions(unhandledExceptionsHandler) {
     routes

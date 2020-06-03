@@ -6,7 +6,7 @@ import net.codingwell.scalaguice.ScalaModule
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
-class FailedStarterSpec extends BaseTest {
+class FailedStarterSpec extends FullBaseTest {
 
   describe("Starter") {
     it("Failure to bind should still return the bindings") {

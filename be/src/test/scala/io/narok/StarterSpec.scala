@@ -3,7 +3,7 @@ package io.narok
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
-class StarterSpec extends BaseTest {
+class StarterSpec extends FullBaseTest {
 
   describe("Starter") {
     it("should start and binds on port 9999") {

@@ -6,6 +6,7 @@ import io.narok.models.blog.BlogContent
 
 import scala.util.Try
 
+// $COVERAGE-OFF$
 object BlogContentMapper extends AbstractMapper {
   def toBlogContent(resultSet: ResultSet): List[BlogContent] = {
     val contentIterator = resultSetIterator(resultSet)
@@ -33,5 +34,5 @@ object BlogContentMapper extends AbstractMapper {
     )
     contents.getOrElse(List[BlogContent]()).toList
   }
-
 }
+// $COVERAGE-ON$
