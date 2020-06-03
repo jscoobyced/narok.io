@@ -11,7 +11,7 @@ ARG JSCCURRENT="./be"
 COPY ${JSCCURRENT} src
 RUN mkdir -p dist/jscbe
 
-RUN cd src && sbt clean && sbt compile && sbt universal:packageBin
+RUN cd src && sbt clean compile universal:packageBin
 RUN cd src && JSCBEVERSION=$(sbt version | tail -n 1 | cut -d" " -f2) \
     && 7z x target/universal/jscbe-${JSCBEVERSION}.zip \
     && mv jscbe-${JSCBEVERSION}/lib ../dist/jscbe/ \

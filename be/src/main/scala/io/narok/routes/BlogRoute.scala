@@ -18,7 +18,7 @@ class BlogRoute @Inject()(implicit executionContext: ExecutionContext, private v
   override protected def routes: Route = blogRoutes
 
   def blogRoutes: Route = {
-    val origin = HttpConfigurationImpl.getOrigin
+    val origin: String = HttpConfigurationImpl.getOrigin
     concat(
       path("articles") {
         get {
