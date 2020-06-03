@@ -27,11 +27,11 @@ LABEL maintainer="JscDroidDev"
 RUN mkdir -p /opt/jscbe
 
 COPY --from=build-env /build/dist/jscbe /opt/jscbe
-RUN chmod u+x /opt/jscbe/bin/*
+RUN chmod u+x /opt/jscbe/bin/jscbe
 
 WORKDIR /opt/jscbe
 
 ENTRYPOINT ["bash"]
-CMD ["/opt/jscbe/bin/jscbe"]
+CMD ["/opt/jscbe/bin/jscbe", "-Dsbt.gigahorse=false", "-Dconfig.resource=production.conf"]
 EXPOSE 9001
 VOLUME [ "/opt/jscbe/conf" ]

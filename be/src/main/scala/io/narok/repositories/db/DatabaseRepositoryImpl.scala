@@ -9,16 +9,17 @@ import com.google.inject.Inject
 import scala.annotation.tailrec
 import scala.util.{Failure, Success, Try}
 
+// $COVERAGE-OFF$
 case class DatabaseResources(preparedStatement: PreparedStatement, connection: Connection) {
   def close(): Try[Unit] = {
     Try(preparedStatement.close())
     Try(connection.close())
   }
 }
+// $COVERAGE-ON$
 
-class DatabaseRepositoryImpl @Inject()(private val sqlConnectionCreator: SqlConnectionCreator)
-    extends DatabaseRepository {
-
+// $COVERAGE-OFF$
+class DatabaseRepositoryImpl @Inject()() extends DatabaseRepository {
   override def executeQuery[T](
       sql: String,
       parameters: Option[List[Parameter]],
@@ -100,7 +101,7 @@ class DatabaseRepositoryImpl @Inject()(private val sqlConnectionCreator: SqlConn
                                parameters: Option[List[Parameter]],
                                withKey: Boolean = false): Try[DatabaseResources] = {
     val key = if (withKey) Statement.RETURN_GENERATED_KEYS else Statement.NO_GENERATED_KEYS
-    sqlConnectionCreator.getConnection match {
+    ConnectionFactory.getConnection match {
       case Success(connection) =>
         val preparedStatement = connection.prepareStatement(sql, key)
         Try(bindParameters(preparedStatement, parameters))
@@ -127,3 +128,4 @@ class DatabaseRepositoryImpl @Inject()(private val sqlConnectionCreator: SqlConn
     preparedStatement
   }
 }
+// $COVERAGE-ON$

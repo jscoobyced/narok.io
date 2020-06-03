@@ -10,6 +10,8 @@ target
 
 # DB
 db/data
+be/test
+derby.log
 
 # Configuration
 conf

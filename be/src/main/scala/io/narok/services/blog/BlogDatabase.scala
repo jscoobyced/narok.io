@@ -82,11 +82,12 @@ class BlogDatabase @Inject()(databaseRepository: DatabaseRepository) {
           }),
           Parameter(3, id),
           Parameter(4, content.altText.getOrElse("")),
-          Parameter(5, content.align.get match {
-            case "left"   => 0
-            case "center" => 1
-            case "right"  => 2
-            case _        => 0
+          Parameter(5, content.align match {
+            case Some("left")    => 0
+            case Some("center")  => 1
+            case Some("right")   => 2
+            case Some(_: String) => 0
+            case None            => 0
           })
       ))
 }

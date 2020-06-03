@@ -1,13 +1,10 @@
 package io.narok.modules
 
 import com.google.inject.AbstractModule
-import io.narok.configuration.{Configuration, RawConfiguration}
+import io.narok.configuration.{HttpConfiguration, HttpConfigurationImpl}
 import net.codingwell.scalaguice.ScalaModule
 
 class ConfigurationModule extends AbstractModule with ScalaModule {
-  override def configure(): Unit = {
-
-    val rawConfiguration = RawConfiguration(Configuration.getConfig)
-    bind[RawConfiguration].toInstance(rawConfiguration)
-  }
+  override def configure(): Unit =
+    bind[HttpConfiguration].toInstance(HttpConfigurationImpl)
 }

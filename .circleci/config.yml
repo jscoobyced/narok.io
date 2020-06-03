@@ -7,26 +7,29 @@ jobs:
     steps:
       - checkout
       - run:
-          name: install
+          name: Install
           command: yarn --cwd fe install --silent --no-progress
       - run:
-          name: test
+          name: Build
+          command: yarn --cwd fe build:prod --silent --no-progress
+      - run:
+          name: Test
           command: yarn --cwd fe --silent run test --coverage
       - run:
-          name: codecov
+          name: Codecov
           command: codecov -y ./codecov.yml -f ./fe/coverage/coverage-final.json -F react
-  typescript:
+  scala_test:
     working_directory: ~/narok
     docker:
-      - image: circleci/node:latest
+      - image: jscdroiddev/docker-sbt:latest
     steps:
       - checkout
       - run:
-          name: install
-          command: yarn --cwd fe install --silent --no-progress
+          name: Test
+          command: cd be && sbt clean coverage test coverageReport
       - run:
-          name: build
-          command: yarn --cwd fe build:prod --silent --no-progress
+          name: Codecov
+          command: codecov -y ./codecov.yml -f ./be/target/scala-2.13/coverage-report/cobertura.xml
   release:
     working_directory: ~/narok
     docker:
@@ -41,12 +44,12 @@ workflows:
   version: 2
   do_it_all:
     jobs:
+      - scala_test
       - typescript_test
-      - typescript
       - release:
           requires:
-            - typescript
             - typescript_test
+            - scala_test
           filters:
             branches:
               only: master

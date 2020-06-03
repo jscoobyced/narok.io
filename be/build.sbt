@@ -17,9 +17,10 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpVersion,
     "net.codingwell"    %% "scala-guice"          % guiceVersion,
     "mysql"             % "mysql-connector-java"  % mysqlVersion,
-    "com.zaxxer"        % "HikariCP"              % hikaryVersion
+    "com.zaxxer"        % "HikariCP"              % hikaryVersion,
+    "org.scalatest"     %% "scalatest"            % scalaTestVersion % "test"
   )
 }
 wartremoverErrors ++= Warts.unsafe
 
-fork in run := true
+fork := true
