@@ -16,9 +16,7 @@ case class DatabaseResources(preparedStatement: PreparedStatement, connection: C
   }
 }
 
-class DatabaseRepositoryImpl @Inject()(private val sqlConnectionCreator: SqlConnectionCreator)
-    extends DatabaseRepository {
-
+class DatabaseRepositoryImpl @Inject()() extends DatabaseRepository {
   override def executeQuery[T](
       sql: String,
       parameters: Option[List[Parameter]],
@@ -100,7 +98,7 @@ class DatabaseRepositoryImpl @Inject()(private val sqlConnectionCreator: SqlConn
                                parameters: Option[List[Parameter]],
                                withKey: Boolean = false): Try[DatabaseResources] = {
     val key = if (withKey) Statement.RETURN_GENERATED_KEYS else Statement.NO_GENERATED_KEYS
-    sqlConnectionCreator.getConnection match {
+    ConnectionFactory.getConnection match {
       case Success(connection) =>
         val preparedStatement = connection.prepareStatement(sql, key)
         Try(bindParameters(preparedStatement, parameters))

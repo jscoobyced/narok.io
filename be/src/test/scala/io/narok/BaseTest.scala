@@ -10,7 +10,7 @@ import io.narok.modules.ApplicationModule
 import net.codingwell.scalaguice.ScalaModule
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
-import org.scalatest.{BeforeAndAfterAll, Inside, Inspectors, OptionValues}
+import org.scalatest.{BeforeAndAfterEach, Inside, Inspectors, OptionValues}
 
 import scala.concurrent.ExecutionContext.global
 
@@ -20,9 +20,9 @@ abstract class BaseTest
     with OptionValues
     with Inside
     with Inspectors
-    with BeforeAndAfterAll {
+    with BeforeAndAfterEach {
   implicit private val system: ActorSystem = ActorSystem()
-  System.setProperty("config.resource", configuration)
+  System.setProperty("config.resource", "test.conf")
   ConfigFactory.invalidateCaches()
 
   protected val injector: Injector =
@@ -32,12 +32,10 @@ abstract class BaseTest
         .`with`(overriding())
     )
 
-  override def afterAll(): Unit = {
+  override def afterEach(): Unit = {
     val applicationConf = new File(s"./conf/application.conf")
     if (applicationConf.exists()) applicationConf.delete()
   }
 
   protected def overriding(): ScalaModule = new AbstractModule with ScalaModule
-
-  protected def configuration: String = "test.conf"
 }

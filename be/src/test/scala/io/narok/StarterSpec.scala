@@ -1,7 +1,5 @@
 package io.narok
 
-import java.sql.DriverManager
-
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
@@ -14,5 +12,4 @@ class StarterSpec extends BaseTest {
       Await.result(serverBinding.unbind(), 10.seconds)
     }
   }
-
 }

@@ -8,6 +8,7 @@ import io.narok.modules.ApplicationModule
 
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutor}
 
+// $COVERAGE-OFF$
 object Boot extends App {
   implicit private val executionContext: ExecutionContextExecutor =
     ExecutionContext.fromExecutor(Executors.newFixedThreadPool(Runtime.getRuntime.availableProcessors() * 2))
@@ -17,3 +18,4 @@ object Boot extends App {
 
   injector.getInstance(classOf[Starter]).start()
 }
+// $COVERAGE-ON$

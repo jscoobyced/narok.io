@@ -1,6 +1,7 @@
 package io.narok
 
-import java.sql.DriverManager
+import io.narok.modules.TestConfigurationModule
+import net.codingwell.scalaguice.ScalaModule
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -16,6 +17,5 @@ class FailedStarterSpec extends BaseTest {
     }
   }
 
-  override protected def configuration: String = "failed.conf"
-
+  override protected def overriding(): ScalaModule = new TestConfigurationModule
 }
