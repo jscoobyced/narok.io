@@ -34,6 +34,7 @@ export default class DataService {
       .join('&')}` : '';
     const secure = applicationConfiguration.isSecure ? 's' : '';
     const url = `http${secure}://${server}:${port}/${service}${queryString}`;
-    return this.httpService.fetchData<T>(url);
+    const data = this.httpService.fetchData<T>(url);
+    return data;
   }
 }

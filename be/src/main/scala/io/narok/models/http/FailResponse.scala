@@ -1,3 +1,4 @@
 package io.narok.models.http
 
-case class FailResponse(error: String) extends AbstractResponse[Nothing](data = None, error = Some(error))
+case class FailResponse(error: String, code: Int)
+    extends AbstractResponse[Nothing](data = None, message = Some(error), code = Some(code))
