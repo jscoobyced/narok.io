@@ -73,9 +73,11 @@ module.exports = (env, argv) => {
                 'process.env': {
                     'mode': JSON.stringify(argv.mode)
                 }
-            }), new CopyWebpackPlugin([{
-                from: './public'
-            }]),
+            }), new CopyWebpackPlugin({
+                patterns: [{
+                    from: path.resolve(__dirname, './public')
+                }]
+            }),
             new MiniCssExtractPlugin({
                 filename: 'style.[contenthash].css',
             }),
@@ -96,7 +98,7 @@ module.exports = (env, argv) => {
             historyApiFallback: true,
             port: 9000,
             disableHostCheck: true,
-            host: "0.0.0.0"
+            host: "dev.narok.io"
         };
     }
 
