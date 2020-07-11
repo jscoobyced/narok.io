@@ -2,11 +2,12 @@ import * as React from 'react';
 import { Article, BlogContent, BlogContentType } from '../../models/blog/Article';
 import './BlogArticle.scss';
 
-export const BlogArticle = (props: { article: Article }) => {
-  const { article } = props;
+export const BlogArticle = (props: { article: Article, fromOwner: string }) => {
+  const { article, fromOwner } = props;
   const {
-    id, title, contents, created,
+    id, owner, title, contents, created,
   } = article;
+  const { name } = owner;
 
   const buildContent = (icontent: BlogContent, index: number) => {
     let result = <span key={`bp-ac-${index}`} />;
@@ -38,9 +39,12 @@ export const BlogArticle = (props: { article: Article }) => {
       <h2 className="article__title">{title}</h2>
       <span className="article__created">{created}</span>
       {allContent}
-      <span className="article__separator">
-        <img alt="Separator" title="Small thorn" src="images/thorn-horizontal-small.png" />
+      <span className="article__owner">
+        {fromOwner}
+        {' '}
+        {name}
       </span>
+      <span className="article__separator" />
     </article>
   );
 };

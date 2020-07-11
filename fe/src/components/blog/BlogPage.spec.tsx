@@ -4,11 +4,14 @@ import { mount } from 'enzyme';
 import { BlogPage } from './BlogPage';
 import { mountComponent } from '../jestUtil';
 import { Article, toArticle } from '../../models/blog/Article';
+import { User } from '../../models/User';
+
+const owner: User = { id: '12345678', name: 'Administrator' };
 
 describe('BlogPage', () => {
   it('should render articles', async () => {
     let blogPage = mount(<></>);
-    const articles: Article[] = [toArticle(1, 'test', [], 'created')];
+    const articles: Article[] = [toArticle(1, owner, 'test', [], 'created')];
     await act(async () => {
       blogPage = mountComponent(<BlogPage />, () => { }, articles);
     });
@@ -24,6 +27,6 @@ describe('BlogPage', () => {
     });
     expect(blogPage).not.toBeUndefined();
     blogPage.update();
-    expect(blogPage.find('article')).toHaveLength(0);
+    expect(blogPage.find('article')).toHaveLength(1);
   });
 });

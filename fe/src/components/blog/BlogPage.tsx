@@ -12,9 +12,16 @@ export const BlogPage = () => {
     const data = await dataService.getHomePageBlog();
     if (!data || data.length === 0 || data.length === undefined) {
       const noResult = getContent(CMS.NORESULT);
-      return [<span key="bc-0">{noResult}</span>];
+      return [<article key="bc-0">{noResult}</article>];
     }
-    const loadedArticles = data.map(article => <BlogArticle key={`bc-${article.id}`} article={article} />);
+    const fromOwner = getContent(CMS.FROMOWNER);
+    const loadedArticles = data.map(article => (
+      <BlogArticle
+        key={`bc-${article.id}`}
+        article={article}
+        fromOwner={fromOwner}
+      />
+    ));
     return loadedArticles;
   };
 

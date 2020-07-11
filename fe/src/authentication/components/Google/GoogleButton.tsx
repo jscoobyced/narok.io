@@ -15,7 +15,6 @@ const GoogleButton = (props: {
   const [isSignedIn, setSignedIn] = useState(false);
   const icon = isSignedIn ? <></> : <Icon />;
 
-
   /* istanbul ignore next */
   const createUser = (googleUser: gapi.auth2.GoogleUser): SecureUser => {
     const user = googleUser.getBasicProfile();

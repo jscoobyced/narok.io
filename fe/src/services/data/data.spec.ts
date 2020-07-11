@@ -1,9 +1,13 @@
 import DataService from './data';
 import HttpServiceMock from '../http/http.mock';
 import { Article, toArticle, toBlogContentText } from '../../models/blog/Article';
+import { User } from '../../models/User';
+
+const owner: User = { id: '12345678', name: 'Administrator' };
 
 const createArticle = (title: string, content: string): Article => toArticle(
   0,
+  owner,
   title,
   [toBlogContentText(content)],
   '',

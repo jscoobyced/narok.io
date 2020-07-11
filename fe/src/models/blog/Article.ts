@@ -1,5 +1,8 @@
+import { User } from '../User';
+
 export interface Article {
   id: number;
+  owner: User;
   title: string;
   contents: BlogContent[];
   created: string;
@@ -23,6 +26,7 @@ export interface BlogContent {
 }
 
 export const toArticle = (id: number,
+  owner: User,
   title: string,
   contents: BlogContent[],
   created: string,
@@ -30,6 +34,7 @@ export const toArticle = (id: number,
   const modifiedDate = (!modified) ? created : modified;
   return {
     id,
+    owner,
     title,
     contents,
     created,
@@ -37,10 +42,16 @@ export const toArticle = (id: number,
   };
 };
 
-const toBlogContent = (value: string, contentType: BlogContentType, align?: Align, altText?: string): BlogContent => {
+const toBlogContent = (
+  value: string,
+  contentType: BlogContentType,
+  align?: Align,
+  altText?: string,
+  id?: number,
+): BlogContent => {
   const computedAlign = align || Align.Left;
   return ({
-    value, contentType, align: computedAlign, altText,
+    id, value, contentType, align: computedAlign, altText,
   });
 };
 

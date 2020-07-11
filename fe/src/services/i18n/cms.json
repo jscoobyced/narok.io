@@ -13,7 +13,8 @@
         "CODEHOSTED": "Code hosted in ",
         "BUILTWITH": "Built with",
         "COVERAGE": "Coverage at",
-        "CONTAINER": "Container in"
+        "CONTAINER": "Container in",
+        "FROMOWNER": "By"
     },
     "fr_FR": {
         "SIGNIN": "Connexion",
@@ -24,6 +25,7 @@
         "CODEHOSTED": "Code hébergé à",
         "BUILTWITH": "Compilé sur",
         "COVERAGE": "Couverture du code à",
-        "CONTAINER": "Container à"
+        "CONTAINER": "Container à",
+        "FROMOWNER": "De"
     }
 }
