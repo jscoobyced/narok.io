@@ -1,6 +1,7 @@
 package io.narok.services
 
 import io.narok.BaseTest
+import io.narok.models.EmptyUser
 import io.narok.models.blog.{Article, BlogContent}
 import io.narok.repositories.DatabaseRepositoryMock
 import io.narok.services.blog.BlogServiceImpl
@@ -14,7 +15,13 @@ class BlogServiceSpec extends BaseTest {
     val blogContent4 = BlogContent(1, "test", "undefined", 1, 0, Some(""), Some(""))
     val blogContent5 = BlogContent(1, "test", "undefined", 1, 0, Some(""))
     val expectedArticle =
-      Article(1, "test", List(blogContent1, blogContent2, blogContent3, blogContent4, blogContent5), "now", "now", 0)
+      Article(1,
+              EmptyUser(),
+              "test",
+              List(blogContent1, blogContent2, blogContent3, blogContent4, blogContent5),
+              "now",
+              "now",
+              0)
     val articles = List(expectedArticle)
     it("should be able to get Article list") {
       val blogService =
@@ -33,7 +40,7 @@ class BlogServiceSpec extends BaseTest {
       assert(blogService.saveArticle(expectedArticle) == expectedArticle.id)
     }
     it("should be able to detect an Article cannot be saved") {
-      val emptyContentArticle = Article(1, "test", List(), "now", "now", 0)
+      val emptyContentArticle = Article(1, EmptyUser(), "test", List(), "now", "now", 0)
       val blogService =
         new BlogServiceImpl(
           new DatabaseRepositoryMock(articles = Iterator(List(), List()),
@@ -43,7 +50,7 @@ class BlogServiceSpec extends BaseTest {
     }
 
     it("should be able to save an Article with no content") {
-      val emptyContentArticle = Article(1, "test", List(), "now", "now", 0)
+      val emptyContentArticle = Article(1, EmptyUser(), "test", List(), "now", "now", 0)
       val blogService =
         new BlogServiceImpl(
           new DatabaseRepositoryMock(articles = Iterator(List(emptyContentArticle), List()),

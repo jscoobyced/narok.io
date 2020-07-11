@@ -1,8 +1,16 @@
 package io.narok.configuration
 
-object DbConfiguration {
-  private val config      = Configuration.getConfig
+case class DbConfigurationImpl(configFile: Option[String] = Some("application.conf")) {
+  private val config = Configuration.getConfig(configFile)
+
   def getUrl: String      = config.getString("app.db.url")
   def getUsername: String = config.getString("app.db.user")
   def getPassword: String = config.getString("app.db.password")
+}
+
+object DbConfiguration {
+  private val config      = DbConfigurationImpl()
+  def getUrl: String      = config.getUrl
+  def getUsername: String = config.getUsername
+  def getPassword: String = config.getPassword
 }

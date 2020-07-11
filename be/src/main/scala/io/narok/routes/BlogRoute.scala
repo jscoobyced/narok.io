@@ -4,7 +4,7 @@ import akka.http.scaladsl.model.headers.RawHeader
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import com.google.inject.Inject
-import io.narok.configuration.HttpConfigurationImpl
+import io.narok.configuration.HttpConfiguration
 import io.narok.models.ErrorCode
 import io.narok.models.blog.{Article, SuccessArticleResponse}
 import io.narok.models.http.{FailResponse, ResponseData, SuccessResponse}
@@ -19,7 +19,7 @@ class BlogRoute @Inject()(implicit executionContext: ExecutionContext, private v
   override protected def routes: Route = blogRoutes
 
   def blogRoutes: Route = {
-    val origin: String = HttpConfigurationImpl.getOrigin
+    val origin: String = HttpConfiguration.getOrigin
     concat(
       path("articles") {
         get {
