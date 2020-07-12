@@ -13,7 +13,7 @@ import io.narok.routes.WebRoute
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
-class Starter @Inject()(private val routes: Set[WebRoute])(
+class Starter @Inject()(private val routes: Set[WebRoute], private val httpConnection: HttpConfiguration)(
     implicit actorSystem: ActorSystem,
     executionContext: ExecutionContext
 ) {
@@ -22,8 +22,8 @@ class Starter @Inject()(private val routes: Set[WebRoute])(
     val binding = Http()
       .bindAndHandle(
         handler = routes.map(_.route).foldLeft[Route](RouteDirectives.reject)(_ ~ _),
-        interface = HttpConfiguration.getInterface,
-        port = HttpConfiguration.getPort
+        interface = httpConnection.getInterface,
+        port = httpConnection.getPort
       )
     binding
       .onComplete {

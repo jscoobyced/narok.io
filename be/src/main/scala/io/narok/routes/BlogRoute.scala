@@ -14,12 +14,14 @@ import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success, Try}
 
 // $COVERAGE-OFF$
-class BlogRoute @Inject()(implicit executionContext: ExecutionContext, private val blogService: BlogService)
+class BlogRoute @Inject()(implicit executionContext: ExecutionContext,
+                          private val httpConnection: HttpConfiguration,
+                          private val blogService: BlogService)
     extends BaseRoute {
   override protected def routes: Route = blogRoutes
 
   def blogRoutes: Route = {
-    val origin: String = HttpConfiguration.getOrigin
+    val origin: String = httpConnection.getOrigin
     concat(
       path("articles") {
         get {
