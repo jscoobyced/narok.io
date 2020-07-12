@@ -1,5 +1,6 @@
 package io.narok.models
 
+// $COVERAGE-OFF$
 object ErrorCode extends Enumeration {
   type ErrorCode = Int
 
@@ -7,3 +8,4 @@ object ErrorCode extends Enumeration {
   val CannotSave    = 100
   val WrongDataType = 200
 }
+// $COVERAGE-ON$
