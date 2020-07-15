@@ -64,6 +64,7 @@ class BlogServiceSpec extends BaseTest {
         )
       assert(blogService.saveArticle(emptyContentArticle) == emptyContentArticle.id)
     }
+
     it("should be able to update an Article") {
       val blogService =
         new BlogServiceImpl(
@@ -76,6 +77,19 @@ class BlogServiceSpec extends BaseTest {
         )
       assert(blogService.updateArticle(expectedArticle.id, expectedArticle))
     }
+
+    it("should not allow to update an Article from another owner") {
+      val differentOwnerArticles = List(Article(1, User("1", "Admin", "token"), "test", List(), "now", "now", 0))
+      val blogService =
+        new BlogServiceImpl(
+          new DatabaseRepositoryMock(articles = Iterator(differentOwnerArticles, expectedArticle.contents),
+                                     single = expectedArticle.id,
+                                     updated = Iterator(0, 1, 1)),
+          new GoogleServiceMock
+        )
+      assert(!blogService.updateArticle(differentOwnerArticles.head.id, differentOwnerArticles.head))
+    }
+
     it("should detect a failure to update an Article") {
       val blogService =
         new BlogServiceImpl(
@@ -86,6 +100,7 @@ class BlogServiceSpec extends BaseTest {
         )
       assert(!blogService.updateArticle(expectedArticle.id, expectedArticle))
     }
+
     it("should detect a failure to delete an Article content") {
       val blogService =
         new BlogServiceImpl(
