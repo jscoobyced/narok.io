@@ -37,4 +37,4 @@ If you want to customize the database configuration you can change the `MYSQL_` 
 ```
 docker run --name myapp-be -d --rm -p 9001:9001 -v ./conf:/opt/jscbe/conf owner/myapp-be
 ```
-Then update the configuration in `application.conf` to match the database information accordingly. You might need to restart the application (`docker stop ...` and `docker start ...`)
+Then update the configuration in `application.conf` to match the database information accordingly. You might need to restart the application (`docker stop ...` and `docker start ...`).
