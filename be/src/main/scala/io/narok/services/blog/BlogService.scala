@@ -25,7 +25,7 @@ class BlogServiceImpl @Inject()(
   override def saveArticle(article: Article): Int = {
     val user = googleService.getUser(article.owner.token)
     if (user.id == article.owner.id) database.saveArticle(article)
-    else 0
+    else -1
   }
 
   override def updateArticle(id: Int, article: Article): Boolean = {

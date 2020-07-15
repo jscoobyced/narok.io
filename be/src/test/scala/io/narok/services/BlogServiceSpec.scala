@@ -43,6 +43,18 @@ class BlogServiceSpec extends BaseTest {
         )
       assert(blogService.saveArticle(expectedArticle) == expectedArticle.id)
     }
+
+    it("should not allow to save an Article from wrong owner") {
+      val differentOwnerArticles = List(Article(1, User("1", "Admin", "token"), "test", List(), "now", "now", 0))
+      val blogService =
+        new BlogServiceImpl(
+          new DatabaseRepositoryMock(articles = Iterator(differentOwnerArticles, expectedArticle.contents),
+                                     single = expectedArticle.id,
+                                     updated = Iterator(1, expectedArticle.contents.length)),
+          new GoogleServiceMock
+        )
+      assert(blogService.saveArticle(differentOwnerArticles.head) == -1)
+    }
     it("should be able to detect an Article cannot be saved") {
       val emptyContentArticle = Article(1, EmptyUser(), "test", List(), "now", "now", 0)
       val blogService =
