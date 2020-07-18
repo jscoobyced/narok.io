@@ -56,7 +56,7 @@ class BlogServiceSpec extends BaseTest {
       assert(blogService.saveArticle(differentOwnerArticles.head) == -1)
     }
     it("should be able to detect an Article cannot be saved") {
-      val emptyContentArticle = Article(1, EmptyUser(), "test", List(), "now", "now", 0)
+      val emptyContentArticle = Article(1, User("0", "Admin", "token"), "test", List(), "now", "now", 0)
       val blogService =
         new BlogServiceImpl(new DatabaseRepositoryMock(articles = Iterator(List(), List()),
                                                        single = 0,
