@@ -90,13 +90,13 @@ module.exports = (env, argv) => {
         ]
     };
 
-    if (argv.mode === 'development') {
+    if (argv.mode === 'development' || argv.mode === 'none') {
         config.devtool = 'source-map';
         config.devServer = {
             contentBase: dist,
             compress: true,
             historyApiFallback: true,
-            port: 9000,
+            port: 8080,
             disableHostCheck: true,
             host: "dev.narok.io"
         };

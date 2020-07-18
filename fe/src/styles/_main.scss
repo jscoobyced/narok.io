@@ -13,6 +13,11 @@ html {
     font-family: $font-family;
 }
 
+a {
+    color: $link;
+    text-decoration: none;
+}
+
 .button {
     color: $link;
     text-decoration: none;

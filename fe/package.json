@@ -6,6 +6,7 @@
   "scripts": {
     "lint": "eslint --fix src/**/*.{ts,tsx}",
     "start": "webpack-dev-server --mode development --open",
+    "start:none": "webpack-dev-server --mode none",
     "test": "eslint --fix src/**/*.{ts,tsx} && jest",
     "build:prod": "webpack --mode production",
     "build:none": "webpack --mode none",

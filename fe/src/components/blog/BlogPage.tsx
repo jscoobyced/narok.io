@@ -9,12 +9,12 @@ export const BlogPage = () => {
   const { getContent, user, dataService } = React.useContext(AppContext);
   const [articles, setArticles] = React.useState([]);
 
-  const getArticles = async (): Promise<Article[]> => {
+  const getArticles = async (): Promise<void> => {
     const data = await dataService.getHomePageBlog();
     if (!data || data.length === 0 || data.length === undefined) {
-      return [];
+      return;
     }
-    return data;
+    setArticles(data);
   };
 
   const buildArticles = (rawArticles: Article[]): JSX.Element[] => {
@@ -41,18 +41,14 @@ export const BlogPage = () => {
   };
 
   React.useEffect(() => {
-    getArticles()
-      .then(data => {
-        const renderedArticles = buildArticles(data);
-        setArticles(renderedArticles);
-      });
-  }, [user]);
+    getArticles();
+  }, []);
 
   if (!articles || articles.length === 0) return <></>;
 
   return (
     <>
-      {articles}
+      {buildArticles(articles)}
     </>
   );
 };

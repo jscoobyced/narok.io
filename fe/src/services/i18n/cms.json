@@ -15,7 +15,8 @@
         "COVERAGE": "Coverage at",
         "CONTAINER": "Container in",
         "FROMOWNER": "By",
-        "EDIT": "Edit"
+        "EDIT": "Edit",
+        "BACK": "Back"
     },
     "fr_FR": {
         "SIGNIN": "Connexion",
@@ -28,6 +29,7 @@
         "COVERAGE": "Couverture du code à",
         "CONTAINER": "Container à",
         "FROMOWNER": "De",
-        "EDIT": "Modifier"
+        "EDIT": "Modifier",
+        "BACK": "Retour"
     }
 }

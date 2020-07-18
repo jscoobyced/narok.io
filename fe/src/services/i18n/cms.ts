@@ -16,6 +16,7 @@ const CMS = {
   CONTAINER: 'CONTAINER',
   FROMOWNER: 'FROMOWNER',
   EDIT: 'EDIT',
+  BACK: 'BACK'
 };
 
 export default CMS;
