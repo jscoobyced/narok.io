@@ -18,7 +18,7 @@ export const BlogPage = () => {
   };
 
   const buildArticles = (rawArticles: Article[]): JSX.Element[] => {
-    if (rawArticles.length === 0) {
+    if (!rawArticles || rawArticles.length === 0) {
       const noResult = getContent(CMS.NORESULT);
       return [<article key="bc-0">{noResult}</article>];
     }
@@ -43,8 +43,6 @@ export const BlogPage = () => {
   React.useEffect(() => {
     getArticles();
   }, []);
-
-  if (!articles || articles.length === 0) return <></>;
 
   return (
     <>

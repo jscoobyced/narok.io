@@ -11,13 +11,15 @@ const owner: User = { id: '12345678', name: 'Administrator' };
 describe('BlogPage', () => {
   it('should render articles', async () => {
     let blogPage = mount(<></>);
-    const articles: Article[] = [toArticle(1, owner, 'test', [], 'created')];
+    const articles: Article[] = [
+      toArticle(1, owner, 'test', [], 'created'),
+      toArticle(2, owner, 'test', [], 'created')];
     await act(async () => {
       blogPage = mountComponent(<BlogPage />, () => { }, articles);
     });
     expect(blogPage).not.toBeUndefined();
     blogPage.update();
-    expect(blogPage.find('article')).toHaveLength(1);
+    expect(blogPage.find('article')).toHaveLength(2);
   });
 
   it('should render empty articles', async () => {

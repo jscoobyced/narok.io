@@ -8,43 +8,43 @@ import { toUser } from '../../models/User';
 import './ArticlePage.scss';
 
 export const ArticlePage = () => {
-    const { getContent, user, dataService } = React.useContext(AppContext);
-    const { articleId } = useParams();
-    const [article, setArticle] = React.useState(toArticle(0, toUser('', '', '', '', ''), '', [], ''));
-    const backText = getContent(CMS.BACK);
+  const { getContent, user, dataService } = React.useContext(AppContext);
+  const { articleId } = useParams();
+  const [article, setArticle] = React.useState(toArticle(0, toUser('', '', '', '', ''), '', [], ''));
+  const backText = getContent(CMS.BACK);
 
-    const getArticle = async (): Promise<void> => {
-        const data = await dataService.getHomePageBlog();
-        if (!data || data.length === 0 || data.length === undefined) {
-            return;
-        }
-        setArticle(data.filter(article => article.id === +articleId)[0]);
-    };
+  const getArticle = async (): Promise<void> => {
+    const data = await dataService.getHomePageBlog();
+    if (!data || data.length === 0 || data.length === undefined) {
+      return;
+    }
+    setArticle(data.filter(art => art.id === +articleId)[0]);
+  };
 
-    const buildArticle = (rawArticle: Article): JSX.Element => {
-        const fromOwner = getContent(CMS.FROMOWNER);
-        const edit = getContent(CMS.EDIT);
-        const { id: ownerId } = rawArticle.owner;
-        const userId = user.user.id;
-        return (
-            <BlogArticle
-                key={`bc-${rawArticle.id}`}
-                article={rawArticle}
-                fromText={fromOwner}
-                editText={edit}
-                canEdit={userId === ownerId}
-            />
-        );
-    };
-
-    React.useEffect(() => {
-        getArticle();
-    }, []);
-
+  const buildArticle = (rawArticle: Article): JSX.Element => {
+    const fromOwner = getContent(CMS.FROMOWNER);
+    const edit = getContent(CMS.EDIT);
+    const { id: ownerId } = rawArticle.owner;
+    const userId = user.user.id;
     return (
-        <>
-            <Link className='link-back' to='/'>{backText}</Link>
-            {buildArticle(article)}
-        </>
+      <BlogArticle
+        key={`bc-${rawArticle.id}`}
+        article={rawArticle}
+        fromText={fromOwner}
+        editText={edit}
+        canEdit={userId === ownerId}
+      />
     );
+  };
+
+  React.useEffect(() => {
+    getArticle();
+  }, []);
+
+  return (
+    <>
+      <Link className="link-back" to="/">{backText}</Link>
+      {buildArticle(article)}
+    </>
+  );
 };
