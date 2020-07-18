@@ -1,5 +1,5 @@
-@import './variables';
-@import './fonts';
+@import "./variables";
+@import "./fonts";
 
 * {
     padding: 0;
@@ -11,4 +11,16 @@ html {
     background-color: $background;
     font-size: $font-size;
     font-family: $font-family;
+}
+
+.button {
+    color: $link;
+    text-decoration: none;
+    border: solid 1px $link;
+    padding: 2px 5px;
+    border-radius: 5px;
+}
+
+.pointer {
+    cursor: pointer;
 }

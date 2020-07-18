@@ -1,1 +1,0 @@
-Put all assets here. They will be copied to the distribution folder.

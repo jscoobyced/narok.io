@@ -14,7 +14,8 @@
         "BUILTWITH": "Built with",
         "COVERAGE": "Coverage at",
         "CONTAINER": "Container in",
-        "FROMOWNER": "By"
+        "FROMOWNER": "By",
+        "EDIT": "Edit"
     },
     "fr_FR": {
         "SIGNIN": "Connexion",
@@ -26,6 +27,7 @@
         "BUILTWITH": "Compilé sur",
         "COVERAGE": "Couverture du code à",
         "CONTAINER": "Container à",
-        "FROMOWNER": "De"
+        "FROMOWNER": "De",
+        "EDIT": "Modifier"
     }
 }

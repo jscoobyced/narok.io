@@ -1,6 +1,8 @@
 import HttpServiceMock from '../services/http/http.mock';
 import { Article, toArticle, toBlogContentText } from '../models/blog/Article';
 import { User } from '../models/User';
+import UserServiceMock from '../services/auth/user.mock';
+import { UserService } from '../services/auth/user';
 
 export const httpServiceMock = (): HttpServiceMock => {
   const articles: Article[] = [];
@@ -16,7 +18,7 @@ export const httpServiceMock = (): HttpServiceMock => {
     + 'Donec condimentum aliquet nulla, sed scelerisque orci. Phasellus massa felis, maximus eget dolor '
     + 'ut, dapibus semper ante.';
   const contents = [toBlogContentText(lorem)];
-  const owner: User = { id: '12345678', name: 'Administrator' };
+  const owner: User = { id: '123456789', name: 'Administrator' };
   const textArticle1: Article = toArticle(1, owner, 'Coming soon...', contents, '2020-05-04 22:52');
   articles.push(textArticle1);
   const textArticle2 = { ...textArticle1 };
@@ -24,3 +26,5 @@ export const httpServiceMock = (): HttpServiceMock => {
   articles.push(textArticle2);
   return new HttpServiceMock(articles);
 };
+
+export const userServiceMock = (): UserService => new UserServiceMock();

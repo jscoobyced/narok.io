@@ -22,7 +22,7 @@ describe('BlogContent', () => {
 
   it('should render text content', () => {
     const article = { ...baseArticle };
-    const blogContent = shallow(<BlogArticle article={article} fromOwner="By" />);
+    const blogContent = shallow(<BlogArticle article={article} fromText="By" editText="Edit" canEdit />);
     expect(blogContent.find('article')).toHaveLength(1);
     expect(getText(blogContent, '.article__title')).toEqual(article.title);
     expect(getText(blogContent, '.article__content')).toEqual(textContent.value);
@@ -34,7 +34,7 @@ describe('BlogContent', () => {
   it('should not fail if type of content is unkown', () => {
     const article = { ...baseArticle };
     article.contents = [{} as BlogContent];
-    const blogContent = shallow(<BlogArticle article={article} fromOwner="By" />);
+    const blogContent = shallow(<BlogArticle article={article} fromText="By" editText="Edit" canEdit={false} />);
     expect(blogContent.find('article')).toHaveLength(1);
   });
 });

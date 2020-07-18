@@ -15,6 +15,7 @@ const CMS = {
   COVERAGE: 'COVERAGE',
   CONTAINER: 'CONTAINER',
   FROMOWNER: 'FROMOWNER',
+  EDIT: 'EDIT',
 };
 
 export default CMS;

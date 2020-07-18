@@ -5,5 +5,6 @@ import { BlogPage } from './blog/BlogPage';
 export const Routes = () => (
   <Switch>
     <Route exact path="/" component={BlogPage} />
+    <Route path="/article/:id" component={BlogPage} />
   </Switch>
 );
