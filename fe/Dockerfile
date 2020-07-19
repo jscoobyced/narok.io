@@ -2,6 +2,7 @@ FROM node:latest AS build-env
 WORKDIR /build
 
 ## Install dependencies packages
+ENV TZ Asia/Bangkok
 RUN set -ex; apt-get -qqy update && apt-get -qqy upgrade
 RUN set -ex; apt-get install -qqy --no-install-recommends \
         ca-certificates apt-transport-https \
@@ -16,6 +17,7 @@ RUN /bin/bash -c 'yarn build:${JSCMODE}'
 
 # Deploy
 FROM nginx:latest
+ENV TZ Asia/Bangkok
 LABEL maintainer="JscDroidDev"
 WORKDIR /build
 

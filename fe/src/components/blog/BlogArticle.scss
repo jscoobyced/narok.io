@@ -19,6 +19,13 @@
                 align-self: flex-end;
             }
 
+            &__ender {
+                grid-column: span 2;
+                margin-left: auto;
+                align-self: flex-end;
+                margin-top: 3px;
+            }
+
             &__content {
                 padding-top: 10px;
                 grid-column: span 2;
@@ -45,6 +52,10 @@
                 padding: 20px;
                 grid-column: span 2;
                 justify-content: center;
+            }
+
+            &__separator::before {
+                content: url('/images/thorn-horizontal-small.png');
             }
         }
     }

@@ -13,16 +13,24 @@ trait BlogService {
   def updateArticle(id: Int, article: Article): Boolean
 }
 
-class BlogServiceImpl @Inject()(private val databaseRepository: DatabaseRepository)(
-    implicit private val executionContext: ExecutionContext)
+class BlogServiceImpl @Inject()(
+    private val databaseRepository: DatabaseRepository,
+    private val googleService: GoogleService)(implicit private val executionContext: ExecutionContext)
     extends BlogService
     with JsonSupport {
   val database = new BlogDatabase(databaseRepository)
 
   override def getArticles: List[Article] = database.articles()
 
-  override def saveArticle(article: Article): Int = database.saveArticle(article)
+  override def saveArticle(article: Article): Int = {
+    val user = googleService.getUser(article.owner.token)
+    if (user.id == article.owner.id) database.saveArticle(article)
+    else -1
+  }
 
-  override def updateArticle(id: Int, article: Article): Boolean = database.updateArticle(id, article)
-
+  override def updateArticle(id: Int, article: Article): Boolean = {
+    val user = googleService.getUser(article.owner.token)
+    if (user.id == article.owner.id) database.updateArticle(id, article)
+    else false
+  }
 }

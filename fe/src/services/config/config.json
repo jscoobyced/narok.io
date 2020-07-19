@@ -3,7 +3,7 @@
         "development": {
             "port": 9001,
             "secure": false,
-            "server": "localhost"
+            "server": "dev.narok.io"
         },
         "production": {
             "port": 443,

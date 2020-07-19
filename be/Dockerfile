@@ -3,6 +3,7 @@ WORKDIR /build
 
 # Update dependencies
 ENV DEBIAN_FRONTEND noninteractive
+ENV TZ Asia/Bangkok
 RUN set -ex; apt-get install -qqy apt-utils && apt-get update && apt-get -qqy upgrade \
     && apt-get install -qqy p7zip-full
 
@@ -21,6 +22,7 @@ RUN cd src && JSCBEVERSION=$(sbt version | tail -n 1 | cut -d" " -f2) \
 # Deploy
 FROM openjdk:11-jdk
 WORKDIR /build
+ENV TZ Asia/Bangkok
 
 LABEL maintainer="JscDroidDev"
 

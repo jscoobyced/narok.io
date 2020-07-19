@@ -26,5 +26,7 @@ abstract class BaseTest
   override def afterEach(): Unit = {
     val applicationConf = new File(s"./conf/application.conf")
     if (applicationConf.exists()) applicationConf.delete()
+    val testConf = new File(s"./conf/test.conf")
+    if (testConf.exists()) testConf.delete()
   }
 }

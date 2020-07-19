@@ -14,6 +14,9 @@ const CMS = {
   BUILTWITH: 'BUILTWITH',
   COVERAGE: 'COVERAGE',
   CONTAINER: 'CONTAINER',
+  FROMOWNER: 'FROMOWNER',
+  EDIT: 'EDIT',
+  BACK: 'BACK',
 };
 
 export default CMS;

@@ -1,6 +1,6 @@
 import { Article } from '../../models/blog/Article';
 import * as Config from '../config/config';
-import HttpService from '../http/http';
+import HttpService, { HttpResponse } from '../http/http';
 
 interface Parameter {
   name: string;
@@ -21,10 +21,11 @@ export default class DataService {
 
   public getBlogsByPage = async (page: number, perPage: number): Promise<Article[]> => {
     const parameters = [{ name: 'page', value: page }, { name: 'perPage', value: perPage }];
-    return this.get('articles', parameters);
+    const httpResponse = await this.get<Article[]>('articles', parameters);
+    return Promise.resolve(httpResponse.data);
   }
 
-  private get = async <T>(service: String, parameters?: Parameter[]): Promise<T> => {
+  private get = async <T>(service: String, parameters?: Parameter[]): Promise<HttpResponse<T>> => {
     const applicationConfiguration = Config.getApplicationConfig(this.mode);
     const server = applicationConfiguration.Server;
     const port = applicationConfiguration.Port;
@@ -33,6 +34,7 @@ export default class DataService {
       .join('&')}` : '';
     const secure = applicationConfiguration.isSecure ? 's' : '';
     const url = `http${secure}://${server}:${port}/${service}${queryString}`;
-    return this.httpService.fetchData<T>(url);
+    const data = this.httpService.fetchData<T>(url);
+    return data;
   }
 }

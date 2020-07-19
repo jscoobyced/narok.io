@@ -4,8 +4,9 @@ import akka.http.scaladsl.model.headers.RawHeader
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import com.google.inject.Inject
-import io.narok.configuration.HttpConfigurationImpl
-import io.narok.models.blog.Article
+import io.narok.configuration.HttpConfiguration
+import io.narok.models.ErrorCode
+import io.narok.models.blog.{Article, SuccessArticleResponse}
 import io.narok.models.http.{FailResponse, ResponseData, SuccessResponse}
 import io.narok.services.blog.BlogService
 
@@ -13,17 +14,20 @@ import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success, Try}
 
 // $COVERAGE-OFF$
-class BlogRoute @Inject()(implicit executionContext: ExecutionContext, private val blogService: BlogService)
+class BlogRoute @Inject()(implicit executionContext: ExecutionContext,
+                          private val httpConnection: HttpConfiguration,
+                          private val blogService: BlogService)
     extends BaseRoute {
   override protected def routes: Route = blogRoutes
 
   def blogRoutes: Route = {
-    val origin: String = HttpConfigurationImpl.getOrigin
+    val origin: String = httpConnection.getOrigin
     concat(
       path("articles") {
         get {
           respondWithHeaders(RawHeader("Access-Control-Allow-Origin", origin)) {
-            complete(blogService.getArticles)
+            val articles = blogService.getArticles
+            complete(SuccessArticleResponse(articles))
           }
         }
       },
@@ -36,7 +40,7 @@ class BlogRoute @Inject()(implicit executionContext: ExecutionContext, private v
                   val insertedBlogId = blogService.saveArticle(article)
                   if (insertedBlogId > 0)
                     complete(SuccessResponse(ResponseData("Article saved successfully", insertedBlogId)))
-                  else complete(FailResponse("Article not saved."))
+                  else complete(FailResponse("Article not saved.", ErrorCode.CannotSave))
                 }
               }
             }
@@ -54,9 +58,10 @@ class BlogRoute @Inject()(implicit executionContext: ExecutionContext, private v
                             val result = blogService.updateArticle(blogId, article)
                             if (result)
                               complete(SuccessResponse(ResponseData("Article updated successfully", blogId)))
-                            else complete(FailResponse("Article not saved."))
+                            else complete(FailResponse("Article not saved.", ErrorCode.CannotSave))
                           case Failure(error) =>
-                            complete(FailResponse(s"Not an article reference. ${error.getMessage}"))
+                            complete(
+                              FailResponse(s"Not an article reference. ${error.getMessage}", ErrorCode.WrongDataType))
                         }
                       }
                   }

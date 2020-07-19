@@ -4,6 +4,7 @@
 # How to use: see README.md in this directory
 
 FROM nginx:latest
+ENV TZ Asia/Bangkok
 LABEL maintainer="JscDroidDev"
 EXPOSE 80 443
 VOLUME ["/usr/share/nginx/html/"]
