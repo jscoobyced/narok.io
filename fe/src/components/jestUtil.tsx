@@ -1,10 +1,10 @@
 import { mount, ShallowWrapper, ReactWrapper } from 'enzyme';
 import * as React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { AppContext } from '../services/context/context';
 import DataService from '../services/data/data';
 import HttpServiceMock from '../services/http/http.mock';
 import { newSecureUser } from '../models/User';
-import { AuthenticationHandler } from '../services/auth/handler';
 
 export const mountComponent = (
   children: JSX.Element,
@@ -18,11 +18,17 @@ export const mountComponent = (
   const user = newSecureUser();
   const setUser = jest.fn();
   const createUser = jest.fn();
-  const handler = new AuthenticationHandler();
+  const handler = {
+    init: jest.fn(),
+    signIn: jest.fn(),
+    signOut: jest.fn()
+  }
 
   return mount(
     <AppContext.Provider value={{ language, setLanguage, getContent, dataService, user, setUser, createUser, handler }}>
-      {children}
+      <BrowserRouter>
+        {children}
+      </BrowserRouter>
     </AppContext.Provider>,
   );
 };
