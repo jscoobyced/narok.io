@@ -73,9 +73,11 @@ module.exports = (env, argv) => {
                 'process.env': {
                     'mode': JSON.stringify(argv.mode)
                 }
-            }), new CopyWebpackPlugin([{
-                from: './public'
-            }]),
+            }), new CopyWebpackPlugin({
+                patterns: [{
+                    from: path.resolve(__dirname, './public')
+                }]
+            }),
             new MiniCssExtractPlugin({
                 filename: 'style.[contenthash].css',
             }),
@@ -88,15 +90,15 @@ module.exports = (env, argv) => {
         ]
     };
 
-    if (argv.mode === 'development') {
+    if (argv.mode === 'development' || argv.mode === 'none') {
         config.devtool = 'source-map';
         config.devServer = {
             contentBase: dist,
             compress: true,
             historyApiFallback: true,
-            port: 9000,
+            port: 8080,
             disableHostCheck: true,
-            host: "0.0.0.0"
+            host: "dev.narok.io"
         };
     }
 

@@ -1,6 +1,6 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
-import { SecureUser, newSecureUser } from '../../authentication/models/User';
+import { SecureUser, newSecureUser } from '../../models/User';
 import HttpServiceMock from '../http/http.mock';
 import { AppContext } from './context';
 import DataService from '../data/data';
@@ -25,6 +25,7 @@ describe('context service', () => {
         dataService,
         user: newSecureUser(),
         setUser: (user: SecureUser) => { },
+        createUser: (user: any) => newSecureUser(),
       }}
       >
         <Empty />

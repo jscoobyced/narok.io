@@ -1,22 +1,22 @@
 export interface User {
-  id: string;
-  name: string;
-  givenName: string;
-  familyName: string;
-  imageUrl?: string;
-  email: string;
+    id: string;
+    name: string;
+    givenName?: string;
+    familyName?: string;
+    imageUrl?: string;
+    email?: string;
 }
 
 export interface AuthToken {
-  accessToken: string;
-  scope: string;
-  expiresIn?: number;
-  expiresAt?: number;
+    accessToken: string;
+    scope: string;
+    expiresIn?: number;
+    expiresAt?: number;
 }
 
 export interface SecureUser {
-  user: User;
-  authToken: AuthToken;
+    user: User;
+    authToken: AuthToken;
 }
 
 export const toUser = (id: string,

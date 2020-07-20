@@ -1,12 +1,16 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import { Article, BlogContent, BlogContentType } from '../../models/blog/Article';
 import './BlogArticle.scss';
 
-export const BlogArticle = (props: { article: Article }) => {
-  const { article } = props;
+export const BlogArticle = (props: { article: Article, fromText: string, editText: string, canEdit: boolean }) => {
   const {
-    id, title, contents, created,
+    article, fromText, editText, canEdit,
+  } = props;
+  const {
+    id, owner, title, contents, created,
   } = article;
+  const { name } = owner;
 
   const buildContent = (icontent: BlogContent, index: number) => {
     let result = <span key={`bp-ac-${index}`} />;
@@ -33,14 +37,24 @@ export const BlogArticle = (props: { article: Article }) => {
     return buildContent(content, key);
   });
 
+  const editButton = (
+    <Link to={`/article/${id}`} className="button article__ender">
+      <span>{editText}</span>
+    </Link>
+  );
+
   return (
     <article key={`a-${id}`}>
       <h2 className="article__title">{title}</h2>
       <span className="article__created">{created}</span>
       {allContent}
-      <span className="article__separator">
-        <img alt="Separator" title="Small thorn" src="images/thorn-horizontal-small.png" />
+      <span className="article__ender">
+        {fromText}
+        {' '}
+        {name}
       </span>
+      {canEdit && editButton}
+      <span className="article__separator" />
     </article>
   );
 };

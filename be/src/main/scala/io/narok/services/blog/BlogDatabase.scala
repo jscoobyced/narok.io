@@ -3,6 +3,8 @@ package io.narok.services.blog
 import java.util.Date
 
 import com.google.inject.Inject
+import io.narok.configuration.BlogConfiguration
+import io.narok.models.User
 import io.narok.models.blog.Article
 import io.narok.repositories.db.{DatabaseRepository, Parameter}
 import io.narok.repositories.mappers.{ArticleMapper, BlogContentMapper}
@@ -28,7 +30,7 @@ class BlogDatabase @Inject()(databaseRepository: DatabaseRepository) {
         databaseRepository
           .executeQuery(getArticleContentSql, Some(List(Parameter(1, blog.id))), BlogContentMapper.toBlogContent)
           .foreach(content => {
-            article = article.addContent(content)
+            article = article.addContent(content).setOwner(User(BlogConfiguration.getOwnerId, "Administrator", ""))
           })
         article
       })

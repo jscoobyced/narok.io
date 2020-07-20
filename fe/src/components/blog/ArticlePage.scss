@@ -1,0 +1,10 @@
+@import "../../styles/_variables";
+
+.container {
+    section {
+        .link-back {
+            font-size: $font-size-big;            ;
+            padding-bottom: 10px;
+        }
+    }
+}

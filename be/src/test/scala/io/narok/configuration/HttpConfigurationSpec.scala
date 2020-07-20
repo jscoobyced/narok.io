@@ -4,7 +4,7 @@ import io.narok.BaseTest
 
 class HttpConfigurationSpec extends BaseTest {
 
-  describe("DbConfiguration") {
+  describe("HttpConfiguration") {
     it("should load the default values") {
       val origin    = HttpConfigurationImpl.getOrigin
       val interface = HttpConfigurationImpl.getInterface

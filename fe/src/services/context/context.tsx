@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { IAuthenticationHandler } from '../auth/handler';
 import DataService from '../data/data';
-import { SecureUser } from '../../authentication/models/User';
+import { SecureUser } from '../../models/User';
 
 interface IAppContext {
   language: string;
@@ -9,6 +10,8 @@ interface IAppContext {
   dataService: DataService;
   user: SecureUser;
   setUser: (user: SecureUser) => void;
+  createUser: (user: any) => SecureUser;
+  handler: IAuthenticationHandler;
 }
 
 export const AppContext = React.createContext<IAppContext>(undefined);
