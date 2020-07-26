@@ -16,7 +16,18 @@
         "CONTAINER": "Container in",
         "FROMOWNER": "By",
         "EDIT": "Edit",
-        "BACK": "Back"
+        "SAVE": "Save",
+        "BACK": "Back",
+        "BOLDTEXT": "Bold",
+        "ITALICTEXT": "Italic",
+        "DECREASETEXT": "Decrease font size",
+        "INCREASETEXT": "Increase font size",
+        "ORDEREDLISTTEXT": "Ordered list",
+        "UNORDEREDLISTTEXT": "Unordered list",
+        "JUSTIFYLEFTTEXT": "Justify left",
+        "JUSTIFYCENTERTEXT": "Justify center",
+        "JUSTIFYFULLTEXT": "Justified",
+        "JUSTIFYRIGHTTEXT": "Justify right"      
     },
     "fr_FR": {
         "SIGNIN": "Connexion",
@@ -30,6 +41,17 @@
         "CONTAINER": "Container à",
         "FROMOWNER": "De",
         "EDIT": "Modifier",
-        "BACK": "Retour"
+        "SAVE": "Enregistrer",
+        "BACK": "Retour",
+        "BOLDTEXT": "Gras",
+        "ITALICTEXT": "Italique",
+        "DECREASETEXT": "Diminue la taille de la police",
+        "INCREASETEXT": "Augmente la taille de la police",
+        "ORDEREDLISTTEXT": "Liste numeroté",
+        "UNORDEREDLISTTEXT": "Liste non-numeroté",
+        "JUSTIFYLEFTTEXT": "Justifier à gauche",
+        "JUSTIFYCENTERTEXT": "Justifier au centre",
+        "JUSTIFYFULLTEXT": "Justifier",
+        "JUSTIFYRIGHTTEXT": "Justifier à droite"
     }
 }

@@ -1,28 +1,112 @@
+@import "./variables";
+
 @font-face {
     font-family: "Hack";
-    src: url("fonts/hack-regular-subset.woff2") format("woff2"), url("fonts/hack-regular-subset.woff") format("woff");
+    src: url(fonts/hack-regular-subset.woff2) format("woff2"), url(fonts/hack-regular-subset.woff) format("woff");
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
     font-family: "Hack";
-    src: url("fonts/hack-bold-subset.woff2") format("woff2"), url("fonts/hack-bold-subset.woff") format("woff");
+    src: url(fonts/hack-bold-subset.woff2) format("woff2"), url(fonts/hack-bold-subset.woff) format("woff");
     font-weight: 700;
     font-style: normal;
 }
 
 @font-face {
     font-family: "Hack";
-    src: url("fonts/hack-italic-subset.woff2") format("woff2"), url("fonts/hack-italic-subset.woff") format("woff");
+    src: url(fonts/hack-italic-subset.woff2) format("woff2"), url(fonts/hack-italic-subset.woff) format("woff");
     font-weight: 400;
     font-style: italic;
 }
 
 @font-face {
     font-family: "Hack";
-    src: url("fonts/hack-bolditalic-subset.woff2") format("woff2"),
-        url("fonts/hack-bolditalic-subset.woff") format("woff");
+    src: url(fonts/hack-bolditalic-subset.woff2) format("woff2"), url(fonts/hack-bolditalic-subset.woff) format("woff");
     font-weight: 700;
     font-style: italic;
+}
+
+@font-face {
+    font-family: "Font Awesome";
+    font-style: normal;
+    font-weight: 400;
+    font-display: auto;
+    src: url(fonts/fa-regular-400.woff2) format("woff2");
+}
+
+@font-face {
+    font-family: "Font Awesome Solid";
+    font-style: normal;
+    font-weight: 900;
+    font-display: auto;
+    src: url(fonts/fa-solid-900.woff2) format("woff2");
+}
+
+@font-face {
+    font-family: "Font Awesome Brands";
+    font-style: normal;
+    font-weight: 400;
+    font-display: auto;
+    src: url(fonts/fa-brands-400.woff2) format("woff2");
+}
+
+i.fa,
+i.fas,
+i.fab {
+    font-style: normal;
+    color: $surface;
+}
+
+.fa {
+    font-family: "Font Awesome", sans-serif;
+}
+
+.fas {
+    font-family: "Font Awesome Solid", sans-serif;
+}
+
+.fab {
+    font-family: "Font Awesome Brands", sans-serif;
+}
+
+.fa-bold:before {
+    content: "\f032";
+}
+
+.fa-italic:before {
+    content: "\f033";
+}
+
+.fa-decrease:before {
+    content: "\f031\f103";
+}
+
+.fa-increase:before {
+    content: "\f031\f102";
+}
+
+.fa-ordered:before {
+    content: "\f0cb";
+}
+
+.fa-unordered:before {
+    content: "\f0ca";
+}
+
+.fa-just-left:before {
+    content: "\f036";
+}
+
+.fa-just-center:before {
+    content: "\f037";
+}
+
+.fa-just-full:before {
+    content: "\f039";
+}
+
+.fa-just-right:before {
+    content: "\f038";
 }

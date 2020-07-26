@@ -55,7 +55,14 @@
             }
 
             &__separator::before {
-                content: url('/images/thorn-horizontal-small.png');
+                content: url("/images/thorn-horizontal-small.png");
+            }
+
+            .command {
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -khtml-user-select: none;
+                -ms-user-select: none;
             }
         }
     }
