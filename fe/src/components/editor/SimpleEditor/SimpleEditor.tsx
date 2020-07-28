@@ -2,11 +2,13 @@ import * as React from 'react';
 import { executeCommand } from './editorCommands';
 import './SimpleEditor.scss';
 
-export const handleKeyPress = (event: React.KeyboardEvent<HTMLElement>) => {
+export const handleKeyPress = (event: React.KeyboardEvent<HTMLElement>): boolean => {
   if (event && (event.keyCode === 13 || event.which === 13)) {
     event.preventDefault();
     executeCommand('insertHTML', '<br />&nbsp;&nbsp;&nbsp;&nbsp;');
+    return false;
   }
+  return true;
 };
 
 export interface SimpleEditorText {

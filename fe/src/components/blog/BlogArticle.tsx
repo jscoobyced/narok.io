@@ -17,11 +17,13 @@ export const BlogArticle = (props: {
   const {
     article, fromText, editText, saveText, hasEditPermission, isEditing,
   } = props;
+  const { getContent, dataService } = React.useContext(AppContext);
+  const [message, setMessage] = React.useState('');
+  const [currentArticle, setCurrentArticle] = React.useState(article);
   const {
     id, owner, title, contents, created,
-  } = article;
+  } = currentArticle;
   const { name } = owner;
-  const { getContent } = React.useContext(AppContext);
   const buttonText = {
     boldText: getContent(CMS.BOLDTEXT),
     italicText: getContent(CMS.ITALICTEXT),
@@ -44,17 +46,30 @@ export const BlogArticle = (props: {
     />
   );
 
+  const updateContent = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    event.preventDefault();
+    const {
+      target: {
+        value,
+      },
+    } = event;
+    const newArticle = {...currentArticle}
+    newArticle.contents[0].value = value;
+    setCurrentArticle(newArticle);
+  }
+
   /* eslint-disable react/no-danger, jsx-a11y/control-has-associated-label */
   const createEditableText = (content: BlogContent, index: number) => (
-    <div
+    <textarea
+      cols={80}
+      rows={10}
       role="textbox"
       tabIndex={-1}
       key={`bp-ac-${index}`}
-      dangerouslySetInnerHTML={{ __html: content.value }}
       className="article__content"
-      contentEditable
-      onKeyPress={handleKeyPress}
-    />
+      onChange={updateContent}
+      value={content.value}
+    ></textarea>
   );
   /* eslint-enable react/no-danger, jsx-a11y/control-has-associated-label */
 
@@ -84,16 +99,37 @@ export const BlogArticle = (props: {
     return buildContent(content, key);
   });
 
+  const saveArticle = async (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    if (currentArticle && currentArticle.id > 0) {
+      dataService.saveArticle(currentArticle)
+        .then(result => {
+          setMessage(result.message);
+        });
+    } else if (currentArticle && currentArticle.id === 0) {
+      dataService.createArticle(currentArticle)
+        .then(result => {
+          setMessage(result.message);
+        });
+    }
+  };
+
   const editButton = hasEditPermission && !isEditing && (
     <Link to={`/article/${id}`} className="button article__ender">
-      <span>{editText}</span>
+      {editText}
     </Link>
   );
 
   const saveButton = hasEditPermission && isEditing && (
-    <Link to={`/article/${id}`} className="button article__ender">
-      <span>{saveText}</span>
-    </Link>
+    <span
+      onClick={saveArticle}
+      onKeyPress={() => { }}
+      role="button"
+      tabIndex={-1}
+      className="button article__ender"
+    >
+      {saveText}
+    </span>
   );
 
   const textEditor = hasEditPermission && isEditing && (
@@ -102,8 +138,13 @@ export const BlogArticle = (props: {
     />
   );
 
+  const displayMessage = (message && message.length >= 0)
+    ? <span className="article__message">{message}</span>
+    : <></>;
+
   return (
     <article key={`a-${id}`}>
+      {displayMessage}
       <h2 className="article__title">{title}</h2>
       <span className="article__created">{created}</span>
       {textEditor}

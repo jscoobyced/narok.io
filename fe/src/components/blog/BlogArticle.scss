@@ -18,6 +18,10 @@
                 margin-left: auto;
                 align-self: flex-end;
             }
+            
+            &__message {
+                grid-column: span 2;
+            }
 
             &__ender {
                 grid-column: span 2;

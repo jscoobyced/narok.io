@@ -14,6 +14,11 @@ class DatabaseRepositoryMock(private val articles: Iterator[List[Any]] = Iterato
                                mapper: ResultSet => List[T]): List[T] =
     articles.next.map(a => a.asInstanceOf[T])
 
+  override def executeSingleQuery[T](sql: String,
+                                     parameters: Option[List[Parameter]],
+                                     mapper: ResultSet => T): Option[T] =
+    Some(articles.next().head.asInstanceOf[T])
+
   override def executeSingleUpdate(sql: String, parameters: Option[List[Parameter]]): Int = single
 
   override def executeUpdate(sql: String, parameters: Option[List[List[Parameter]]]): Int = updated.next

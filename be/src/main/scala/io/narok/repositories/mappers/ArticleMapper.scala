@@ -8,7 +8,7 @@ import io.narok.models.blog.Article
 // $COVERAGE-OFF$
 object ArticleMapper extends AbstractMapper {
 
-  def toArticle(resultSet: ResultSet): List[Article] = {
+  def toArticles(resultSet: ResultSet): List[Article] = {
     val articleIterator = resultSetIterator(resultSet)
     val articles = articleIterator.map(result => {
       Article(
@@ -23,5 +23,19 @@ object ArticleMapper extends AbstractMapper {
     })
     articles.toList
   }
+
+  def toArticle(resultSet: ResultSet): Option[Article] =
+    if (resultSet.next()) {
+      Some(
+        Article(
+          resultSet.getInt(1),
+          EmptyUser(),
+          resultSet.getString(2),
+          List(),
+          resultSet.getDate(3).toString,
+          resultSet.getDate(4).toString,
+          resultSet.getInt(5)
+        ))
+    } else None
 }
 // $COVERAGE-ON$

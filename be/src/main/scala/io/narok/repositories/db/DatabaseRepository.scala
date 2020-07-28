@@ -5,13 +5,23 @@ import java.sql.ResultSet
 trait DatabaseRepository {
 
   /**
-    * Retrieve multiple rows from the database
-    * @param sql The SQL query which can contain parametrized values
-    * @param parameters The optional parameters to be bound to the prepared statement
-    * @param mapper  The mapper that will parse the result set
-    * @tparam T  The type of the result
-    * @return  The retrieved data
-    */
+   * Retrieve multiple rows from the database
+   * @param sql The SQL query which can contain parametrized values
+   * @param parameters The optional parameters to be bound to the prepared statement
+   * @param mapper  The mapper that will parse the result set
+   * @tparam T  The type of the result
+   * @return  The retrieved data
+   */
+  def executeSingleQuery[T](sql: String, parameters: Option[List[Parameter]], mapper: ResultSet => T): Option[T]
+
+  /**
+   * Retrieve multiple rows from the database
+   * @param sql The SQL query which can contain parametrized values
+   * @param parameters The optional parameters to be bound to the prepared statement
+   * @param mapper  The mapper that will parse the result set
+   * @tparam T  The type of the result
+   * @return  The retrieved data
+   */
   def executeQuery[T](sql: String, parameters: Option[List[Parameter]], mapper: ResultSet => List[T]): List[T]
 
   /**

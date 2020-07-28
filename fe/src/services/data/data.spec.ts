@@ -1,7 +1,8 @@
 import DataService from './data';
-import HttpServiceMock from '../http/http.mock';
 import { Article, toArticle, toBlogContentText } from '../../models/blog/Article';
 import { User } from '../../models/User';
+import DataServiceMock from './data.mock';
+import HttpService, { HttpResponse } from '../http/http';
 
 const owner: User = { id: '12345678', name: 'Administrator' };
 
@@ -17,28 +18,58 @@ beforeEach(() => {
   jest.resetAllMocks();
 });
 
-const getDataService = (mockedValue: Article): DataService => {
-  const httpService = new HttpServiceMock(mockedValue);
-  const dataService = new DataService('development', httpService);
+class HttpServiceMock extends HttpService {
+  private data: any;
+
+  constructor(data: any) {
+    super();
+    this.data = data;
+  }
+
+  public fetchData = async <T>(url: string): Promise<HttpResponse<T>> => {
+    const httpResponse: HttpResponse<T> = {
+      data: this.data,
+    };
+    return Promise.resolve(httpResponse);
+  }
+
+  public postData = async <T>(url: string, value: any):
+    Promise<HttpResponse<T>> => Promise.resolve(this.data)
+
+  public putData = async <T>(url: string, value: any):
+    Promise<HttpResponse<T>> => Promise.resolve(this.data);
+}
+
+const getDataService = (mockedValue: any): DataService => {
+  const dataService = new DataService('development', new HttpServiceMock(mockedValue));
   return dataService;
 };
 
 describe('data service', () => {
   const mockSuccessResponse: Article = createArticle('Hello, World!', 'This is content');
+
   it('should return blog data', async () => {
-    const result = await getDataService(mockSuccessResponse).getHomePageBlog();
+    const result = await getDataService(mockSuccessResponse).getHomePageArticles();
     expect(result).toEqual(mockSuccessResponse);
   });
 
   it('should return homepage blog data', async () => {
-    const result = await getDataService(mockSuccessResponse).getBlogsByPage(0, 5);
+    const result = await getDataService(mockSuccessResponse).getArticlesByPage(0, 5);
     expect(result).toEqual(mockSuccessResponse);
   });
 
-  it('should fetch on secure URL', async () => {
-    const httpService = new HttpServiceMock(mockSuccessResponse);
-    const dataService = new DataService('production', httpService);
-    const result = await dataService.getBlogsByPage(0, 5);
+  it('should return specific blog data', async () => {
+    const result = await getDataService(mockSuccessResponse).getArticleById(1);
     expect(result).toEqual(mockSuccessResponse);
+  });
+
+  it('should save article', async () => {
+    const result = await getDataService({ data: 1, message: '' }).saveArticle(mockSuccessResponse);
+    expect(result.id).toEqual(1);
+  });
+
+  it('should create article', async () => {
+    const result = await getDataService({ data: 1, message: '' }).createArticle(mockSuccessResponse);
+    expect(result.id).toEqual(1);
   });
 });

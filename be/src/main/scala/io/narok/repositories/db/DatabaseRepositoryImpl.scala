@@ -40,6 +40,24 @@ class DatabaseRepositoryImpl @Inject()() extends DatabaseRepository {
     results
   }
 
+  override def executeSingleQuery[T](sql: String,
+                                     parameters: Option[List[Parameter]],
+                                     mapper: ResultSet => T): Option[T] = {
+    var result: Option[T] = None
+    prepareStatement(sql, parameters) match {
+      case Success(databaseResources) =>
+        Try(databaseResources.preparedStatement.executeQuery()) match {
+          case Success(resultSet: ResultSet) =>
+            result = Some(mapper(resultSet))
+            resultSet.close()
+          case Failure(_) => None
+        }
+        Try(databaseResources.close())
+      case Failure(_) =>
+    }
+    result
+  }
+
   override def executeSingleUpdate(sql: String, parameters: Option[List[Parameter]]): Int = {
     var insertedKey = -1
     prepareStatement(sql, parameters, withKey = true) match {
@@ -74,9 +92,8 @@ class DatabaseRepositoryImpl @Inject()() extends DatabaseRepository {
           remaining.tail,
           container ++ remaining.head.map(parameters => Parameter(parameters.index + counter, parameters.value)),
           counter + remaining.head.length)
-    val reindexedParameters = Some(reindexParameters(parameters.getOrElse(List()), List()))
-    println(reindexedParameters)
-    prepareStatement(sql, reindexedParameters) match {
+    val reIndexedParameters = Some(reindexParameters(parameters.getOrElse(List()), List()))
+    prepareStatement(sql, reIndexedParameters) match {
       case Success(databaseResources) =>
         Try(databaseResources.preparedStatement.executeUpdate()) match {
           case Success(number) if number >= 0 =>

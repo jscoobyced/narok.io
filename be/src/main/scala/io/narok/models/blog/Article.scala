@@ -1,7 +1,6 @@
 package io.narok.models.blog
 
 import io.narok.models.User
-import io.narok.models.http.AbstractResponse
 
 final case class Article(id: Int,
                          owner: User,
@@ -15,5 +14,3 @@ final case class Article(id: Int,
   def setOwner(newOwner: User): Article =
     Article(id, newOwner, title, contents, created, modified, status)
 }
-
-case class SuccessArticleResponse(data: List[Article]) extends AbstractResponse[List[Article]](data = Some(data))
