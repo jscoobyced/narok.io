@@ -24,6 +24,7 @@ export const BlogPage = () => {
     }
     const fromOwner = getContent(CMS.FROMOWNER);
     const edit = getContent(CMS.EDIT);
+    const save = getContent(CMS.SAVE);
     const loadedArticles = rawArticles.map(article => {
       const { id: ownerId } = article.owner;
       const userId = user.user.id;
@@ -33,7 +34,9 @@ export const BlogPage = () => {
           article={article}
           fromText={fromOwner}
           editText={edit}
-          canEdit={userId === ownerId}
+          saveText={save}
+          hasEditPermission={userId === ownerId}
+          isEditing={false}
         />
       );
     });

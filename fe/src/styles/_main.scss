@@ -18,6 +18,10 @@ a {
     text-decoration: none;
 }
 
+li {
+    list-style-position: inside;
+}
+
 .button {
     color: $link;
     text-decoration: none;

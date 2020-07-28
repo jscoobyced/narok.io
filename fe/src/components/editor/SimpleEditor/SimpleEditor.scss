@@ -1,0 +1,11 @@
+@import "../../../styles/variables";
+
+.jscSimpleEditor {
+    grid-column: span 2;
+
+    span {
+        margin-right: 3px;
+        display: inline-block;
+        cursor: pointer;
+    }
+}

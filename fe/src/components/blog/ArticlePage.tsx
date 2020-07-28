@@ -24,6 +24,7 @@ export const ArticlePage = () => {
   const buildArticle = (rawArticle: Article): JSX.Element => {
     const fromOwner = getContent(CMS.FROMOWNER);
     const edit = getContent(CMS.EDIT);
+    const save = getContent(CMS.SAVE);
     const { id: ownerId } = rawArticle.owner;
     const userId = user.user.id;
     return (
@@ -32,7 +33,9 @@ export const ArticlePage = () => {
         article={rawArticle}
         fromText={fromOwner}
         editText={edit}
-        canEdit={userId === ownerId}
+        saveText={save}
+        hasEditPermission={userId === ownerId}
+        isEditing
       />
     );
   };
