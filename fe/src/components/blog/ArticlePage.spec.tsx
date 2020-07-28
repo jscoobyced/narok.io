@@ -18,7 +18,9 @@ const owner: User = { id: '12345678', name: 'Administrator' };
 describe('ArticlePage', () => {
   it('should render the article', async () => {
     let articlePage = mount(<></>);
-    const articles: Article = toArticle(1, owner, 'test', [], 'created');
+    const article: Article = toArticle(1, owner, 'test', [], 'created');
+    const articles: Array<Article> = [];
+    articles.push(article);
     await act(async () => {
       articlePage = mountComponent(<ArticlePage />, () => { }, articles);
     });
