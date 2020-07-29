@@ -53,23 +53,23 @@ export const BlogArticle = (props: {
         value,
       },
     } = event;
-    const newArticle = {...currentArticle}
+    const newArticle = { ...currentArticle };
     newArticle.contents[0].value = value;
     setCurrentArticle(newArticle);
-  }
+  };
 
   /* eslint-disable react/no-danger, jsx-a11y/control-has-associated-label */
   const createEditableText = (content: BlogContent, index: number) => (
     <textarea
       cols={80}
       rows={10}
-      role="textbox"
       tabIndex={-1}
+      id={`bg-${index}`}
       key={`bp-ac-${index}`}
       className="article__content"
       onChange={updateContent}
       value={content.value}
-    ></textarea>
+    />
   );
   /* eslint-enable react/no-danger, jsx-a11y/control-has-associated-label */
 

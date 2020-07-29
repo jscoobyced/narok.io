@@ -18,26 +18,33 @@ beforeEach(() => {
   jest.resetAllMocks();
 });
 
-class HttpServiceMock extends HttpService {
+class HttpServiceMock<T> extends HttpService {
   private data: any;
+
+  private httpResponse: any;
 
   constructor(data: any) {
     super();
     this.data = data;
+    this.httpResponse = {
+      responseData: {
+        article: this.data,
+        articles: this.data,
+        id: this.data,
+      },
+      status: {
+        success: true,
+      },
+    };
   }
 
-  public fetchData = async <T>(url: string): Promise<HttpResponse<T>> => {
-    const httpResponse: HttpResponse<T> = {
-      data: this.data,
-    };
-    return Promise.resolve(httpResponse);
-  }
+  public fetchData = async <T>(url: string): Promise<HttpResponse<T>> => Promise.resolve(this.httpResponse)
 
   public postData = async <T>(url: string, value: any):
-    Promise<HttpResponse<T>> => Promise.resolve(this.data)
+    Promise<HttpResponse<T>> => Promise.resolve(this.httpResponse)
 
   public putData = async <T>(url: string, value: any):
-    Promise<HttpResponse<T>> => Promise.resolve(this.data);
+    Promise<HttpResponse<T>> => Promise.resolve(this.httpResponse);
 }
 
 const getDataService = (mockedValue: any): DataService => {
@@ -64,12 +71,12 @@ describe('data service', () => {
   });
 
   it('should save article', async () => {
-    const result = await getDataService({ data: 1, message: '' }).saveArticle(mockSuccessResponse);
+    const result = await getDataService(1).saveArticle(mockSuccessResponse);
     expect(result.id).toEqual(1);
   });
 
   it('should create article', async () => {
-    const result = await getDataService({ data: 1, message: '' }).createArticle(mockSuccessResponse);
+    const result = await getDataService(1).createArticle(mockSuccessResponse);
     expect(result.id).toEqual(1);
   });
 });

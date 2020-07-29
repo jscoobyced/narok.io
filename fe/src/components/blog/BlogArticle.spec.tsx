@@ -71,7 +71,7 @@ describe('BlogContent', () => {
 
   it('should update an article', async () => {
     const article = { ...baseArticle };
-    const result = { id: 1, message: '' };
+    const result = { id: 1, message: 'Complete.' };
     let blogContent = mount(<></>);
     await act(async () => {
       blogContent = mountComponent(
@@ -135,6 +135,10 @@ describe('BlogContent', () => {
         () => { },
         result,
       );
+      const textArea = blogContent
+        .find('#bg-1')
+        .first();
+      textArea.simulate('change');
       const saveButton = blogContent
         .find('span.button')
         .findWhere(element => element !== null && element.text() === saveText)
