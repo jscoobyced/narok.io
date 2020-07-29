@@ -42,13 +42,13 @@ class DatabaseRepositoryImpl @Inject()() extends DatabaseRepository {
 
   override def executeSingleQuery[T](sql: String,
                                      parameters: Option[List[Parameter]],
-                                     mapper: ResultSet => T): Option[T] = {
+                                     mapper: ResultSet => Option[T]): Option[T] = {
     var result: Option[T] = None
     prepareStatement(sql, parameters) match {
       case Success(databaseResources) =>
         Try(databaseResources.preparedStatement.executeQuery()) match {
           case Success(resultSet: ResultSet) =>
-            result = Some(mapper(resultSet))
+            result = mapper(resultSet)
             resultSet.close()
           case Failure(_) => None
         }

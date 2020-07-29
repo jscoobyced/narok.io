@@ -12,7 +12,7 @@ trait DatabaseRepository {
    * @tparam T  The type of the result
    * @return  The retrieved data
    */
-  def executeSingleQuery[T](sql: String, parameters: Option[List[Parameter]], mapper: ResultSet => T): Option[T]
+  def executeSingleQuery[T](sql: String, parameters: Option[List[Parameter]], mapper: ResultSet => Option[T]): Option[T]
 
   /**
    * Retrieve multiple rows from the database

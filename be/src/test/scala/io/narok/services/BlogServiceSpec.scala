@@ -2,7 +2,7 @@ package io.narok.services
 
 import io.narok.BaseTest
 import io.narok.models.blog.{Article, BlogContent}
-import io.narok.models.{EmptyUser, User}
+import io.narok.models.{User}
 import io.narok.repositories.DatabaseRepositoryMock
 import io.narok.services.blog.BlogServiceImpl
 
@@ -27,12 +27,24 @@ class BlogServiceSpec extends BaseTest {
       val blogService =
         new BlogServiceImpl(
           new DatabaseRepositoryMock(articles = Iterator(articles, expectedArticle.contents),
-                                     single = expectedArticle.id,
-                                     updated = Iterator(1, expectedArticle.contents.length)),
+            single = expectedArticle.id,
+            updated = Iterator(1, expectedArticle.contents.length)),
           new GoogleServiceMock
         )
       assert(blogService.getArticles.nonEmpty)
     }
+
+    it("should be able to get an Article") {
+      val blogService =
+        new BlogServiceImpl(
+          new DatabaseRepositoryMock(articles = Iterator(articles, expectedArticle.contents),
+            single = expectedArticle.id,
+            updated = Iterator(1, expectedArticle.contents.length)),
+          new GoogleServiceMock
+        )
+      assert(blogService.getArticle(articles.head.id).isDefined)
+    }
+
     it("should be able to save an Article") {
       val blogService =
         new BlogServiceImpl(

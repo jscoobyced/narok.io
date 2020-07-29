@@ -37,10 +37,9 @@ class BlogDatabase @Inject()(databaseRepository: DatabaseRepository) {
         article
       })
 
-  def article(id: Int): Option[Article] =
+  def article(id: Int): Option[Article] = {
     databaseRepository
-      .executeSingleQuery(getArticleSql, Some(List(Parameter(1, id))), ArticleMapper.toArticle)
-      .get match {
+      .executeSingleQuery[Article](getArticleSql, Some(List(Parameter(1, id))), ArticleMapper.toArticle) match {
       case Some(result: Article) => {
         var article: Article = result
         databaseRepository
@@ -52,6 +51,7 @@ class BlogDatabase @Inject()(databaseRepository: DatabaseRepository) {
       }
       case _ => None
     }
+  }
 
   def saveArticle(article: Article): Int =
     databaseRepository

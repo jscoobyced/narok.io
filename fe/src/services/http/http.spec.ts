@@ -40,6 +40,23 @@ describe('HTTPService', () => {
     expect(myGlobal.fetch).toHaveBeenCalledTimes(1);
   });
 
+  it('should detect error to POST data', async () => {
+    myGlobal.fetch = jest.fn(() => ({
+      ok: false,
+      json: () => '',
+      status: 200,
+    }));
+    let error = false;
+    const httpService = new HttpService();
+    try {
+      await httpService.postData<string>('whatever', { id: 1, value: 'test' });
+    } catch {
+      error = true;
+    }
+    expect(error).toBeTruthy();
+    expect(myGlobal.fetch).toHaveBeenCalledTimes(1);
+  });
+
   it('should be able to PUT data', async () => {
     const httpService = new HttpService();
     await httpService.putData<string>('whatever', { id: 1, value: 'test' });
