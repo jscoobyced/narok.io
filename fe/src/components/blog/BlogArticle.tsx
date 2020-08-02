@@ -24,6 +24,7 @@ export const BlogArticle = (props: {
     id, owner, title, contents, created,
   } = currentArticle;
   const { name } = owner;
+  const noResult = getContent(CMS.NORESULT);
   const buttonText = {
     boldText: getContent(CMS.BOLDTEXT),
     italicText: getContent(CMS.ITALICTEXT),
@@ -46,58 +47,39 @@ export const BlogArticle = (props: {
     />
   );
 
-  const updateContent = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    event.preventDefault();
-    const {
-      target: {
-        value,
-      },
-    } = event;
-    const newArticle = { ...currentArticle };
-    newArticle.contents[0].value = value;
-    setCurrentArticle(newArticle);
-  };
-
   /* eslint-disable react/no-danger, jsx-a11y/control-has-associated-label */
   const createEditableText = (content: BlogContent, index: number) => (
-    <textarea
-      cols={80}
-      rows={10}
+    <div
       tabIndex={-1}
       id={`bg-${index}`}
       key={`bp-ac-${index}`}
-      className="article__content"
-      onChange={updateContent}
-      value={content.value}
+      className="article__content article__content-editing"
+      contentEditable
+      dangerouslySetInnerHTML={{ __html: content.value }}
     />
   );
   /* eslint-enable react/no-danger, jsx-a11y/control-has-associated-label */
 
-  const buildContent = (icontent: BlogContent, index: number) => {
-    let result = <span key={`bp-ac-${index}`} />;
+  const buildContent = (icontent: BlogContent) => {
+    const index = icontent.id;
+    const result = <span key={`bp-ac-${index}`}>{noResult}</span>;
     switch (icontent.contentType) {
       case BlogContentType.Text:
-        if (hasEditPermission && isEditing) result = createEditableText(icontent, index);
-        else result = createNonEditableText(icontent, index);
-        break;
+        if (hasEditPermission && isEditing) return createEditableText(icontent, index);
+        return createNonEditableText(icontent, index);
       case BlogContentType.Image:
-        result = (
+        return (
           <span key={`bp-ac-${index}`} className={`article__image article__image-${icontent.align}`}>
             <img alt={icontent.altText} key={`bp-ac-img-${index}`} src={icontent.value} />
           </span>
         );
-        break;
       default:
         break;
     }
     return result;
   };
 
-  let key = 0;
-  const allContent = contents.map(content => {
-    key += 1;
-    return buildContent(content, key);
-  });
+  const allContent = contents.map(content => buildContent(content));
 
   const saveArticle = async (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();

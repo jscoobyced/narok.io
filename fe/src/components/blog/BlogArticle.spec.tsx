@@ -2,14 +2,14 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import {
-  Article, BlogContent, toBlogContentText, toBlogContentImage,
+  Article, BlogContent, toBlogContentText, toBlogContentImage, Align,
 } from '../../models/blog/Article';
 import { BlogArticle } from './BlogArticle';
 import { getText, mountComponent } from '../jestUtil';
 import { User } from '../../models/User';
 
 describe('BlogContent', () => {
-  const textContent: BlogContent = toBlogContentText('content');
+  const textContent: BlogContent = toBlogContentText('content', Align.Center, '', 1);
   const imageContent: BlogContent = toBlogContentImage('url');
   const owner: User = { id: '12345678', name: 'Administrator' };
   const baseArticle: Article = {
@@ -136,10 +136,10 @@ describe('BlogContent', () => {
         () => { },
         result,
       );
-      const textArea = blogContent
-        .find('#bg-1')
+      const bgContent = blogContent
+        .find(`#bg-${textContent.id}`)
         .first();
-      textArea.simulate('change');
+      bgContent.simulate('change');
       const saveButton = blogContent
         .find('span.button')
         .findWhere(element => element !== null && element.text() === saveText)
