@@ -3,28 +3,30 @@ import * as ReactDOM from 'react-dom';
 import { Home } from './components/main/Home/Home';
 import './styles/_main.scss';
 import HttpService from './services/http/http';
-import { httpServiceMock, userServiceMock } from './mocks/mock';
+import { dataServiceMock, userServiceMock } from './mocks/mock';
 import GoogleUserService from './authentication/components/Google/user';
 import { GoogleAuthenticationHandler } from './authentication/components/Google/GoogleHandler';
 import { AuthenticationHandler } from './services/auth/handler';
+import DataService from './services/data/data';
 
 /* eslint-disable */
-let httpService;
+let dataService;
 let userService;
 let handler;
 
 const mode = process.env.mode as string;
 if (mode === 'development') {
-  httpService = httpServiceMock();
+  dataService = dataServiceMock();
   userService = userServiceMock();
   handler = new AuthenticationHandler();
 } else {
-  httpService = new HttpService();
+  const httpService = new HttpService();
+  dataService = new DataService(mode, httpService);
   userService = new GoogleUserService();
   handler = new GoogleAuthenticationHandler();
 }
 
 ReactDOM.render(
-  <Home httpService={httpService} userService={userService} mode={mode} handler={handler} />,
+  <Home dataService={dataService} userService={userService} handler={handler} />,
   document.getElementById('root'),
 );

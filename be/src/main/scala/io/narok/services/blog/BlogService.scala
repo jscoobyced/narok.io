@@ -8,6 +8,7 @@ import io.narok.routes.JsonSupport
 import scala.concurrent.ExecutionContext
 
 trait BlogService {
+  def getArticle(id: Int): Option[Article]
   def getArticles: List[Article]
   def saveArticle(article: Article): Int
   def updateArticle(id: Int, article: Article): Boolean
@@ -21,6 +22,8 @@ class BlogServiceImpl @Inject()(
   val database = new BlogDatabase(databaseRepository)
 
   override def getArticles: List[Article] = database.articles()
+
+  override def getArticle(id: Int): Option[Article] = database.article(id)
 
   override def saveArticle(article: Article): Int = {
     val user = googleService.getUser(article.owner.token)

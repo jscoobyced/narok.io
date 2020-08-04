@@ -15,8 +15,7 @@ import { UserService } from '../../../services/auth/user';
 import { IAuthenticationHandler } from '../../../services/auth/handler';
 
 export const Home = (props: {
-  mode: string,
-  httpService: HttpService,
+  dataService: DataService,
   userService: UserService,
   handler: IAuthenticationHandler
 }) => {
@@ -24,10 +23,9 @@ export const Home = (props: {
   const [user, setUser] = React.useState(newSecureUser());
   const getContent = (content: string) => i18n.getByLanguage(language, content);
   const {
-    mode, httpService, userService, handler,
+    dataService, userService, handler,
   } = props;
   const { createUser } = userService;
-  const dataService = new DataService(mode, httpService);
 
   document.title = `${getContent(CMS.WEBSITE_TITLE)} - ${getContent(CMS.WEBSITE_SUBTITLE)}`;
 

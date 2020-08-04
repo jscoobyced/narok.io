@@ -14,14 +14,17 @@ export const ArticlePage = () => {
   const backText = getContent(CMS.BACK);
 
   const getArticle = async (): Promise<void> => {
-    const data = await dataService.getHomePageBlog();
-    if (!data || data.length === 0 || data.length === undefined) {
-      return;
-    }
-    setArticle(data.filter(art => art.id === +articleId)[0]);
+    dataService.getArticleById(+articleId)
+      .then(data => {
+        setArticle(data);
+      });
   };
 
   const buildArticle = (rawArticle: Article): JSX.Element => {
+    const noArticle = getContent(CMS.NORESULT);
+    if (!rawArticle) {
+      return <>{noArticle}</>;
+    }
     const fromOwner = getContent(CMS.FROMOWNER);
     const edit = getContent(CMS.EDIT);
     const save = getContent(CMS.SAVE);

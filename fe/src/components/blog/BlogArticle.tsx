@@ -17,11 +17,14 @@ export const BlogArticle = (props: {
   const {
     article, fromText, editText, saveText, hasEditPermission, isEditing,
   } = props;
+  const { getContent, dataService } = React.useContext(AppContext);
+  const [message, setMessage] = React.useState('');
+  const [currentArticle, setCurrentArticle] = React.useState(article);
   const {
     id, owner, title, contents, created,
-  } = article;
+  } = currentArticle;
   const { name } = owner;
-  const { getContent } = React.useContext(AppContext);
+  const noResult = getContent(CMS.NORESULT);
   const buttonText = {
     boldText: getContent(CMS.BOLDTEXT),
     italicText: getContent(CMS.ITALICTEXT),
@@ -44,56 +47,86 @@ export const BlogArticle = (props: {
     />
   );
 
+  const onKeyPress = (event: React.FocusEvent<HTMLDivElement>, index: number) => {
+    const value = (event.target as HTMLDivElement).innerHTML;
+    const newArticle = { ...article };
+    const newContents = newArticle.contents.map(content => {
+      const newContent = { ...content };
+      if (content.id === index) {
+        newContent.value = value;
+      }
+      return newContent;
+    });
+    newArticle.contents = newContents;
+    setCurrentArticle(newArticle);
+  };
+
   /* eslint-disable react/no-danger, jsx-a11y/control-has-associated-label */
   const createEditableText = (content: BlogContent, index: number) => (
     <div
-      role="textbox"
+      onBlur={event => onKeyPress(event, index)}
       tabIndex={-1}
+      id={`bg-${index}`}
       key={`bp-ac-${index}`}
-      dangerouslySetInnerHTML={{ __html: content.value }}
-      className="article__content"
+      className="article__content article__content-editing"
       contentEditable
-      onKeyPress={handleKeyPress}
+      dangerouslySetInnerHTML={{ __html: content.value }}
     />
   );
   /* eslint-enable react/no-danger, jsx-a11y/control-has-associated-label */
 
-  const buildContent = (icontent: BlogContent, index: number) => {
-    let result = <span key={`bp-ac-${index}`} />;
+  const buildContent = (icontent: BlogContent) => {
+    const index = icontent.id;
+    const result = <span key={`bp-ac-${index}`}>{noResult}</span>;
     switch (icontent.contentType) {
       case BlogContentType.Text:
-        if (hasEditPermission && isEditing) result = createEditableText(icontent, index);
-        else result = createNonEditableText(icontent, index);
-        break;
+        if (hasEditPermission && isEditing) return createEditableText(icontent, index);
+        return createNonEditableText(icontent, index);
       case BlogContentType.Image:
-        result = (
+        return (
           <span key={`bp-ac-${index}`} className={`article__image article__image-${icontent.align}`}>
             <img alt={icontent.altText} key={`bp-ac-img-${index}`} src={icontent.value} />
           </span>
         );
-        break;
       default:
         break;
     }
     return result;
   };
 
-  let key = 0;
-  const allContent = contents.map(content => {
-    key += 1;
-    return buildContent(content, key);
-  });
+  const allContent = contents.map(content => buildContent(content));
+
+  const saveArticle = async (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    if (currentArticle && currentArticle.id > 0) {
+      dataService.saveArticle(currentArticle)
+        .then(result => {
+          setMessage(result.message);
+        });
+    } else if (currentArticle && currentArticle.id === 0) {
+      dataService.createArticle(currentArticle)
+        .then(result => {
+          setMessage(result.message);
+        });
+    }
+  };
 
   const editButton = hasEditPermission && !isEditing && (
     <Link to={`/article/${id}`} className="button article__ender">
-      <span>{editText}</span>
+      {editText}
     </Link>
   );
 
   const saveButton = hasEditPermission && isEditing && (
-    <Link to={`/article/${id}`} className="button article__ender">
-      <span>{saveText}</span>
-    </Link>
+    <span
+      onClick={saveArticle}
+      onKeyPress={() => { }}
+      role="button"
+      tabIndex={-1}
+      className="button article__ender"
+    >
+      {saveText}
+    </span>
   );
 
   const textEditor = hasEditPermission && isEditing && (
@@ -102,8 +135,13 @@ export const BlogArticle = (props: {
     />
   );
 
+  const displayMessage = (message && message.length >= 0)
+    ? <span className="article__message">{message}</span>
+    : <></>;
+
   return (
     <article key={`a-${id}`}>
+      {displayMessage}
       <h2 className="article__title">{title}</h2>
       <span className="article__created">{created}</span>
       {textEditor}

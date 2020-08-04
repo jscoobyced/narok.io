@@ -19,10 +19,8 @@ describe('ArticlePage', () => {
   it('should render the article', async () => {
     let articlePage = mount(<></>);
     const article: Article = toArticle(1, owner, 'test', [], 'created');
-    const articles: Array<Article> = [];
-    articles.push(article);
     await act(async () => {
-      articlePage = mountComponent(<ArticlePage />, () => { }, articles);
+      articlePage = mountComponent(<ArticlePage />, () => { }, article);
     });
     expect(articlePage).not.toBeUndefined();
     articlePage.update();
@@ -32,10 +30,10 @@ describe('ArticlePage', () => {
   it('should render empty articles', async () => {
     let articlePage = mount(<></>);
     await act(async () => {
-      articlePage = mountComponent(<ArticlePage />, () => { });
+      articlePage = mountComponent(<ArticlePage />, () => { }, false);
     });
     expect(articlePage).not.toBeUndefined();
     articlePage.update();
-    expect(articlePage.find('article')).toHaveLength(1);
+    expect(articlePage.find('article')).toHaveLength(0);
   });
 });

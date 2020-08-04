@@ -10,7 +10,7 @@ export const BlogPage = () => {
   const [articles, setArticles] = React.useState([]);
 
   const getArticles = async (): Promise<void> => {
-    const data = await dataService.getHomePageBlog();
+    const data = await dataService.getHomePageArticles();
     if (!data || data.length === 0 || data.length === undefined) {
       return;
     }

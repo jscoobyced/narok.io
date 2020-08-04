@@ -1,18 +1,19 @@
-import { shallow } from 'enzyme';
 import * as React from 'react';
+import { mount } from 'enzyme';
+import { act } from 'react-dom/test-utils';
 import {
-  Article, BlogContent, toBlogContentText, toBlogContentImage,
+  Article, BlogContent, toBlogContentText, toBlogContentImage, Align,
 } from '../../models/blog/Article';
 import { BlogArticle } from './BlogArticle';
 import { getText, mountComponent } from '../jestUtil';
 import { User } from '../../models/User';
 
 describe('BlogContent', () => {
-  const textContent: BlogContent = toBlogContentText('content');
+  const textContent: BlogContent = toBlogContentText('content', Align.Center, '', 1);
   const imageContent: BlogContent = toBlogContentImage('url');
   const owner: User = { id: '12345678', name: 'Administrator' };
   const baseArticle: Article = {
-    id: 0,
+    id: 1,
     owner,
     title: 'title',
     contents: [textContent, imageContent],
@@ -48,6 +49,8 @@ describe('BlogContent', () => {
           hasEditPermission={data.hasEditPermission}
           isEditing={data.isEditing}
         />,
+        () => { },
+        article,
       );
       expect(blogContent.find('article')).toHaveLength(data.length);
       expect(getText(blogContent, '.article__title')).toEqual(article.title);
@@ -56,13 +59,117 @@ describe('BlogContent', () => {
       expect(getText(blogContent, '.article__created')).toEqual(article.created);
       expect(getText(blogContent, '.article__modified')).toEqual('');
       const editButton = blogContent
-        .find('a.button span')
+        .find('a.button')
         .findWhere(element => element !== null && element.text() === editText);
       expect(editButton.first()).toHaveLength(data.editButtonLength);
       const saveButton = blogContent
-        .find('a.button span')
+        .find('span.button')
         .findWhere(element => element !== null && element.text() === saveText);
       expect(saveButton.first()).toHaveLength(data.saveButtonLength);
+    });
+  });
+
+  it('should update an article', async () => {
+    const article = { ...baseArticle };
+    const result = { id: 1, message: 'Complete.' };
+    let blogContent = mount(<></>);
+    await act(async () => {
+      blogContent = mountComponent(
+        <BlogArticle
+          article={article}
+          fromText="By"
+          editText={editText}
+          saveText={saveText}
+          hasEditPermission
+          isEditing
+        />,
+        () => { },
+        result,
+      );
+      const saveButton = blogContent
+        .find('span.button')
+        .findWhere(element => element !== null && element.text() === saveText)
+        .first();
+      saveButton.simulate('click');
+      saveButton.simulate('keypress');
+    });
+  });
+
+  it('should show a message when can\'t update an article', async () => {
+    const article = { ...baseArticle };
+    const result = { id: 2, message: '' };
+    await act(async () => {
+      const blogContent = mountComponent(
+        <BlogArticle
+          article={article}
+          fromText="By"
+          editText={editText}
+          saveText={saveText}
+          hasEditPermission
+          isEditing
+        />,
+        () => { },
+        result,
+      );
+      const saveButton = blogContent
+        .find('span.button')
+        .findWhere(element => element !== null && element.text() === saveText)
+        .first();
+      saveButton.simulate('click');
+    });
+  });
+
+  it('should save an article', async () => {
+    const article = { ...baseArticle };
+    article.id = 0;
+    const result = { id: 1, message: '' };
+    await act(async () => {
+      const blogContent = mountComponent(
+        <BlogArticle
+          article={article}
+          fromText="By"
+          editText={editText}
+          saveText={saveText}
+          hasEditPermission
+          isEditing
+        />,
+        () => { },
+        result,
+      );
+      const bgContent = blogContent
+        .find(`#bg-${textContent.id}`)
+        .first();
+      bgContent.simulate('blur');
+      const saveButton = blogContent
+        .find('span.button')
+        .findWhere(element => element !== null && element.text() === saveText)
+        .first();
+      saveButton.simulate('click');
+    });
+  });
+
+  it('should show a message when can\'t save an article', async () => {
+    const article = { ...baseArticle };
+    article.id = 0;
+    const result = { id: 0, message: '' };
+    await act(async () => {
+      const blogContent = mountComponent(
+        <BlogArticle
+          article={article}
+          fromText="By"
+          editText={editText}
+          saveText={saveText}
+          hasEditPermission
+          isEditing
+        />,
+        () => { },
+        result,
+      );
+      const saveButton = blogContent
+        .find('span.button')
+        .findWhere(element => element !== null && element.text() === saveText)
+        .first();
+      saveButton.simulate('click');
     });
   });
 

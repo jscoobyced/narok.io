@@ -12,6 +12,8 @@ import io.narok.repositories.mappers.{ArticleMapper, BlogContentMapper}
 class BlogDatabase @Inject()(databaseRepository: DatabaseRepository) {
   private val getArticlesSql: String = "SELECT id, title, created, modified, status FROM blog " +
     "WHERE status = 0 ORDER BY created DESC, modified DESC LIMIT 5"
+  private val getArticleSql: String = "SELECT id, title, created, modified, status FROM blog " +
+    "WHERE status = 0 AND id = ?"
   private val getArticleContentSql
     : String = "SELECT id, content, type, blog_id, alttext, align, status FROM blog_content" +
     " WHERE status = 0 AND blog_id = ?"
@@ -24,7 +26,7 @@ class BlogDatabase @Inject()(databaseRepository: DatabaseRepository) {
 
   def articles(): List[Article] =
     databaseRepository
-      .executeQuery(getArticlesSql, None, ArticleMapper.toArticle)
+      .executeQuery(getArticlesSql, None, ArticleMapper.toArticles)
       .map(blog => {
         var article: Article = blog
         databaseRepository
@@ -34,6 +36,22 @@ class BlogDatabase @Inject()(databaseRepository: DatabaseRepository) {
           })
         article
       })
+
+  def article(id: Int): Option[Article] = {
+    databaseRepository
+      .executeSingleQuery[Article](getArticleSql, Some(List(Parameter(1, id))), ArticleMapper.toArticle) match {
+      case Some(result: Article) => {
+        var article: Article = result
+        databaseRepository
+          .executeQuery(getArticleContentSql, Some(List(Parameter(1, article.id))), BlogContentMapper.toBlogContent)
+          .foreach(content => {
+            article = article.addContent(content).setOwner(User(BlogConfiguration.getOwnerId, "Administrator", ""))
+          })
+        Some(article)
+      }
+      case _ => None
+    }
+  }
 
   def saveArticle(article: Article): Int =
     databaseRepository

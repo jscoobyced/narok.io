@@ -1,9 +1,9 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
+import { AuthenticationHandler } from '../auth/handler';
 import { SecureUser, newSecureUser } from '../../models/User';
-import HttpServiceMock from '../http/http.mock';
 import { AppContext } from './context';
-import DataService from '../data/data';
+import DataServiceMock from '../data/data.mock';
 
 const Empty = () => {
   const context = React.useContext(AppContext);
@@ -16,13 +16,14 @@ const Empty = () => {
 describe('context service', () => {
   it('should contain current language', () => {
     const expected = 'en_US';
-    const dataService = new DataService('development', new HttpServiceMock({}));
+    const dataService = new DataServiceMock(false);
     const component = mount(
       <AppContext.Provider value={{
         language: expected,
         setLanguage: () => { },
         getContent: (s: string) => '',
         dataService,
+        handler: new AuthenticationHandler(),
         user: newSecureUser(),
         setUser: (user: SecureUser) => { },
         createUser: (user: any) => newSecureUser(),
