@@ -91,6 +91,7 @@ describe('BlogContent', () => {
         .findWhere(element => element !== null && element.text() === saveText)
         .first();
       saveButton.simulate('click');
+      saveButton.simulate('keypress');
     });
   });
 
