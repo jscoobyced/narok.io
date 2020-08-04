@@ -91,7 +91,6 @@ describe('BlogContent', () => {
         .findWhere(element => element !== null && element.text() === saveText)
         .first();
       saveButton.simulate('click');
-      saveButton.simulate('keypress');
     });
   });
 
@@ -139,7 +138,7 @@ describe('BlogContent', () => {
       const bgContent = blogContent
         .find(`#bg-${textContent.id}`)
         .first();
-      bgContent.simulate('change');
+      bgContent.simulate('blur');
       const saveButton = blogContent
         .find('span.button')
         .findWhere(element => element !== null && element.text() === saveText)

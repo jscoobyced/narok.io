@@ -1,8 +1,7 @@
 {
-  "name": "docker-de-be",
+  "name": "narok-io-fe",
   "version": "1.0.0",
-  "description": "Template project for a TypeScript codebase to run in a dockerized ngnix server.",
-  "main": "index.js",
+  "description": "narok.io front-end application.",
   "scripts": {
     "lint": "eslint --fix src/**/*.{ts,tsx}",
     "start": "webpack-dev-server --mode development --open",

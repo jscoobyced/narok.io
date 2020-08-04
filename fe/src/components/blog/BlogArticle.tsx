@@ -47,9 +47,24 @@ export const BlogArticle = (props: {
     />
   );
 
+  const onKeyPress = (event: React.FocusEvent<HTMLDivElement>, index: number) => {
+    const value = (event.target as HTMLDivElement).innerHTML;
+    const newArticle = { ...article };
+    const newContents = newArticle.contents.map(content => {
+      const newContent = { ...content };
+      if (content.id === index) {
+        newContent.value = value;
+      }
+      return newContent;
+    });
+    newArticle.contents = newContents;
+    setCurrentArticle(newArticle);
+  };
+
   /* eslint-disable react/no-danger, jsx-a11y/control-has-associated-label */
   const createEditableText = (content: BlogContent, index: number) => (
     <div
+      onBlur={event => onKeyPress(event, index)}
       tabIndex={-1}
       id={`bg-${index}`}
       key={`bp-ac-${index}`}

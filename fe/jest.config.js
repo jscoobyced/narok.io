@@ -17,7 +17,6 @@ module.exports = {
   moduleNameMapper: {
     "\\.(scss|css|sass)$": "identity-obj-proxy",
   },
-  snapshotSerializers: ["enzyme-to-json/serializer"],
   setupFilesAfterEnv: [
     "<rootDir>/enzyme.ts"
   ],
