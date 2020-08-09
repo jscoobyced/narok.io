@@ -15,6 +15,8 @@ jobs:
       - run:
           name: Test
           command: yarn --cwd fe --silent run test --coverage
+          environment:
+            NODE_OPTIONS: "--max_old_space_size=4096"
       - run:
           name: Codecov
           command: codecov -y ./codecov.yml -f ./fe/coverage/coverage-final.json -F react
