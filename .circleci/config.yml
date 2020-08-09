@@ -10,11 +10,11 @@ jobs:
           name: Install
           command: yarn --cwd fe install --silent --no-progress
       - run:
-          name: Build
-          command: yarn --cwd fe build:prod --silent --no-progress
-      - run:
           name: Test
           command: NODE_OPTIONS="--max_old_space_size=4096" yarn --cwd fe --silent run test --coverage
+      - run:
+          name: Build
+          command: yarn --cwd fe build:prod --silent --no-progress
       - run:
           name: Codecov
           command: codecov -y ./codecov.yml -f ./fe/coverage/coverage-final.json -F react
