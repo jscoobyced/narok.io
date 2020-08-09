@@ -1,4 +1,4 @@
-import { Article } from '../../models/blog/Article';
+import { Article } from '../../models/blog/ArticleData';
 import * as Config from '../config/config';
 import HttpService, { HttpResponse } from '../http/http';
 

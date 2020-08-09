@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { BlogArticle } from './BlogArticle';
-import { Article } from '../../models/blog/Article';
+import { Article } from './Article';
+import { ArticleData } from '../../models/blog/ArticleData';
 import { AppContext } from '../../services/context/context';
 import CMS from '../../services/i18n/cms';
 import './BlogPage.scss';
@@ -17,7 +17,7 @@ export const BlogPage = () => {
     setArticles(data);
   };
 
-  const buildArticles = (rawArticles: Article[]): JSX.Element[] => {
+  const buildArticles = (rawArticles: ArticleData[]): JSX.Element[] => {
     if (!rawArticles || rawArticles.length === 0) {
       const noResult = getContent(CMS.NORESULT);
       return [<article key="bc-0">{noResult}</article>];
@@ -29,7 +29,7 @@ export const BlogPage = () => {
       const { id: ownerId } = article.owner;
       const userId = user.user.id;
       return (
-        <BlogArticle
+        <Article
           key={`bc-${article.id}`}
           article={article}
           fromText={fromOwner}

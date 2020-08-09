@@ -2,17 +2,17 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import {
-  Article, BlogContent, toBlogContentText, toBlogContentImage, Align,
-} from '../../models/blog/Article';
-import { BlogArticle } from './BlogArticle';
+  ArticleData, BlogContent, toBlogContentText, toBlogContentImage, Align,
+} from '../../models/blog/ArticleData';
+import { Article } from './Article';
 import { getText, mountComponent } from '../jestUtil';
 import { User } from '../../models/User';
 
-describe('BlogContent', () => {
+describe('Article', () => {
   const textContent: BlogContent = toBlogContentText('content', Align.Center, '', 1);
   const imageContent: BlogContent = toBlogContentImage('url');
   const owner: User = { id: '12345678', name: 'Administrator' };
-  const baseArticle: Article = {
+  const baseArticle: ArticleData = {
     id: 1,
     owner,
     title: 'title',
@@ -41,7 +41,7 @@ describe('BlogContent', () => {
     it(`should render text content with {${data.hasEditPermission}, ${data.isEditing}}`, () => {
       const article = { ...baseArticle };
       const blogContent = mountComponent(
-        <BlogArticle
+        <Article
           article={article}
           fromText="By"
           editText={editText}
@@ -75,7 +75,7 @@ describe('BlogContent', () => {
     let blogContent = mount(<></>);
     await act(async () => {
       blogContent = mountComponent(
-        <BlogArticle
+        <Article
           article={article}
           fromText="By"
           editText={editText}
@@ -100,7 +100,7 @@ describe('BlogContent', () => {
     const result = { id: 2, message: '' };
     await act(async () => {
       const blogContent = mountComponent(
-        <BlogArticle
+        <Article
           article={article}
           fromText="By"
           editText={editText}
@@ -125,7 +125,7 @@ describe('BlogContent', () => {
     const result = { id: 1, message: '' };
     await act(async () => {
       const blogContent = mountComponent(
-        <BlogArticle
+        <Article
           article={article}
           fromText="By"
           editText={editText}
@@ -137,7 +137,7 @@ describe('BlogContent', () => {
         result,
       );
       const bgContent = blogContent
-        .find(`#bg-${textContent.id}`)
+        .find(`#ebc-c-${textContent.id}`)
         .first();
       bgContent.simulate('blur');
       const saveButton = blogContent
@@ -154,7 +154,7 @@ describe('BlogContent', () => {
     const result = { id: 0, message: '' };
     await act(async () => {
       const blogContent = mountComponent(
-        <BlogArticle
+        <Article
           article={article}
           fromText="By"
           editText={editText}
@@ -176,7 +176,7 @@ describe('BlogContent', () => {
   it('should not fail if type of content is unkown', () => {
     const article = { ...baseArticle };
     article.contents = [{} as BlogContent];
-    const blogContent = mountComponent(<BlogArticle
+    const blogContent = mountComponent(<Article
       article={article}
       fromText="By"
       editText={editText}

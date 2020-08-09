@@ -1,6 +1,6 @@
 import {
   Article, toArticle, toBlogContentText, BlogContent, toBlogContentImage,
-} from './Article';
+} from './ArticleData';
 import { User } from '../User';
 
 const created = 'created';

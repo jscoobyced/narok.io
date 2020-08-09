@@ -1,6 +1,6 @@
 import { User } from '../User';
 
-export interface Article {
+export interface ArticleData {
   id: number;
   owner: User;
   title: string;
@@ -30,7 +30,7 @@ export const toArticle = (id: number,
   title: string,
   contents: BlogContent[],
   created: string,
-  modified?: string): Article => {
+  modified?: string): ArticleData => {
   const modifiedDate = (!modified) ? created : modified;
   return {
     id,

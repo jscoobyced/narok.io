@@ -24,6 +24,19 @@ export interface SimpleEditorText {
   justifyRightText: string
 }
 
+export const defaultButtonText = {
+  boldText: 'bold',
+  italicText: 'italic',
+  decreaseFontSizeText: 'decrease',
+  increaseFontSizeText: 'increase',
+  orderedListText: 'ordered',
+  unorderedListText: 'unordered',
+  justifyLeftText: 'left',
+  justifyCenterText: 'center',
+  justifyFullText: 'justify',
+  justifyRightText: 'right',
+};
+
 export const SimpleEditor = (props: { buttonText: SimpleEditorText }) => {
   const { buttonText } = props;
   const {

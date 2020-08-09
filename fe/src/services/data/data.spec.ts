@@ -1,5 +1,5 @@
 import DataService from './data';
-import { Article, toArticle, toBlogContentText } from '../../models/blog/Article';
+import { Article, toArticle, toBlogContentText } from '../../models/blog/ArticleData';
 import { User } from '../../models/User';
 import DataServiceMock from './data.mock';
 import HttpService, { HttpResponse } from '../http/http';

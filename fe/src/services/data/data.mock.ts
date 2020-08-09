@@ -1,7 +1,7 @@
 import DataService from './data';
 import {
   Article, toBlogContentText, toArticle, Align,
-} from '../../models/blog/Article';
+} from '../../models/blog/ArticleData';
 import { User } from '../../models/User';
 
 const articles: Article[] = [];

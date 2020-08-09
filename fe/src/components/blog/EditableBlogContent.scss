@@ -1,0 +1,13 @@
+@import "../../styles/variables";
+
+.article {
+
+  &__content {
+    &-editing {
+      color: $primary;
+      background: $background;
+      padding: 10px;
+      margin-top: 5px;
+    }
+  }
+}
