@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { executeCommand } from './editorCommands';
+import { Button } from '../../common/Button';
 import './SimpleEditor.scss';
 
 export const handleKeyPress = (event: React.KeyboardEvent<HTMLElement>): boolean => {
@@ -23,6 +24,19 @@ export interface SimpleEditorText {
   justifyFullText: string,
   justifyRightText: string
 }
+
+export const defaultButtonText = {
+  boldText: 'bold',
+  italicText: 'italic',
+  decreaseFontSizeText: 'decrease',
+  increaseFontSizeText: 'increase',
+  orderedListText: 'ordered',
+  unorderedListText: 'unordered',
+  justifyLeftText: 'left',
+  justifyCenterText: 'center',
+  justifyFullText: 'justify',
+  justifyRightText: 'right',
+};
 
 export const SimpleEditor = (props: { buttonText: SimpleEditorText }) => {
   const { buttonText } = props;
@@ -107,116 +121,86 @@ export const SimpleEditor = (props: { buttonText: SimpleEditorText }) => {
 
   return (
     <div className="jscSimpleEditor">
-      <span
-        role="button"
-        tabIndex={-1}
-        className="button"
+      <Button
         onMouseDown={disableMouseDown}
         onKeyPress={disableOnKeyPress}
         title={boldText}
         onClick={doBoldCommand}
       >
         <i className="fas fa-bold" />
-      </span>
-      <span
-        role="button"
-        tabIndex={-1}
-        className="button"
+      </Button>
+      <Button
         onMouseDown={disableMouseDown}
         onKeyPress={disableOnKeyPress}
         title={italicText}
         onClick={doItalicCommand}
       >
         <i className="fas fa-italic" />
-      </span>
-      <span
-        role="button"
-        tabIndex={-1}
-        className="button"
+      </Button>
+      <Button
         onMouseDown={disableMouseDown}
         onKeyPress={disableOnKeyPress}
         title={decreaseFontSizeText}
         onClick={doDecreaseFontSizeCommand}
       >
         <i className="fas fa-decrease" />
-      </span>
-      <span
-        role="button"
-        tabIndex={-1}
-        className="button"
+      </Button>
+      <Button
         onMouseDown={disableMouseDown}
         onKeyPress={disableOnKeyPress}
         title={increaseFontSizeText}
         onClick={doIncreaseFontSizeCommand}
       >
         <i className="fas fa-increase" />
-      </span>
-      <span
-        role="button"
-        tabIndex={-1}
-        className="button"
+      </Button>
+      <Button
         onMouseDown={disableMouseDown}
         onKeyPress={disableOnKeyPress}
         title={orderedListText}
         onClick={doOrderedListCommand}
       >
         <i className="fas fa-ordered" />
-      </span>
-      <span
-        role="button"
-        tabIndex={-1}
-        className="button"
+      </Button>
+      <Button
         onMouseDown={disableMouseDown}
         onKeyPress={disableOnKeyPress}
         title={unorderedListText}
         onClick={doUnorderedListCommand}
       >
         <i className="fas fa-unordered" />
-      </span>
-      <span
-        role="button"
-        tabIndex={-1}
-        className="button"
+      </Button>
+      <Button
         onMouseDown={disableMouseDown}
         onKeyPress={disableOnKeyPress}
         title={justifyLeftText}
         onClick={doJustifyLeft}
       >
         <i className="fas fa-just-left" />
-      </span>
-      <span
-        role="button"
-        tabIndex={-1}
-        className="button"
+      </Button>
+      <Button
         onMouseDown={disableMouseDown}
         onKeyPress={disableOnKeyPress}
         title={justifyCenterText}
         onClick={doJustifyCenter}
       >
         <i className="fas fa-just-center" />
-      </span>
-      <span
-        role="button"
-        tabIndex={-1}
-        className="button"
+      </Button>
+      <Button
         onMouseDown={disableMouseDown}
         onKeyPress={disableOnKeyPress}
         title={justifyFullText}
         onClick={doJustifyFull}
       >
         <i className="fas fa-just-full" />
-      </span>
-      <span
-        role="button"
-        tabIndex={-1}
-        className="button"
+      </Button>
+      <Button
         onMouseDown={disableMouseDown}
         onKeyPress={disableOnKeyPress}
         title={justifyRightText}
         onClick={doJustifyRight}
       >
         <i className="fas fa-just-right" />
-      </span>
+      </Button>
     </div>
   );
 };

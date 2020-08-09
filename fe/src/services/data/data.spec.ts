@@ -1,12 +1,12 @@
 import DataService from './data';
-import { Article, toArticle, toBlogContentText } from '../../models/blog/Article';
+import { ArticleData, toArticle, toBlogContentText } from '../../models/blog/ArticleData';
 import { User } from '../../models/User';
 import DataServiceMock from './data.mock';
 import HttpService, { HttpResponse } from '../http/http';
 
 const owner: User = { id: '12345678', name: 'Administrator' };
 
-const createArticle = (title: string, content: string): Article => toArticle(
+const createArticle = (title: string, content: string): ArticleData => toArticle(
   0,
   owner,
   title,
@@ -53,7 +53,7 @@ const getDataService = (mockedValue: any): DataService => {
 };
 
 describe('data service', () => {
-  const mockSuccessResponse: Article = createArticle('Hello, World!', 'This is content');
+  const mockSuccessResponse: ArticleData = createArticle('Hello, World!', 'This is content');
 
   it('should return blog data', async () => {
     const result = await getDataService(mockSuccessResponse).getHomePageArticles();

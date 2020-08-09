@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Article, toArticle } from '../../models/blog/Article';
+import { ArticleData, toArticle } from '../../models/blog/ArticleData';
 import { AppContext } from '../../services/context/context';
 import CMS from '../../services/i18n/cms';
-import { BlogArticle } from './BlogArticle';
+import { Article } from './Article';
 import { toUser } from '../../models/User';
 import './ArticlePage.scss';
 
@@ -20,7 +20,7 @@ export const ArticlePage = () => {
       });
   };
 
-  const buildArticle = (rawArticle: Article): JSX.Element => {
+  const buildArticle = (rawArticle: ArticleData): JSX.Element => {
     const noArticle = getContent(CMS.NORESULT);
     if (!rawArticle) {
       return <>{noArticle}</>;
@@ -31,7 +31,7 @@ export const ArticlePage = () => {
     const { id: ownerId } = rawArticle.owner;
     const userId = user.user.id;
     return (
-      <BlogArticle
+      <Article
         key={`bc-${rawArticle.id}`}
         article={rawArticle}
         fromText={fromOwner}
