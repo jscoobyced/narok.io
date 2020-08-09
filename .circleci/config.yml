@@ -11,7 +11,7 @@ jobs:
           command: yarn --cwd fe install --silent --no-progress
       - run:
           name: Test
-          command: NODE_OPTIONS="--max_old_space_size=4096" yarn --cwd fe --silent run test --coverage
+          command: yarn --cwd fe --silent run test --coverage -w 1
       - run:
           name: Build
           command: yarn --cwd fe build:prod --silent --no-progress
