@@ -1,4 +1,4 @@
-import { Article } from '../../models/blog/ArticleData';
+import { ArticleData } from '../../models/blog/ArticleData';
 import * as Config from '../config/config';
 import HttpService, { HttpResponse } from '../http/http';
 
@@ -17,26 +17,26 @@ export default class DataService {
     this.httpService = httpService;
   }
 
-  public getHomePageArticles = async (): Promise<Article[]> => this.getArticlesByPage(0, 5)
+  public getHomePageArticles = async (): Promise<ArticleData[]> => this.getArticlesByPage(0, 5)
 
-  public getArticlesByPage = async (page: number, perPage: number): Promise<Article[]> => {
+  public getArticlesByPage = async (page: number, perPage: number): Promise<ArticleData[]> => {
     const parameters = [{ name: 'page', value: page }, { name: 'perPage', value: perPage }];
-    const httpResponse = await this.get<Article[]>('articles', parameters);
+    const httpResponse = await this.get<ArticleData[]>('articles', parameters);
     return Promise.resolve(httpResponse.responseData.articles);
   }
 
-  public getArticleById = async (id: number): Promise<Article> => {
-    const httpResponse = await this.get<Article>(`article/${id}`);
+  public getArticleById = async (id: number): Promise<ArticleData> => {
+    const httpResponse = await this.get<ArticleData>(`article/${id}`);
     return Promise.resolve(httpResponse.responseData.article);
   }
 
-  public saveArticle = async (article: Article): Promise<{ id: number, message: string }> => {
-    const httpResponse = await this.putOrPost<Article, number>(true, 'article', article.id, article);
+  public saveArticle = async (article: ArticleData): Promise<{ id: number, message: string }> => {
+    const httpResponse = await this.putOrPost<ArticleData, number>(true, 'article', article.id, article);
     return Promise.resolve({ id: httpResponse.responseData.id, message: httpResponse.status.message });
   }
 
-  public createArticle = async (article: Article): Promise<{ id: number, message: string }> => {
-    const httpResponse = await this.putOrPost<Article, number>(false, 'article', article.id, article);
+  public createArticle = async (article: ArticleData): Promise<{ id: number, message: string }> => {
+    const httpResponse = await this.putOrPost<ArticleData, number>(false, 'article', article.id, article);
     return Promise.resolve({ id: httpResponse.responseData.id, message: httpResponse.status.message });
   }
 

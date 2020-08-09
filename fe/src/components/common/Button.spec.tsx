@@ -7,7 +7,7 @@ describe('Button', () => {
     const action = jest.fn();
     const wrapper = shallow(<Button
       className=""
-      action={action}
+      onClick={action}
     />);
     expect(wrapper.children().length).toEqual(0);
   });
@@ -18,7 +18,7 @@ describe('Button', () => {
     const wrapper = shallow(
       <Button
         className=""
-        action={action}
+        onClick={action}
       >
         {content}
       </Button>,
@@ -32,8 +32,8 @@ describe('Button', () => {
     const content = 'text';
     const wrapper = shallow(
       <Button
-        className=""
-        action={action}
+        className="whatever"
+        onClick={action}
       >
         {content}
       </Button>,
@@ -41,5 +41,23 @@ describe('Button', () => {
     wrapper.simulate('click');
     wrapper.simulate('keyPress');
     expect(action).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call its async action', () => {
+    const action = jest.fn();
+    const onMouseDown = jest.fn();
+    const content = 'text';
+    const wrapper = shallow(
+      <Button
+        className=""
+        onClick={action}
+        onMouseDown={onMouseDown}
+      >
+        {content}
+      </Button>,
+    );
+    wrapper.simulate('mouseDown');
+    expect(action).toHaveBeenCalledTimes(0);
+    expect(onMouseDown).toHaveBeenCalledTimes(1);
   });
 });

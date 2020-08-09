@@ -1,10 +1,10 @@
 import DataService from './data';
 import {
-  Article, toBlogContentText, toArticle, Align,
+  ArticleData, toBlogContentText, toArticle, Align,
 } from '../../models/blog/ArticleData';
 import { User } from '../../models/User';
 
-const articles: Article[] = [];
+const articles: ArticleData[] = [];
 const lorem = '<strong>Lorem ipsum dolor sit amet</strong>, consectetur adipiscing elit. Nam ultricies '
   + 'ut augue eu imperdiet. '
   + 'Donec tincidunt congue tortor, eu finibus ex facilisis ut. Etiam aliquam augue non magna commodo '
@@ -19,7 +19,7 @@ const lorem = '<strong>Lorem ipsum dolor sit amet</strong>, consectetur adipisci
   + 'ut, dapibus semper ante.';
 const contents = [toBlogContentText(lorem, Align.Center, '', 1), toBlogContentText(lorem, Align.Center, '', 2)];
 const owner: User = { id: '123456789', name: 'Administrator' };
-const textArticle1: Article = toArticle(1, owner, 'Coming soon...', contents, '2020-05-04 22:52');
+const textArticle1: ArticleData = toArticle(1, owner, 'Coming soon...', contents, '2020-05-04 22:52');
 articles.push(textArticle1);
 const textArticle2 = { ...textArticle1 };
 textArticle2.id = 2;
@@ -34,20 +34,20 @@ export default class DataServiceMock extends DataService {
   }
 
   public getHomePageArticles = async ():
-    Promise<Article[]> => Promise.resolve(this.data !== null ? this.data : articles);
+    Promise<ArticleData[]> => Promise.resolve(this.data !== null ? this.data : articles);
 
   public getArticlesByPage = async (
     page: number,
-    perPage: number): Promise<Article[]> => Promise.resolve(this.data !== null ? this.data : articles);
+    perPage: number): Promise<ArticleData[]> => Promise.resolve(this.data !== null ? this.data : articles);
 
   public getArticleById = async (id: number):
-    Promise<Article> => Promise.resolve(this.data !== null ? this.data : textArticle1);
+    Promise<ArticleData> => Promise.resolve(this.data !== null ? this.data : textArticle1);
 
-  public saveArticle = async (article: Article):
+  public saveArticle = async (article: ArticleData):
     Promise<{ id: number, message: string }> => Promise
     .resolve(this.data !== null ? this.data : { id: 1, message: '' });
 
-  public createArticle = async (article: Article):
+  public createArticle = async (article: ArticleData):
     Promise<{ id: number, message: string }> => Promise
     .resolve(this.data !== null ? this.data : { id: 1, message: '' });
 }

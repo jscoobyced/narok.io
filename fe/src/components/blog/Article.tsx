@@ -88,7 +88,7 @@ export const Article = (props: {
 
   const saveButton = hasEditPermission && isEditing && (
     <Button
-      action={saveArticle}
+      onClick={saveArticle}
       className="article__ender"
     >
       {saveText}
