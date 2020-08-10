@@ -40,6 +40,7 @@ describe('Button', () => {
     );
     wrapper.simulate('click');
     wrapper.simulate('keyPress');
+    wrapper.simulate('mouseDown');
     expect(action).toHaveBeenCalledTimes(1);
   });
 

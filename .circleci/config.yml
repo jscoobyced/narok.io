@@ -29,7 +29,7 @@ jobs:
           command: cd be && sbt clean coverage test coverageReport
       - run:
           name: Codecov
-          command: codecov -y ./codecov.yml -f ./be/target/scala-2.13/coverage-report/cobertura.xml
+          command: codecov -y ./codecov.yml -f ./be/target/scala-2.13/coverage-report/cobertura.xml -F scala
   release:
     working_directory: ~/narok
     docker:

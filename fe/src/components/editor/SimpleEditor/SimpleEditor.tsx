@@ -15,6 +15,7 @@ export const handleKeyPress = (event: React.KeyboardEvent<HTMLElement>): boolean
 export interface SimpleEditorText {
   boldText: string,
   italicText: string,
+  strikeThroughText: string,
   decreaseFontSizeText: string,
   increaseFontSizeText: string,
   orderedListText: string,
@@ -28,6 +29,7 @@ export interface SimpleEditorText {
 export const defaultButtonText = {
   boldText: 'bold',
   italicText: 'italic',
+  strikeThroughText: 'strike through',
   decreaseFontSizeText: 'decrease',
   increaseFontSizeText: 'increase',
   orderedListText: 'ordered',
@@ -43,6 +45,7 @@ export const SimpleEditor = (props: { buttonText: SimpleEditorText }) => {
   const {
     boldText,
     italicText,
+    strikeThroughText,
     decreaseFontSizeText,
     increaseFontSizeText,
     orderedListText,
@@ -79,6 +82,11 @@ export const SimpleEditor = (props: { buttonText: SimpleEditorText }) => {
   const doItalicCommand = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     executeCommand('italic', '');
+  };
+
+  const doStrikeThroughCommand = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    executeCommand('strikeThrough', '');
   };
 
   const doDecreaseFontSizeCommand = (event: React.MouseEvent<HTMLElement>) => {
@@ -136,6 +144,14 @@ export const SimpleEditor = (props: { buttonText: SimpleEditorText }) => {
         onClick={doItalicCommand}
       >
         <i className="fas fa-italic" />
+      </Button>
+      <Button
+        onMouseDown={disableMouseDown}
+        onKeyPress={disableOnKeyPress}
+        title={strikeThroughText}
+        onClick={doStrikeThroughCommand}
+      >
+        <i className="fas fa-strike" />
       </Button>
       <Button
         onMouseDown={disableMouseDown}
