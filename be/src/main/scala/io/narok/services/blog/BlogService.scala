@@ -24,10 +24,10 @@ class BlogServiceImpl @Inject()(
     with JsonSupport {
   val database = new BlogDatabase(databaseRepository)
 
-  override def getArticles: List[Article] = htmlSanitizer.sanitizeAll(database.articles())
+  override def getArticles: List[Article] = htmlSanitizer.sanitizeAllArticles(database.articles())
 
   override def getArticle(id: Int): Option[Article] = database.article(id) match {
-    case Some(article) => Some(htmlSanitizer.sanitize(article))
+    case Some(article) => Some(htmlSanitizer.sanitizeArticle(article))
     case _             => None
   }
 

@@ -1,33 +1,22 @@
-package io.narok.services
+package io.narok.services.blog
 
 import io.narok.BaseTest
-import io.narok.models.blog.{Article, BlogContent}
 import io.narok.models.User
+import io.narok.models.blog.Article
 import io.narok.repositories.DatabaseRepositoryMock
-import io.narok.services.blog.BlogServiceImpl
+import io.narok.services.authentication.GoogleServiceMock
 import io.narok.services.security.HtmlSanitizerImpl
 
 class BlogServiceSpec extends BaseTest {
 
   describe("A BlogService") {
-    val blogContent1 = BlogContent(1, "test", "text", 1, 0, Some(""), Some("left"))
-    val blogContent2 = BlogContent(1, "test", "image", 1, 0, Some(""), Some("center"))
-    val blogContent3 = BlogContent(1, "test", "undefined", 1, 0, Some(""), Some("right"))
-    val blogContent4 = BlogContent(1, "test", "undefined", 1, 0, Some(""), Some(""))
-    val blogContent5 = BlogContent(1, "test", "undefined", 1, 0, Some(""))
-    val expectedArticle =
-      Article(1,
-              User("0", "Admin", "token"),
-              "test",
-              List(blogContent1, blogContent2, blogContent3, blogContent4, blogContent5),
-              "now",
-              "now",
-              0)
-    val articles = List(expectedArticle)
+    val expectedArticle  = article()
+    val expectedArticles = articles()
+
     it("should be able to get Article list") {
       val blogService =
         new BlogServiceImpl(
-          new DatabaseRepositoryMock(articles = Iterator(articles, expectedArticle.contents),
+          new DatabaseRepositoryMock(articles = Iterator(expectedArticles, expectedArticle.contents),
                                      single = expectedArticle.id,
                                      updated = Iterator(1, expectedArticle.contents.length)),
           new GoogleServiceMock,
@@ -39,19 +28,19 @@ class BlogServiceSpec extends BaseTest {
     it("should be able to get an Article") {
       val blogService =
         new BlogServiceImpl(
-          new DatabaseRepositoryMock(articles = Iterator(articles, expectedArticle.contents),
+          new DatabaseRepositoryMock(articles = Iterator(expectedArticles, expectedArticle.contents),
                                      single = expectedArticle.id,
                                      updated = Iterator(1, expectedArticle.contents.length)),
           new GoogleServiceMock,
           new HtmlSanitizerImpl
         )
-      assert(blogService.getArticle(articles.head.id).isDefined)
+      assert(blogService.getArticle(expectedArticles.head.id).isDefined)
     }
 
     it("should be able to save an Article") {
       val blogService =
         new BlogServiceImpl(
-          new DatabaseRepositoryMock(articles = Iterator(articles, expectedArticle.contents),
+          new DatabaseRepositoryMock(articles = Iterator(expectedArticles, expectedArticle.contents),
                                      single = expectedArticle.id,
                                      updated = Iterator(1, expectedArticle.contents.length)),
           new GoogleServiceMock,
@@ -102,7 +91,7 @@ class BlogServiceSpec extends BaseTest {
       val blogService =
         new BlogServiceImpl(
           new DatabaseRepositoryMock(
-            articles = Iterator(articles, expectedArticle.contents),
+            articles = Iterator(expectedArticles, expectedArticle.contents),
             single = expectedArticle.id,
             updated = Iterator(1, expectedArticle.contents.length, expectedArticle.contents.length)
           ),
@@ -128,7 +117,7 @@ class BlogServiceSpec extends BaseTest {
     it("should detect a failure to update an Article") {
       val blogService =
         new BlogServiceImpl(
-          new DatabaseRepositoryMock(articles = Iterator(articles, expectedArticle.contents),
+          new DatabaseRepositoryMock(articles = Iterator(expectedArticles, expectedArticle.contents),
                                      single = expectedArticle.id,
                                      updated = Iterator(0, 1, 1)),
           new GoogleServiceMock,
@@ -140,7 +129,7 @@ class BlogServiceSpec extends BaseTest {
     it("should detect a failure to delete an Article content") {
       val blogService =
         new BlogServiceImpl(
-          new DatabaseRepositoryMock(articles = Iterator(articles, expectedArticle.contents),
+          new DatabaseRepositoryMock(articles = Iterator(expectedArticles, expectedArticle.contents),
                                      single = expectedArticle.id,
                                      updated = Iterator(1, -1, 1)),
           new GoogleServiceMock,
@@ -151,7 +140,7 @@ class BlogServiceSpec extends BaseTest {
     it("should detect a failure to update an Article content") {
       val blogService =
         new BlogServiceImpl(
-          new DatabaseRepositoryMock(articles = Iterator(articles, expectedArticle.contents),
+          new DatabaseRepositoryMock(articles = Iterator(expectedArticles, expectedArticle.contents),
                                      single = expectedArticle.id,
                                      updated = Iterator(1, 1, 0)),
           new GoogleServiceMock,
