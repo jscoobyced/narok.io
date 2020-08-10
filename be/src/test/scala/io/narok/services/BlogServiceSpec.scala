@@ -2,9 +2,10 @@ package io.narok.services
 
 import io.narok.BaseTest
 import io.narok.models.blog.{Article, BlogContent}
-import io.narok.models.{User}
+import io.narok.models.User
 import io.narok.repositories.DatabaseRepositoryMock
 import io.narok.services.blog.BlogServiceImpl
+import io.narok.services.security.HtmlSanitizerImpl
 
 class BlogServiceSpec extends BaseTest {
 
@@ -27,9 +28,10 @@ class BlogServiceSpec extends BaseTest {
       val blogService =
         new BlogServiceImpl(
           new DatabaseRepositoryMock(articles = Iterator(articles, expectedArticle.contents),
-            single = expectedArticle.id,
-            updated = Iterator(1, expectedArticle.contents.length)),
-          new GoogleServiceMock
+                                     single = expectedArticle.id,
+                                     updated = Iterator(1, expectedArticle.contents.length)),
+          new GoogleServiceMock,
+          new HtmlSanitizerImpl
         )
       assert(blogService.getArticles.nonEmpty)
     }
@@ -38,9 +40,10 @@ class BlogServiceSpec extends BaseTest {
       val blogService =
         new BlogServiceImpl(
           new DatabaseRepositoryMock(articles = Iterator(articles, expectedArticle.contents),
-            single = expectedArticle.id,
-            updated = Iterator(1, expectedArticle.contents.length)),
-          new GoogleServiceMock
+                                     single = expectedArticle.id,
+                                     updated = Iterator(1, expectedArticle.contents.length)),
+          new GoogleServiceMock,
+          new HtmlSanitizerImpl
         )
       assert(blogService.getArticle(articles.head.id).isDefined)
     }
@@ -51,7 +54,8 @@ class BlogServiceSpec extends BaseTest {
           new DatabaseRepositoryMock(articles = Iterator(articles, expectedArticle.contents),
                                      single = expectedArticle.id,
                                      updated = Iterator(1, expectedArticle.contents.length)),
-          new GoogleServiceMock
+          new GoogleServiceMock,
+          new HtmlSanitizerImpl
         )
       assert(blogService.saveArticle(expectedArticle) == expectedArticle.id)
     }
@@ -63,17 +67,21 @@ class BlogServiceSpec extends BaseTest {
           new DatabaseRepositoryMock(articles = Iterator(differentOwnerArticles, expectedArticle.contents),
                                      single = expectedArticle.id,
                                      updated = Iterator(1, expectedArticle.contents.length)),
-          new GoogleServiceMock
+          new GoogleServiceMock,
+          new HtmlSanitizerImpl
         )
       assert(blogService.saveArticle(differentOwnerArticles.head) == -1)
     }
     it("should be able to detect an Article cannot be saved") {
       val emptyContentArticle = Article(1, User("0", "Admin", "token"), "test", List(), "now", "now", 0)
       val blogService =
-        new BlogServiceImpl(new DatabaseRepositoryMock(articles = Iterator(List(), List()),
-                                                       single = 0,
-                                                       updated = Iterator(1, expectedArticle.contents.length)),
-                            new GoogleServiceMock)
+        new BlogServiceImpl(
+          new DatabaseRepositoryMock(articles = Iterator(List(), List()),
+                                     single = 0,
+                                     updated = Iterator(1, expectedArticle.contents.length)),
+          new GoogleServiceMock,
+          new HtmlSanitizerImpl
+        )
       assert(blogService.saveArticle(emptyContentArticle) == 0)
     }
 
@@ -84,7 +92,8 @@ class BlogServiceSpec extends BaseTest {
           new DatabaseRepositoryMock(articles = Iterator(List(emptyContentArticle), List()),
                                      single = expectedArticle.id,
                                      updated = Iterator(1, expectedArticle.contents.length)),
-          new GoogleServiceMock
+          new GoogleServiceMock,
+          new HtmlSanitizerImpl
         )
       assert(blogService.saveArticle(emptyContentArticle) == emptyContentArticle.id)
     }
@@ -97,7 +106,8 @@ class BlogServiceSpec extends BaseTest {
             single = expectedArticle.id,
             updated = Iterator(1, expectedArticle.contents.length, expectedArticle.contents.length)
           ),
-          new GoogleServiceMock
+          new GoogleServiceMock,
+          new HtmlSanitizerImpl
         )
       assert(blogService.updateArticle(expectedArticle.id, expectedArticle))
     }
@@ -109,7 +119,8 @@ class BlogServiceSpec extends BaseTest {
           new DatabaseRepositoryMock(articles = Iterator(differentOwnerArticles, expectedArticle.contents),
                                      single = expectedArticle.id,
                                      updated = Iterator(0, 1, 1)),
-          new GoogleServiceMock
+          new GoogleServiceMock,
+          new HtmlSanitizerImpl
         )
       assert(!blogService.updateArticle(differentOwnerArticles.head.id, differentOwnerArticles.head))
     }
@@ -120,7 +131,8 @@ class BlogServiceSpec extends BaseTest {
           new DatabaseRepositoryMock(articles = Iterator(articles, expectedArticle.contents),
                                      single = expectedArticle.id,
                                      updated = Iterator(0, 1, 1)),
-          new GoogleServiceMock
+          new GoogleServiceMock,
+          new HtmlSanitizerImpl
         )
       assert(!blogService.updateArticle(expectedArticle.id, expectedArticle))
     }
@@ -131,7 +143,8 @@ class BlogServiceSpec extends BaseTest {
           new DatabaseRepositoryMock(articles = Iterator(articles, expectedArticle.contents),
                                      single = expectedArticle.id,
                                      updated = Iterator(1, -1, 1)),
-          new GoogleServiceMock
+          new GoogleServiceMock,
+          new HtmlSanitizerImpl
         )
       assert(!blogService.updateArticle(expectedArticle.id, expectedArticle))
     }
@@ -141,7 +154,8 @@ class BlogServiceSpec extends BaseTest {
           new DatabaseRepositoryMock(articles = Iterator(articles, expectedArticle.contents),
                                      single = expectedArticle.id,
                                      updated = Iterator(1, 1, 0)),
-          new GoogleServiceMock
+          new GoogleServiceMock,
+          new HtmlSanitizerImpl
         )
       assert(!blogService.updateArticle(expectedArticle.id, expectedArticle))
     }

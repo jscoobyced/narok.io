@@ -4,6 +4,8 @@ import com.google.inject.Inject
 import io.narok.models.blog.Article
 import io.narok.repositories.db.DatabaseRepository
 import io.narok.routes.JsonSupport
+import io.narok.services.authentication.GoogleService
+import io.narok.services.security.HtmlSanitizer
 
 import scala.concurrent.ExecutionContext
 
@@ -16,14 +18,18 @@ trait BlogService {
 
 class BlogServiceImpl @Inject()(
     private val databaseRepository: DatabaseRepository,
-    private val googleService: GoogleService)(implicit private val executionContext: ExecutionContext)
+    private val googleService: GoogleService,
+    private val htmlSanitizer: HtmlSanitizer)(implicit private val executionContext: ExecutionContext)
     extends BlogService
     with JsonSupport {
   val database = new BlogDatabase(databaseRepository)
 
-  override def getArticles: List[Article] = database.articles()
+  override def getArticles: List[Article] = htmlSanitizer.sanitizeAll(database.articles())
 
-  override def getArticle(id: Int): Option[Article] = database.article(id)
+  override def getArticle(id: Int): Option[Article] = database.article(id) match {
+    case Some(article) => Some(htmlSanitizer.sanitize(article))
+    case _             => None
+  }
 
   override def saveArticle(article: Article): Int = {
     val user = googleService.getUser(article.owner.token)

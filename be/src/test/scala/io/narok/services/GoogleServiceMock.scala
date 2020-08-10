@@ -1,7 +1,7 @@
 package io.narok.services
 
 import io.narok.models.User
-import io.narok.services.blog.GoogleService
+import io.narok.services.authentication.GoogleService
 
 class GoogleServiceMock extends GoogleService {
 

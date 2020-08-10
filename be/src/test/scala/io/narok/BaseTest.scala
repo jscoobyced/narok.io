@@ -23,7 +23,11 @@ abstract class BaseTest
   implicit protected val system: ActorSystem                = ActorSystem()
   implicit protected val executionContext: ExecutionContext = global
 
-  override def afterEach(): Unit = {
+  override def afterEach(): Unit = cleanUp()
+
+  override def beforeEach(): Unit = cleanUp()
+
+  private def cleanUp(): Unit = {
     val applicationConf = new File(s"./conf/application.conf")
     if (applicationConf.exists()) applicationConf.delete()
     val testConf = new File(s"./conf/test.conf")

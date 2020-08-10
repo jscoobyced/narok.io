@@ -2,7 +2,7 @@ package io.narok.services
 
 import io.narok.BaseTest
 import io.narok.models.EmptyUser
-import io.narok.services.blog.GoogleServiceImpl
+import io.narok.services.authentication.GoogleServiceImpl
 
 class GoogleServiceSpec extends BaseTest {
 
