@@ -12,12 +12,22 @@ class DatabaseRepositoryMock(private val articles: Iterator[List[Any]] = Iterato
   override def executeQuery[T](sql: String,
                                parameters: Option[List[Parameter]],
                                mapper: ResultSet => List[T]): List[T] =
-    articles.next.map(a => a.asInstanceOf[T])
+    if (articles.isEmpty) List()
+    else {
+      val nextArticles = articles.next
+      if (nextArticles.isEmpty) List()
+      else nextArticles.map(a => a.asInstanceOf[T])
+    }
 
   override def executeSingleQuery[T](sql: String,
                                      parameters: Option[List[Parameter]],
                                      mapper: ResultSet => Option[T]): Option[T] =
-    Some(articles.next().head.asInstanceOf[T])
+    if (articles.isEmpty) None
+    else {
+      val nextValue = articles.next()
+      if (nextValue.isEmpty) None
+      else Some(nextValue.head.asInstanceOf[T])
+    }
 
   override def executeSingleUpdate(sql: String, parameters: Option[List[Parameter]]): Int = single
 
