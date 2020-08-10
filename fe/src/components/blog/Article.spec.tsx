@@ -24,16 +24,36 @@ describe('Article', () => {
   const saveText = 'Save';
   const testData = [
     {
-      hasEditPermission: false, isEditing: false, length: 1, editButtonLength: 0, saveButtonLength: 0,
+      hasEditPermission: false,
+      isEditing: false,
+      length: 1,
+      editButtonLength: 0,
+      saveButtonLength: 0,
+      title: baseArticle.title,
     },
     {
-      hasEditPermission: false, isEditing: true, length: 1, editButtonLength: 0, saveButtonLength: 0,
+      hasEditPermission: false,
+      isEditing: true,
+      length: 1,
+      editButtonLength: 0,
+      saveButtonLength: 0,
+      title: baseArticle.title,
     },
     {
-      hasEditPermission: true, isEditing: false, length: 1, editButtonLength: 1, saveButtonLength: 0,
+      hasEditPermission: true,
+      isEditing: false,
+      length: 1,
+      editButtonLength: 1,
+      saveButtonLength: 0,
+      title: baseArticle.title,
     },
     {
-      hasEditPermission: true, isEditing: true, length: 1, editButtonLength: 0, saveButtonLength: 1,
+      hasEditPermission: true,
+      isEditing: true,
+      length: 1,
+      editButtonLength: 0,
+      saveButtonLength: 1,
+      title: '',
     },
   ];
 
@@ -53,7 +73,7 @@ describe('Article', () => {
         article,
       );
       expect(blogContent.find('article')).toHaveLength(data.length);
-      expect(getText(blogContent, '.article__title')).toEqual(article.title);
+      expect(getText(blogContent, '.article__title')).toEqual(data.title);
       expect(getText(blogContent, '.article__content')).toEqual(textContent.value);
       expect(blogContent.find('.article__image img')).toBeDefined();
       expect(getText(blogContent, '.article__created')).toEqual(article.created);
@@ -86,6 +106,10 @@ describe('Article', () => {
         () => { },
         result,
       );
+      const titleComponent = blogContent
+        .find('input.input')
+        .first();
+      titleComponent.simulate('change');
       const saveButton = blogContent
         .find('span.button')
         .findWhere(element => element !== null && element.text() === saveText)

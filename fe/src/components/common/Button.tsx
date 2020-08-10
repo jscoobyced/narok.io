@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './Input.scss';
 import './Button.scss';
 
 interface MyProps {
@@ -24,7 +25,7 @@ export const Button: React.StatelessComponent<MyProps> = (props) => {
       role="button"
       title={title}
       tabIndex={-1}
-      className={`button ${className}`}
+      className={`input button ${className}`}
     >
       {children}
     </span>

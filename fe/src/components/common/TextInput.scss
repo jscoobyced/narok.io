@@ -1,0 +1,7 @@
+@import "../../styles/variables";
+
+input[type="text"] {
+  background-color: $background;
+  padding: 5px;
+  font-size: $font-size-big;
+}

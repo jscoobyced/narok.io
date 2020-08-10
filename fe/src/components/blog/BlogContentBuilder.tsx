@@ -3,6 +3,7 @@ import { BlogContent, BlogContentType } from '../../models/blog/ArticleData';
 import { EditableBlogContent } from './EditableBlogContent';
 import { StaticBlogContent } from './StaticBlogContent';
 import { SimpleEditorText } from '../editor/SimpleEditor/SimpleEditor';
+import { TextInput } from '../common/TextInput';
 
 export const buildContent = (
   content: BlogContent,
@@ -11,7 +12,7 @@ export const buildContent = (
   isEditing: boolean,
   buttonText: SimpleEditorText,
   onContentChange: (event: React.FocusEvent<HTMLDivElement>, index: number) => void,
-) => {
+): JSX.Element => {
   const index = content.id;
   const result = <span key={`bp-ac-${index}`}>{noResult}</span>;
 
@@ -39,4 +40,21 @@ export const buildContent = (
   }
 
   return result;
+};
+
+export const buildTitle = (
+  title: string,
+  hasEditPermission: boolean,
+  isEditing: boolean,
+  onChange: (event: any) => void,
+): JSX.Element => {
+  if (!hasEditPermission || !isEditing) {
+    return <h2 className="article__title">{title}</h2>;
+  }
+  return (
+    <TextInput
+      content={title}
+      onChange={onChange}
+    />
+  );
 };

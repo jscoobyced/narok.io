@@ -4,7 +4,7 @@ import { AppContext } from '../../services/context/context';
 import CMS from '../../services/i18n/cms';
 import { Button } from '../common/Button';
 import { ArticleData } from '../../models/blog/ArticleData';
-import { buildContent } from './BlogContentBuilder';
+import { buildContent, buildTitle } from './BlogContentBuilder';
 import './Article.scss';
 
 export const Article = (props: {
@@ -29,6 +29,7 @@ export const Article = (props: {
   const buttonText = {
     boldText: getContent(CMS.BOLDTEXT),
     italicText: getContent(CMS.ITALICTEXT),
+    strikeThroughText: getContent(CMS.STRIKETHROUGHTEXT),
     decreaseFontSizeText: getContent(CMS.DECREASETEXT),
     increaseFontSizeText: getContent(CMS.INCREASETEXT),
     orderedListText: getContent(CMS.ORDEREDLISTTEXT),
@@ -40,6 +41,7 @@ export const Article = (props: {
   };
 
   const onContentChange = (event: React.FocusEvent<HTMLDivElement>, index: number) => {
+    event.preventDefault();
     const value = (event.target as HTMLDivElement).innerHTML;
     const newArticle = { ...article };
     const newContents = newArticle.contents.map(content => {
@@ -50,6 +52,14 @@ export const Article = (props: {
       return newContent;
     });
     newArticle.contents = newContents;
+    setCurrentArticle(newArticle);
+  };
+
+  const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    const { value } = event.target;
+    const newArticle = { ...article };
+    newArticle.title = value;
     setCurrentArticle(newArticle);
   };
 
@@ -77,10 +87,12 @@ export const Article = (props: {
     onContentChange,
   ));
 
+  const titleElement = buildTitle(title, hasEditPermission, isEditing, onTitleChange);
+
   const editButton = hasEditPermission && !isEditing && (
     <Link
       to={`/article/${id}`}
-      className="button article__ender"
+      className="input button article__ender"
     >
       {editText}
     </Link>
@@ -102,7 +114,7 @@ export const Article = (props: {
   return (
     <article key={`a-${id}`}>
       {displayMessage}
-      <h2 className="article__title">{title}</h2>
+      {titleElement}
       <span className="article__created">{created}</span>
       {allContent}
       <span className="article__ender">

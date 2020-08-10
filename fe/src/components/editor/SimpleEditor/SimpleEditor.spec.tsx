@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { SimpleEditor, handleKeyPress } from './SimpleEditor';
+import { SimpleEditor, handleKeyPress, defaultButtonText } from './SimpleEditor';
 
 jest.mock('./editorCommands', () => ({
   isCommandSupported: () => true,
@@ -9,24 +9,13 @@ jest.mock('./editorCommands', () => ({
 
 describe('SimpleEditor', () => {
   it('should display default UI', () => {
-    const buttonText = {
-      boldText: 'Bold',
-      italicText: 'Italic',
-      decreaseFontSizeText: 'Decrease',
-      increaseFontSizeText: 'Increase',
-      orderedListText: 'Ordered',
-      unorderedListText: 'Unordered',
-      justifyLeftText: 'Left',
-      justifyCenterText: 'Center',
-      justifyFullText: 'Full',
-      justifyRightText: 'Right',
-    };
+    const buttonText = defaultButtonText;
 
     const editor = shallow(<SimpleEditor
       buttonText={buttonText}
     />);
     const buttons = editor.find('.jscSimpleEditor').first().children();
-    expect(buttons).toHaveLength(10);
+    expect(buttons).toHaveLength(11);
     buttons.forEach(span => {
       span.simulate('click', {
         preventDefault: () => { },
