@@ -49,7 +49,9 @@ export const buildTitle = (
   onChange: (event: any) => void,
 ): JSX.Element => {
   if (!hasEditPermission || !isEditing) {
-    return <h2 className="article__title">{title}</h2>;
+    return <h2
+      className="article__title"
+      dangerouslySetInnerHTML={{ __html: title }} />;
   }
   return (
     <TextInput
