@@ -22,7 +22,7 @@ export const Article = (props: {
   const [message, setMessage] = React.useState('');
   const [currentArticle, setCurrentArticle] = React.useState(article);
   const {
-    id, owner, title, contents, created, modified
+    id, owner, title, contents, created, modified,
   } = currentArticle;
   const { name } = owner;
   const noResult = getContent(CMS.NORESULT);
@@ -118,7 +118,7 @@ export const Article = (props: {
     <article key={`a-${id}`}>
       {displayMessage}
       {titleElement}
-      <span className="article__created" title={contentModified + ' ' + modified}>{created}</span>
+      <span className="article__created" title={`${contentModified} ${modified}`}>{created}</span>
       {allContent}
       <span className="article__ender">
         {fromText}

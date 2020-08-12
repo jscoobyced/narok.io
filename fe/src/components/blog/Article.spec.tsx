@@ -53,7 +53,7 @@ describe('Article', () => {
       length: 1,
       editButtonLength: 0,
       saveButtonLength: 1,
-      title: '',
+      title: baseArticle.title,
     },
   ];
 
@@ -89,6 +89,54 @@ describe('Article', () => {
     });
   });
 
+  it('should skip updating state when title is empty', () => {
+    const data = ['', undefined];
+    data.forEach(title => {
+      const article = { ...baseArticle, title };
+      const blogContent = mountComponent(
+        <Article
+          article={article}
+          fromText="By"
+          editText={editText}
+          saveText={saveText}
+          hasEditPermission
+          isEditing
+        />,
+        () => { },
+        article,
+      );
+      const titleComponent = blogContent
+        .find('.input.article__title')
+        .first();
+      expect(titleComponent).toBeDefined();
+      titleComponent.simulate('blur');
+    });
+  });
+
+  it('should skip updating state when text is empty', () => {
+    const data = ['', undefined];
+    data.forEach(content => {
+      const article = { ...baseArticle, contents: [toBlogContentText(content)] };
+      const blogContent = mountComponent(
+        <Article
+          article={article}
+          fromText="By"
+          editText={editText}
+          saveText={saveText}
+          hasEditPermission
+          isEditing
+        />,
+        () => { },
+        article,
+      );
+      const blogContentComponent = blogContent
+        .find('.article__content-editing')
+        .first();
+      expect(blogContentComponent).toBeDefined();
+      blogContentComponent.simulate('blur');
+    });
+  });
+
   it('should update an article', async () => {
     const article = { ...baseArticle };
     const result = { id: 1, message: 'Complete.' };
@@ -107,9 +155,9 @@ describe('Article', () => {
         result,
       );
       const titleComponent = blogContent
-        .find('input.input')
+        .find('.input.article__title')
         .first();
-      titleComponent.simulate('change');
+      titleComponent.simulate('blur');
       const saveButton = blogContent
         .find('span.button')
         .findWhere(element => element !== null && element.text() === saveText)

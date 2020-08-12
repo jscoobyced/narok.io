@@ -3,7 +3,6 @@ import { BlogContent, BlogContentType } from '../../models/blog/ArticleData';
 import { EditableBlogContent } from './EditableBlogContent';
 import { StaticBlogContent } from './StaticBlogContent';
 import { SimpleEditorText } from '../editor/SimpleEditor/SimpleEditor';
-import { TextInput } from '../common/TextInput';
 
 export const buildContent = (
   content: BlogContent,
@@ -48,17 +47,23 @@ export const buildTitle = (
   isEditing: boolean,
   onChange: (event: any) => void,
 ): JSX.Element => {
+  /* eslint-disable react/no-danger */
   if (!hasEditPermission || !isEditing) {
-    return <h2
-      className="article__title"
-      dangerouslySetInnerHTML={{ __html: title }} />;
+    return (
+      <h2
+        className="article__title"
+        dangerouslySetInnerHTML={{ __html: title }}
+      />
+    );
   }
   return (
     <div
-        onBlur={onChange}
-        tabIndex={-1}
-        contentEditable
-        dangerouslySetInnerHTML={{ __html: title }}
-      />
+      onBlur={onChange}
+      className="input article__title"
+      tabIndex={-1}
+      contentEditable
+      dangerouslySetInnerHTML={{ __html: title }}
+    />
   );
+  /* eslint-enable react/no-danger */
 };
