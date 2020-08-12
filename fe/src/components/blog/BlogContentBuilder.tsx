@@ -54,9 +54,11 @@ export const buildTitle = (
       dangerouslySetInnerHTML={{ __html: title }} />;
   }
   return (
-    <TextInput
-      content={title}
-      onChange={onChange}
-    />
+    <div
+        onBlur={onChange}
+        tabIndex={-1}
+        contentEditable
+        dangerouslySetInnerHTML={{ __html: title }}
+      />
   );
 };
