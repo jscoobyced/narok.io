@@ -1,23 +1,29 @@
 import * as React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, ShallowWrapper } from 'enzyme';
 import { buildTitle } from './BlogContentBuilder';
 
+const getStaticTitleContent = (wrapper: ShallowWrapper<any, Readonly<{}>, React.Component<{}, {}, any>>): string => {
+  return wrapper.find('h2').first().html();
+}
+
+const textValue = 'text value';
+const expectedStaticTitle = `<h2 class="article__title">${textValue}</h2>`;
+
 describe('BlogContentBuilder', () => {
-  const textValue = 'text value';
 
   it('should create the read-only title UI for {false, false}', () => {
     const title = shallow(buildTitle(textValue, false, false, () => { }));
-    expect(title.find('h2').first().text()).toEqual(textValue);
+    expect(getStaticTitleContent(title)).toEqual(expectedStaticTitle);
   });
 
   it('should create the read-only title UI for {true, false}', () => {
     const title = shallow(buildTitle(textValue, true, false, () => { }));
-    expect(title.find('h2').first().text()).toEqual(textValue);
+    expect(getStaticTitleContent(title)).toEqual(expectedStaticTitle);
   });
 
   it('should create the read-only title UI for {false, true}', () => {
     const title = shallow(buildTitle(textValue, false, true, () => { }));
-    expect(title.find('h2').first().text()).toEqual(textValue);
+    expect(getStaticTitleContent(title)).toEqual(expectedStaticTitle);
   });
 
   it('should create the read/write title UI for {true, true}', () => {
