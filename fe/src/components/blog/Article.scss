@@ -13,6 +13,11 @@
         }
 
         .article {
+            &__title {
+                padding: 5px;
+                font-size: $font-size-big;
+            }
+
             &__created {
                 grid-column: span 1;
                 margin-left: auto;

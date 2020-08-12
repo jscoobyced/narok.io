@@ -62,7 +62,7 @@ export const toBlogContentText = (
 );
 
 export const toBlogContentImage = (
-  value: string, align?: Align, altText?: string,
+  value: string, align?: Align, altText?: string, id?: number,
 ): BlogContent => toBlogContent(
-  value, BlogContentType.Image, align, altText,
+  value, BlogContentType.Image, align, altText, id,
 );

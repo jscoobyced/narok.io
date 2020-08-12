@@ -22,10 +22,11 @@ export const Article = (props: {
   const [message, setMessage] = React.useState('');
   const [currentArticle, setCurrentArticle] = React.useState(article);
   const {
-    id, owner, title, contents, created,
+    id, owner, title, contents, created, modified,
   } = currentArticle;
   const { name } = owner;
   const noResult = getContent(CMS.NORESULT);
+  const contentModified = getContent(CMS.CONTENTMODIDIED);
   const buttonText = {
     boldText: getContent(CMS.BOLDTEXT),
     italicText: getContent(CMS.ITALICTEXT),
@@ -43,7 +44,8 @@ export const Article = (props: {
   const onContentChange = (event: React.FocusEvent<HTMLDivElement>, index: number) => {
     event.preventDefault();
     const value = (event.target as HTMLDivElement).innerHTML;
-    const newArticle = { ...article };
+    if (!value || value === '') return;
+    const newArticle = { ...currentArticle };
     const newContents = newArticle.contents.map(content => {
       const newContent = { ...content };
       if (content.id === index) {
@@ -57,8 +59,9 @@ export const Article = (props: {
 
   const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    const { value } = event.target;
-    const newArticle = { ...article };
+    const value = (event.target as HTMLDivElement).innerHTML;
+    if (!value || value === '') return;
+    const newArticle = { ...currentArticle };
     newArticle.title = value;
     setCurrentArticle(newArticle);
   };
@@ -115,7 +118,7 @@ export const Article = (props: {
     <article key={`a-${id}`}>
       {displayMessage}
       {titleElement}
-      <span className="article__created">{created}</span>
+      <span className="article__created" title={`${contentModified} ${modified}`}>{created}</span>
       {allContent}
       <span className="article__ender">
         {fromText}

@@ -38,7 +38,7 @@ class HtmlSanitizerSpec extends BaseTest {
         ("<img src=\"https://example.com/test.png\">", "<img src=\"https://example.com/test.png\" />"),
         ("<img src=\"https://example.com/test.png\" onMouseOver=\"alert(0);\">",
          "<img src=\"https://example.com/test.png\" />"),
-        ("<strike>text</strike>", "<strike>text</strike>"),
+        ("<ul><li><strike>text</strike></li></ul>", "<ul><li><strike>text</strike></li></ul>"),
       )
       data.foreach(row => {
         assert(sanitizer.sanitize(row._1) == row._2)
