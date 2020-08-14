@@ -2,7 +2,7 @@ package io.narok.repositories.mappers
 
 import java.sql.ResultSet
 
-import io.narok.models.EmptyUser
+import io.narok.models.{EmptyUser, User}
 import io.narok.models.blog.Article
 
 // $COVERAGE-OFF$
@@ -13,7 +13,12 @@ object ArticleMapper extends AbstractMapper {
     val articles = articleIterator.map(result => {
       Article(
         result.getInt(1),
-        EmptyUser(),
+        User(
+          result.getInt(6),
+          result.getString(7),
+          result.getString(8),
+          result.getString(9)
+        ),
         result.getString(2),
         List(),
         result.getDate(3).toString,
@@ -29,7 +34,12 @@ object ArticleMapper extends AbstractMapper {
       Some(
         Article(
           resultSet.getInt(1),
-          EmptyUser(),
+          User(
+            resultSet.getInt(6),
+            resultSet.getString(7),
+            resultSet.getString(8),
+            resultSet.getString(9)
+          ),
           resultSet.getString(2),
           List(),
           resultSet.getDate(3).toString,

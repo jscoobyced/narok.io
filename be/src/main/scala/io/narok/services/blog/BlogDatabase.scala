@@ -5,15 +5,21 @@ import java.util.Date
 import com.google.inject.Inject
 import io.narok.configuration.AuthConfiguration
 import io.narok.models.User
-import io.narok.models.blog.Article
+import io.narok.models.blog.{Article, BlogContent}
 import io.narok.repositories.db.{DatabaseRepository, Parameter}
 import io.narok.repositories.mappers.{ArticleMapper, BlogContentMapper}
 
+import scala.annotation.tailrec
+
 class BlogDatabase @Inject()(databaseRepository: DatabaseRepository) {
-  private val getArticlesSql: String = "SELECT id, title, created, modified, status FROM blog " +
-    "WHERE status = 0 ORDER BY created DESC, modified DESC LIMIT 5"
-  private val getArticleSql: String = "SELECT id, title, created, modified, status FROM blog " +
-    "WHERE status = 0 AND id = ?"
+  private val getArticlesSql: String = "SELECT b.id, b.title, b.created, b.modified, b.status, " +
+    "u.id, u.name, u.email, u.reference_id " +
+    "FROM blog b JOIN user u ON b.user_id = u.id " +
+    "WHERE b.status = 0 AND u.status = 0 ORDER BY b.created DESC, b.modified DESC LIMIT 5"
+  private val getArticleSql: String = "SELECT b.id, b.title, b.created, b.modified, b.status, " +
+    "u.id, u.name, u.email, u.reference_id " +
+    "FROM blog b JOIN user u ON b.user_id = u.id " +
+    "WHERE b.status = 0 AND u.status = 0 AND b.id = ?"
   private val getArticleContentSql
     : String = "SELECT id, content, type, blog_id, alttext, align, status FROM blog_content" +
     " WHERE status = 0 AND blog_id = ?"
@@ -24,31 +30,18 @@ class BlogDatabase @Inject()(databaseRepository: DatabaseRepository) {
   private val deleteArticleContentSql       = "UPDATE blog_content SET status = 1 WHERE blog_id = ?"
   private val updateArticleSql              = "UPDATE blog SET title = ?, modified = ? WHERE id = ?"
 
-  def articles(): List[Article] =
-    databaseRepository
+  def articles(): List[Article] = {
+    val articles: List[Article] = databaseRepository
       .executeQuery(getArticlesSql, None, ArticleMapper.toArticles)
-      .map(blog => {
-        var article: Article = blog
-        databaseRepository
-          .executeQuery(getArticleContentSql, Some(List(Parameter(1, blog.id))), BlogContentMapper.toBlogContent)
-          .foreach(content => {
-            article = article.addContent(content)
-          })
-        article
-      })
+
+    addBlogContent(articles, List())
+  }
 
   def article(id: Int): Option[Article] =
     databaseRepository
       .executeSingleQuery[Article](getArticleSql, Some(List(Parameter(1, id))), ArticleMapper.toArticle) match {
-      case Some(result: Article) =>
-        var article: Article = result
-        databaseRepository
-          .executeQuery(getArticleContentSql, Some(List(Parameter(1, article.id))), BlogContentMapper.toBlogContent)
-          .foreach(content => {
-            article = article.addContent(content)
-          })
-        Some(article)
-      case _ => None
+      case Some(result: Article) => Some(addBlogContent(List(result), List()).head)
+      case _                     => None
     }
 
   def saveArticle(article: Article): Int =
@@ -87,6 +80,19 @@ class BlogDatabase @Inject()(databaseRepository: DatabaseRepository) {
     val fullSql = insertArticleContentSql + subSql.dropRight(1)
     databaseRepository.executeUpdate(fullSql, Some(mapValues(id, article)))
   }
+
+  @tailrec
+  private def addBlogContent(originalArticles: List[Article], destinationArticles: List[Article]): List[Article] =
+    if (originalArticles.isEmpty) destinationArticles
+    else {
+      val originalArticle = originalArticles.head
+      val blogContents: List[BlogContent] = databaseRepository
+        .executeQuery(getArticleContentSql,
+                      Some(List(Parameter(1, originalArticle.id))),
+                      BlogContentMapper.toBlogContent)
+      val article = originalArticles.head.copy(contents = blogContents)
+      addBlogContent(originalArticles.tail, article :: destinationArticles)
+    }
 
   private def mapValues(id: Int, article: Article): List[List[Parameter]] =
     article.contents.map(

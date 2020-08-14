@@ -3,12 +3,10 @@ import { UserService } from './user';
 
 export default class UserServiceMock implements UserService {
   public createUser = (user: any): SecureUser => toSecureUser(
-    '123456789',
+    1,
     'Administrator',
     '',
-    '',
-    '',
-    '',
+    '123456789',
     '',
     '',
     0,

@@ -1,8 +1,12 @@
 USE `narokio`;
 
+LOCK TABLES `user` WRITE;
+INSERT INTO `user` VALUES (1,'Administrator','admin@narok.io','123456789','2020-05-10 17:37:24','2020-05-10 17:37:24', 0);
+UNLOCK TABLES;
+
 LOCK TABLES `blog` WRITE;
-INSERT INTO `blog` VALUES (1,'narok.io is live!','2020-05-10 17:37:24','2020-05-10 17:37:24', 0);
-INSERT INTO `blog` VALUES (2,'What''s coming','2020-05-10 17:42:37','2020-05-10 17:42:37', 0);
+INSERT INTO `blog` VALUES (1,'narok.io is live!',1,'2020-05-10 17:37:24','2020-05-10 17:37:24', 0);
+INSERT INTO `blog` VALUES (2,'What''s coming',1,'2020-05-10 17:42:37','2020-05-10 17:42:37', 0);
 UNLOCK TABLES;
 
 LOCK TABLES `blog_content` WRITE;

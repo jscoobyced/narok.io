@@ -1,31 +1,27 @@
 export interface User {
-    id: string;
-    name: string;
-    givenName?: string;
-    familyName?: string;
-    imageUrl?: string;
-    email?: string;
+  id: number;
+  name: string;
+  email?: string;
+  referenceId?: string;
 }
 
 export interface AuthToken {
-    accessToken: string;
-    scope: string;
-    expiresIn?: number;
-    expiresAt?: number;
+  accessToken: string;
+  scope: string;
+  expiresIn?: number;
+  expiresAt?: number;
 }
 
 export interface SecureUser {
-    user: User;
-    authToken: AuthToken;
+  user: User;
+  authToken: AuthToken;
 }
 
-export const toUser = (id: string,
+export const toUser = (id: number,
   name: string,
-  givenName: string,
-  familyName: string,
   email: string,
-  imageUrl?: string): User => ({
-  id, name, givenName, familyName, email, imageUrl,
+  referenceId?: string): User => ({
+  id, name, email, referenceId,
 });
 
 export const toAuthToken = (accessToken: string,
@@ -35,20 +31,18 @@ export const toAuthToken = (accessToken: string,
   accessToken, scope, expiresIn, expiresAt,
 });
 
-export const toSecureUser = (id: string,
+export const toSecureUser = (id: number,
   name: string,
-  givenName: string,
-  familyName: string,
   email: string,
+  referenceId: string,
   accessToken: string,
   scope: string,
-  imageUrl?: string,
   expireIn?: number,
   expiresAt?: number): SecureUser => ({
-  user: toUser(id, name, givenName, familyName, email, imageUrl),
+  user: toUser(id, name, email, referenceId),
   authToken: toAuthToken(accessToken, scope, expireIn, expiresAt),
 });
 
 export const newSecureUser = (): SecureUser => toSecureUser(
-  '', '', '', '', '', '', '', '', 0, 0,
+  0, '', '', '', '', '', 0, 0,
 );
