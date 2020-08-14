@@ -18,7 +18,7 @@ export const Article = (props: {
   const {
     article, fromText, editText, saveText, hasEditPermission, isEditing,
   } = props;
-  const { getContent, dataService } = React.useContext(AppContext);
+  const { getContent, dataService, user } = React.useContext(AppContext);
   const [message, setMessage] = React.useState('');
   const [currentArticle, setCurrentArticle] = React.useState(article);
   const {
@@ -74,7 +74,8 @@ export const Article = (props: {
           setMessage(result.message);
         });
     } else if (currentArticle.id === 0) {
-      dataService.createArticle(currentArticle)
+      const newArticle = { ...currentArticle, owner: user.user };
+      dataService.createArticle(newArticle)
         .then(result => {
           setMessage(result.message);
         });

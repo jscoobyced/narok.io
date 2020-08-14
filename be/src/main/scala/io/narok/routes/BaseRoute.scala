@@ -15,7 +15,7 @@ trait WebRoute {
 
 trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
   implicit val blogContentFormat: RootJsonFormat[BlogContent]         = jsonFormat7(BlogContent)
-  implicit val userFormat: RootJsonFormat[User]                       = jsonFormat2(User)
+  implicit val userFormat: RootJsonFormat[User]                       = jsonFormat4(User)
   implicit val articleFormat: RootJsonFormat[Article]                 = jsonFormat7(Article)
   implicit val articleResponseFormat: RootJsonFormat[ArticleResponse] = jsonFormat3(ArticleResponse)
   implicit val responseStatusFormat: RootJsonFormat[ResponseStatus]   = jsonFormat3(ResponseStatus)

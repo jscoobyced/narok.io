@@ -62,7 +62,7 @@ class BlogServiceSpec extends BaseTest {
     }
 
     it("should be able to detect an Article cannot be saved") {
-      val emptyContentArticle = Article(1, User("0", "Admin"), "test", List(), "now", "now", 0)
+      val emptyContentArticle = Article(1, User(0, "Admin", "", "0"), "test", List(), "now", "now", 0)
       val blogService =
         new BlogServiceImpl(
           new DatabaseRepositoryMock(articles = Iterator(List(), List()),
@@ -75,7 +75,7 @@ class BlogServiceSpec extends BaseTest {
     }
 
     it("should be able to save an Article with no content") {
-      val emptyContentArticle = Article(1, User("0", "Admin"), "test", List(), "now", "now", 0)
+      val emptyContentArticle = Article(1, User(0, "Admin", "", "0"), "test", List(), "now", "now", 0)
       val blogService =
         new BlogServiceImpl(
           new DatabaseRepositoryMock(articles = Iterator(List(emptyContentArticle), List()),
@@ -102,12 +102,12 @@ class BlogServiceSpec extends BaseTest {
     }
 
     it("should not allow to update an Article from another owner") {
-      val differentOwnerArticles = List(Article(1, User("1", "Admin"), "test", List(), "now", "now", 0))
+      val differentOwnerArticles = List(Article(1, User(1, "Admin", "", "1"), "test", List(), "now", "now", 0))
       val blogService =
         new BlogServiceImpl(
           new DatabaseRepositoryMock(articles = Iterator(differentOwnerArticles, expectedArticle.contents),
-            single = expectedArticle.id,
-            updated = Iterator(1, 1, 1)),
+                                     single = expectedArticle.id,
+                                     updated = Iterator(1, 1, 1)),
           new GoogleServiceMock,
           new HtmlSanitizerImpl
         )
@@ -115,12 +115,12 @@ class BlogServiceSpec extends BaseTest {
     }
 
     it("should not allow to save an Article from another owner") {
-      val differentOwnerArticles = List(Article(1, User("1", "Admin"), "test", List(), "now", "now", 0))
+      val differentOwnerArticles = List(Article(1, User(1, "Admin", "", "1"), "test", List(), "now", "now", 0))
       val blogService =
         new BlogServiceImpl(
           new DatabaseRepositoryMock(articles = Iterator(differentOwnerArticles, expectedArticle.contents),
-            single = expectedArticle.id,
-            updated = Iterator(1, 1, 1)),
+                                     single = expectedArticle.id,
+                                     updated = Iterator(1, 1, 1)),
           new GoogleServiceMock,
           new HtmlSanitizerImpl
         )

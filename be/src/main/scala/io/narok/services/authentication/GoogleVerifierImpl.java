@@ -17,13 +17,13 @@ public class GoogleVerifierImpl implements GoogleVerifier {
   private GoogleIdTokenVerifier verifier;
 
   public User verify(String token) {
-    User user = new User("", "");
+    User user = new User(0, "", "", "");
     if (token.isBlank()) return user;
 
     try {
       GoogleIdToken idToken = this.getVerifier().verify(token);
       Payload payload = idToken.getPayload();
-      user = new User(payload.getSubject(), payload.get("name").toString());
+      user = new User(0, payload.get("name").toString(), payload.getEmail(), payload.getSubject());
     } catch (IOException ioe) {
       // Skip for now
     } catch (GeneralSecurityException gse) {

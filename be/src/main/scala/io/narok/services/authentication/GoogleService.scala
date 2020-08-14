@@ -19,9 +19,7 @@ class GoogleServiceImpl @Inject()(val googleVerifier: GoogleVerifier) extends Go
 
     def getVerifiedUserId(actualToken: String) =
       if (actualToken.isBlank) ""
-      else {
-        googleVerifier.verify(actualToken).id
-      }
+      else googleVerifier.verify(actualToken).referenceId
     getVerifiedUserId(getToken(token))
   }
 }

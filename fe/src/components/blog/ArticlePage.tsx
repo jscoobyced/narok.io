@@ -10,7 +10,7 @@ import './ArticlePage.scss';
 export const ArticlePage = () => {
   const { getContent, user, dataService } = React.useContext(AppContext);
   const { articleId } = useParams();
-  const [article, setArticle] = React.useState(toArticle(0, toUser('', '', '', '', ''), '', [], ''));
+  const [article, setArticle] = React.useState(toArticle(0, toUser(0, '', '', ''), '', [], ''));
   const backText = getContent(CMS.BACK);
 
   const getArticle = async (): Promise<void> => {
@@ -28,8 +28,8 @@ export const ArticlePage = () => {
     const fromOwner = getContent(CMS.FROMOWNER);
     const edit = getContent(CMS.EDIT);
     const save = getContent(CMS.SAVE);
-    const { id: ownerId } = rawArticle.owner;
-    const userId = user.user.id;
+    const { referenceId: ownerId } = rawArticle.owner;
+    const userId = user.user.referenceId;
     return (
       <Article
         key={`bc-${rawArticle.id}`}

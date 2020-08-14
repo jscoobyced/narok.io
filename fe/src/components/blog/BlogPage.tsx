@@ -26,8 +26,8 @@ export const BlogPage = () => {
     const edit = getContent(CMS.EDIT);
     const save = getContent(CMS.SAVE);
     const loadedArticles = rawArticles.map(article => {
-      const { id: ownerId } = article.owner;
-      const userId = user.user.id;
+      const { referenceId: ownerId } = article.owner;
+      const userId = user.user.referenceId;
       return (
         <Article
           key={`bc-${article.id}`}
