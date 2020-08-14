@@ -106,12 +106,25 @@ class BlogServiceSpec extends BaseTest {
       val blogService =
         new BlogServiceImpl(
           new DatabaseRepositoryMock(articles = Iterator(differentOwnerArticles, expectedArticle.contents),
-                                     single = expectedArticle.id,
-                                     updated = Iterator(0, 1, 1)),
+            single = expectedArticle.id,
+            updated = Iterator(1, 1, 1)),
           new GoogleServiceMock,
           new HtmlSanitizerImpl
         )
-      assert(!blogService.updateArticle(differentOwnerArticles.head.id, differentOwnerArticles.head, Some("0")))
+      assert(!blogService.updateArticle(differentOwnerArticles.head.id, differentOwnerArticles.head, Some("1")))
+    }
+
+    it("should not allow to save an Article from another owner") {
+      val differentOwnerArticles = List(Article(1, User("1", "Admin"), "test", List(), "now", "now", 0))
+      val blogService =
+        new BlogServiceImpl(
+          new DatabaseRepositoryMock(articles = Iterator(differentOwnerArticles, expectedArticle.contents),
+            single = expectedArticle.id,
+            updated = Iterator(1, 1, 1)),
+          new GoogleServiceMock,
+          new HtmlSanitizerImpl
+        )
+      assert(blogService.saveArticle(differentOwnerArticles.head, Some("1")) == -1)
     }
 
     it("should detect a failure to update an Article") {
