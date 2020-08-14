@@ -17,6 +17,7 @@ export const buildArticleComponent = (
   article: ArticleData,
   user: SecureUser,
   cms: CmsContent,
+  isEditing: boolean,
 ): JSX.Element => {
   const {
     noResult, fromOwner, save, edit,
@@ -35,7 +36,7 @@ export const buildArticleComponent = (
       editText={edit}
       saveText={save}
       hasEditPermission={hasEditPermission}
-      isEditing
+      isEditing={isEditing}
     />
   );
 };

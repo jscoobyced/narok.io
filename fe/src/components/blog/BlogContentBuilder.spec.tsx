@@ -55,13 +55,13 @@ describe('BlogContentBuilder', () => {
   };
 
   it('should build an article', () => {
-    const articleComponent = buildArticleComponent(articleData, secureUser, cms);
+    const articleComponent = buildArticleComponent(articleData, secureUser, cms, true);
     const wrapper = mountComponent(articleComponent);
     expect(wrapper.find('article').length).toEqual(1);
   });
 
   it('should return \'No result found.\' if there is no article', () => {
-    const articleComponent = buildArticleComponent(undefined, secureUser, cms);
+    const articleComponent = buildArticleComponent(undefined, secureUser, cms, true);
     const wrapper = mountComponent(articleComponent);
     expect(wrapper.text()).toEqual(cms.noResult);
   });
