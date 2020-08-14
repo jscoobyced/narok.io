@@ -11,8 +11,8 @@ import io.narok.services.security.HtmlSanitizer
 import scala.concurrent.ExecutionContext
 
 trait BlogService {
-  def getArticle(id: Int): Option[Article]
-  def getArticles: List[Article]
+  def getArticle(id: Int, token: Option[String]): Option[Article]
+  def getArticles(token: Option[String]): List[Article]
   def saveArticle(article: Article, token: Option[String]): Int
   def updateArticle(id: Int, article: Article, token: Option[String]): Boolean
 }
@@ -25,11 +25,16 @@ class BlogServiceImpl @Inject()(
     with JsonSupport {
   val database = new BlogDatabase(databaseRepository)
 
-  override def getArticles: List[Article] = htmlSanitizer.sanitizeAllArticles(database.articles())
+  override def getArticles(token: Option[String]): List[Article] =
+    htmlSanitizer
+      .sanitizeAllArticles(database.articles())
+      .map(article => checkOwner(article, token))
 
-  override def getArticle(id: Int): Option[Article] = database.article(id) match {
-    case Some(article) => Some(htmlSanitizer.sanitizeArticle(article))
-    case _             => None
+  override def getArticle(id: Int, token: Option[String]): Option[Article] = database.article(id) match {
+    case Some(article) => {
+      Some(htmlSanitizer.sanitizeArticle(checkOwner(article, token)))
+    }
+    case _ => None
   }
 
   override def saveArticle(article: Article, token: Option[String]): Int = {
@@ -42,5 +47,11 @@ class BlogServiceImpl @Inject()(
     val userId = googleService.getUserId(token)
     if (AuthConfiguration.getOwnerIds.contains(userId)) database.updateArticle(id, article)
     else false
+  }
+
+  private def checkOwner(article: Article, token: Option[String]): Article = {
+    val userId = googleService.getUserId(token)
+    if (!userId.isBlank && article.owner.referenceId == userId) article
+    else article.copy(owner = article.owner.copy(referenceId = "", email = ""))
   }
 }

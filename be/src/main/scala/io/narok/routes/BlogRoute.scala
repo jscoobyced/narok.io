@@ -35,7 +35,7 @@ class BlogRoute @Inject()(implicit executionContext: ExecutionContext,
           get {
             optionalHeaderValueByName("Authorization") { token =>
               respondWithHeaders(RawHeader("Access-Control-Allow-Origin", origin)) {
-                val articles = blogService.getArticles
+                val articles = blogService.getArticles(token)
                 complete(
                   ResponseMessage(ResponseStatus(true, None, None), Some(ArticleResponse(None, None, Some(articles)))))
               }
@@ -114,7 +114,7 @@ class BlogRoute @Inject()(implicit executionContext: ExecutionContext,
                       token =>
                         Try(id.toInt) match {
                           case Success(blogId) =>
-                            blogService.getArticle(blogId) match {
+                            blogService.getArticle(blogId, token) match {
                               case Some(article: Article) =>
                                 complete(
                                   ResponseMessage(ResponseStatus(true, Some("Article retrieved successfully."), None),

@@ -43,7 +43,7 @@ abstract class BaseTest
     val blogContent4 = BlogContent(4, "test", "undefined", 1, 0, Some(""), Some(""))
     val blogContent5 = BlogContent(5, "test", "undefined", 1, 0, Some(""))
     Article(1,
-            User(0, "Admin", "", "0"),
+            User(0, "Admin", "admin@narok.io", "0"),
             "test",
             List(blogContent1, blogContent2, blogContent3, blogContent4, blogContent5),
             "now",
