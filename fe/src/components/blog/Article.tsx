@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { AppContext } from '../../services/context/context';
 import CMS from '../../services/i18n/cms';
 import { Button } from '../common/Button';
-import { ArticleData } from '../../models/blog/ArticleData';
+import { ArticleData, sortBlogContentById } from '../../models/blog/ArticleData';
 import { buildContent, buildTitle } from './BlogContentBuilder';
 import './Article.scss';
 
@@ -88,7 +88,7 @@ export const Article = (props: {
     isEditing,
     buttonText,
     onContentChange,
-  ));
+  )).sort(sortBlogContentById);
 
   const titleElement = buildTitle(title, hasEditPermission, isEditing, onTitleChange);
 

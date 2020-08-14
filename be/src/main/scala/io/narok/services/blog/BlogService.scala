@@ -1,6 +1,7 @@
 package io.narok.services.blog
 
 import com.google.inject.Inject
+import io.narok.configuration.AuthConfiguration
 import io.narok.models.blog.Article
 import io.narok.repositories.db.DatabaseRepository
 import io.narok.routes.JsonSupport
@@ -12,8 +13,8 @@ import scala.concurrent.ExecutionContext
 trait BlogService {
   def getArticle(id: Int): Option[Article]
   def getArticles: List[Article]
-  def saveArticle(article: Article): Int
-  def updateArticle(id: Int, article: Article): Boolean
+  def saveArticle(article: Article, token: Option[String]): Int
+  def updateArticle(id: Int, article: Article, token: Option[String]): Boolean
 }
 
 class BlogServiceImpl @Inject()(
@@ -31,15 +32,15 @@ class BlogServiceImpl @Inject()(
     case _             => None
   }
 
-  override def saveArticle(article: Article): Int = {
-    val user = googleService.getUser(article.owner.token)
-    if (user.id == article.owner.id) database.saveArticle(article)
+  override def saveArticle(article: Article, token: Option[String]): Int = {
+    val userId = googleService.getUserId(token)
+    if (AuthConfiguration.getOwnerIds.contains(userId)) database.saveArticle(article)
     else -1
   }
 
-  override def updateArticle(id: Int, article: Article): Boolean = {
-    val user = googleService.getUser(article.owner.token)
-    if (user.id == article.owner.id) database.updateArticle(id, article)
+  override def updateArticle(id: Int, article: Article, token: Option[String]): Boolean = {
+    val userId = googleService.getUserId(token)
+    if (AuthConfiguration.getOwnerIds.contains(userId)) database.updateArticle(id, article)
     else false
   }
 }

@@ -7,11 +7,13 @@ describe('TextInput', () => {
 
   it('should render default UI', () => {
     const wrapper = mount(<TextInput content={textValue} />);
-    expect(wrapper.find('input').first().instance().value).toEqual(textValue);
+    const instance: any = wrapper.find('input').first().instance();
+    expect(instance.value).toEqual(textValue);
   });
 
   it('should set the class property', () => {
     const wrapper = mount(<TextInput content={textValue} className="whatever" />);
+    wrapper.find('input').first().simulate('change');
     expect(wrapper.find('.input').length).toEqual(1);
     expect(wrapper.find('.input.whatever').length).toEqual(1);
   });

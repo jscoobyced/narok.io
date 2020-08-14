@@ -5,7 +5,7 @@ import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives.{complete, handleExceptions}
 import akka.http.scaladsl.server.{ExceptionHandler, Route}
 import io.narok.models.blog.{Article, BlogContent}
-import io.narok.models.http.{ResponseData, ResponseMessage, ResponseStatus}
+import io.narok.models.http.{ArticleResponse, ResponseMessage, ResponseStatus}
 import io.narok.models.{ErrorCode, User}
 import spray.json.{DefaultJsonProtocol, RootJsonFormat}
 
@@ -15,9 +15,9 @@ trait WebRoute {
 
 trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
   implicit val blogContentFormat: RootJsonFormat[BlogContent]         = jsonFormat7(BlogContent)
-  implicit val userFormat: RootJsonFormat[User]                       = jsonFormat3(User)
+  implicit val userFormat: RootJsonFormat[User]                       = jsonFormat2(User)
   implicit val articleFormat: RootJsonFormat[Article]                 = jsonFormat7(Article)
-  implicit val responseDataFormat: RootJsonFormat[ResponseData]       = jsonFormat3(ResponseData)
+  implicit val articleResponseFormat: RootJsonFormat[ArticleResponse] = jsonFormat3(ArticleResponse)
   implicit val responseStatusFormat: RootJsonFormat[ResponseStatus]   = jsonFormat3(ResponseStatus)
   implicit val responseMessageFormat: RootJsonFormat[ResponseMessage] = jsonFormat2(ResponseMessage)
 }

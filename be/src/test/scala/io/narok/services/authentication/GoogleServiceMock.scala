@@ -4,5 +4,5 @@ import io.narok.models.User
 
 class GoogleServiceMock extends GoogleService {
 
-  override def getUser(token: String): User = User("0", "Administrator", "token")
+  override def getUserId(token: Option[String]): String = token.getOrElse("0")
 }

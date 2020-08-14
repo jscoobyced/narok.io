@@ -1,7 +1,6 @@
 import DataService from './data';
 import { ArticleData, toArticle, toBlogContentText } from '../../models/blog/ArticleData';
 import { User } from '../../models/User';
-import DataServiceMock from './data.mock';
 import HttpService, { HttpResponse } from '../http/http';
 
 const owner: User = { id: '12345678', name: 'Administrator' };
@@ -27,7 +26,7 @@ class HttpServiceMock<T> extends HttpService {
     super();
     this.data = data;
     this.httpResponse = {
-      responseData: {
+      articleResponse: {
         article: this.data,
         articles: this.data,
         id: this.data,

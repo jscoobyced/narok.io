@@ -18,6 +18,7 @@ libraryDependencies ++= {
     "net.codingwell"                           %% "scala-guice"              % guiceVersion,
     "mysql"                                    % "mysql-connector-java"      % mysqlVersion,
     "com.zaxxer"                               % "HikariCP"                  % hikaryVersion,
+    "com.google.api-client"                    % "google-api-client"         % googleApiVersion,
     "org.scalatest"                            %% "scalatest"                % scalaTestVersion % "test",
     "com.googlecode.owasp-java-html-sanitizer" % "owasp-java-html-sanitizer" % htmlSanitizerVersion
   )

@@ -45,7 +45,7 @@ export const BlogPage = () => {
 
   React.useEffect(() => {
     getArticles();
-  }, []);
+  }, [user]);
 
   return (
     <>
