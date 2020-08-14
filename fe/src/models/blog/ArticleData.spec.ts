@@ -1,5 +1,5 @@
 import {
-  ArticleData, toArticle, toBlogContentText, BlogContent, toBlogContentImage,
+  ArticleData, toArticle, toBlogContentText, BlogContent, toBlogContentImage, Align, sortBlogContentById,
 } from './ArticleData';
 import { User } from '../User';
 
@@ -31,5 +31,29 @@ describe('IArticle', () => {
     const textContent: BlogContent = toBlogContentText('content');
     const article: ArticleData = toArticle(0, owner, 'title', [textContent, imageContent], created);
     expect(article.modified).toEqual(created);
+  });
+
+  const content1 = toBlogContentText('text', Align.Left, 'whatever', 1);
+  const content2: BlogContent = toBlogContentImage('hxxps://url', Align.Left, '', 2);
+  const content3 = toBlogContentText('text', Align.Left, 'whatever', 3);
+  const content4 = toBlogContentText('text', Align.Left, 'whatever', 4);
+  let nextId = 1;
+
+  it('should keep proper sorting of BlogContent by id', () => {
+    nextId = 1;
+    const contents = [content1, content2, content3, content4].sort(sortBlogContentById);
+    contents.forEach(content => {
+      expect(content.id).toEqual(nextId);
+      nextId += 1;
+    });
+  });
+
+  it('should sort BlogContent by id', () => {
+    nextId = 1;
+    const contents = [content3, content2, content4, content1].sort(sortBlogContentById);
+    contents.forEach(content => {
+      expect(content.id).toEqual(nextId);
+      nextId += 1;
+    });
   });
 });

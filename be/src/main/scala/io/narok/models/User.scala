@@ -1,9 +1,9 @@
 package io.narok.models
 
-import io.narok.configuration.BlogConfiguration
+import io.narok.configuration.AuthConfiguration
 
-final case class User(id: String, name: String, token: String)
+final case class User(id: String, name: String)
 
 object EmptyUser {
-  def apply(): User = User(BlogConfiguration.getOwnerId, "Administrator", "0")
+  def apply(): User = User("0", "Administrator")
 }

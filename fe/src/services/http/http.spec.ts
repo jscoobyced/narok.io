@@ -13,6 +13,7 @@ beforeEach(() => {
 describe('HTTPService', () => {
   it('should GET data from API', async () => {
     const httpService = new HttpService();
+    httpService.setToken('token');
     await httpService.fetchData('any');
     expect(myGlobal.fetch).toHaveBeenCalledTimes(1);
   });

@@ -17,27 +17,29 @@ export default class DataService {
     this.httpService = httpService;
   }
 
+  public setToken = (token: string) => this.httpService.setToken(token);
+
   public getHomePageArticles = async (): Promise<ArticleData[]> => this.getArticlesByPage(0, 5)
 
   public getArticlesByPage = async (page: number, perPage: number): Promise<ArticleData[]> => {
     const parameters = [{ name: 'page', value: page }, { name: 'perPage', value: perPage }];
     const httpResponse = await this.get<ArticleData[]>('articles', parameters);
-    return Promise.resolve(httpResponse.responseData.articles);
+    return Promise.resolve(httpResponse.articleResponse.articles);
   }
 
   public getArticleById = async (id: number): Promise<ArticleData> => {
     const httpResponse = await this.get<ArticleData>(`article/${id}`);
-    return Promise.resolve(httpResponse.responseData.article);
+    return Promise.resolve(httpResponse.articleResponse.article);
   }
 
   public saveArticle = async (article: ArticleData): Promise<{ id: number, message: string }> => {
     const httpResponse = await this.putOrPost<ArticleData, number>(true, 'article', article.id, article);
-    return Promise.resolve({ id: httpResponse.responseData.id, message: httpResponse.status.message });
+    return Promise.resolve({ id: httpResponse.articleResponse.id, message: httpResponse.status.message });
   }
 
   public createArticle = async (article: ArticleData): Promise<{ id: number, message: string }> => {
     const httpResponse = await this.putOrPost<ArticleData, number>(false, 'article', article.id, article);
-    return Promise.resolve({ id: httpResponse.responseData.id, message: httpResponse.status.message });
+    return Promise.resolve({ id: httpResponse.articleResponse.id, message: httpResponse.status.message });
   }
 
   private get = async <T>(service: String, parameters?: Parameter[]): Promise<HttpResponse<T>> => {

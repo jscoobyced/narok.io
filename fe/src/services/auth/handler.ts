@@ -20,6 +20,9 @@ export class AuthenticationHandler implements IAuthenticationHandler {
     this.properties = properties;
   }
 
+  /**
+   * Default handler simply creates an empty user
+   */
   public signIn = ((event: any) => {
     if (event) {
       event.preventDefault();

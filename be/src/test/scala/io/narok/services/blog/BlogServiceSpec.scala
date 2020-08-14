@@ -58,11 +58,11 @@ class BlogServiceSpec extends BaseTest {
           new GoogleServiceMock,
           new HtmlSanitizerImpl
         )
-      assert(blogService.saveArticle(expectedArticle) == expectedArticle.id)
+      assert(blogService.saveArticle(expectedArticle, Some("0")) == expectedArticle.id)
     }
 
     it("should not allow to save an Article from wrong owner") {
-      val differentOwnerArticles = List(Article(1, User("1", "Admin", "token"), "test", List(), "now", "now", 0))
+      val differentOwnerArticles = List(Article(1, User("1", "Admin"), "test", List(), "now", "now", 0))
       val blogService =
         new BlogServiceImpl(
           new DatabaseRepositoryMock(articles = Iterator(differentOwnerArticles, expectedArticle.contents),
@@ -71,11 +71,11 @@ class BlogServiceSpec extends BaseTest {
           new GoogleServiceMock,
           new HtmlSanitizerImpl
         )
-      assert(blogService.saveArticle(differentOwnerArticles.head) == -1)
+      assert(blogService.saveArticle(differentOwnerArticles.head, Some("0")) == -1)
     }
 
     it("should be able to detect an Article cannot be saved") {
-      val emptyContentArticle = Article(1, User("0", "Admin", "token"), "test", List(), "now", "now", 0)
+      val emptyContentArticle = Article(1, User("0", "Admin"), "test", List(), "now", "now", 0)
       val blogService =
         new BlogServiceImpl(
           new DatabaseRepositoryMock(articles = Iterator(List(), List()),
@@ -84,11 +84,11 @@ class BlogServiceSpec extends BaseTest {
           new GoogleServiceMock,
           new HtmlSanitizerImpl
         )
-      assert(blogService.saveArticle(emptyContentArticle) == 0)
+      assert(blogService.saveArticle(emptyContentArticle, Some("0")) == 0)
     }
 
     it("should be able to save an Article with no content") {
-      val emptyContentArticle = Article(1, User("0", "Admin", "token"), "test", List(), "now", "now", 0)
+      val emptyContentArticle = Article(1, User("0", "Admin"), "test", List(), "now", "now", 0)
       val blogService =
         new BlogServiceImpl(
           new DatabaseRepositoryMock(articles = Iterator(List(emptyContentArticle), List()),
@@ -97,7 +97,7 @@ class BlogServiceSpec extends BaseTest {
           new GoogleServiceMock,
           new HtmlSanitizerImpl
         )
-      assert(blogService.saveArticle(emptyContentArticle) == emptyContentArticle.id)
+      assert(blogService.saveArticle(emptyContentArticle, Some("0")) == emptyContentArticle.id)
     }
 
     it("should be able to update an Article") {
@@ -111,11 +111,11 @@ class BlogServiceSpec extends BaseTest {
           new GoogleServiceMock,
           new HtmlSanitizerImpl
         )
-      assert(blogService.updateArticle(expectedArticle.id, expectedArticle))
+      assert(blogService.updateArticle(expectedArticle.id, expectedArticle, Some("0")))
     }
 
     it("should not allow to update an Article from another owner") {
-      val differentOwnerArticles = List(Article(1, User("1", "Admin", "token"), "test", List(), "now", "now", 0))
+      val differentOwnerArticles = List(Article(1, User("1", "Admin"), "test", List(), "now", "now", 0))
       val blogService =
         new BlogServiceImpl(
           new DatabaseRepositoryMock(articles = Iterator(differentOwnerArticles, expectedArticle.contents),
@@ -124,7 +124,7 @@ class BlogServiceSpec extends BaseTest {
           new GoogleServiceMock,
           new HtmlSanitizerImpl
         )
-      assert(!blogService.updateArticle(differentOwnerArticles.head.id, differentOwnerArticles.head))
+      assert(!blogService.updateArticle(differentOwnerArticles.head.id, differentOwnerArticles.head, Some("0")))
     }
 
     it("should detect a failure to update an Article") {
@@ -136,7 +136,7 @@ class BlogServiceSpec extends BaseTest {
           new GoogleServiceMock,
           new HtmlSanitizerImpl
         )
-      assert(!blogService.updateArticle(expectedArticle.id, expectedArticle))
+      assert(!blogService.updateArticle(expectedArticle.id, expectedArticle, Some("0")))
     }
 
     it("should detect a failure to delete an Article content") {
@@ -148,7 +148,7 @@ class BlogServiceSpec extends BaseTest {
           new GoogleServiceMock,
           new HtmlSanitizerImpl
         )
-      assert(!blogService.updateArticle(expectedArticle.id, expectedArticle))
+      assert(!blogService.updateArticle(expectedArticle.id, expectedArticle, Some("0")))
     }
     it("should detect a failure to update an Article content") {
       val blogService =
@@ -159,7 +159,7 @@ class BlogServiceSpec extends BaseTest {
           new GoogleServiceMock,
           new HtmlSanitizerImpl
         )
-      assert(!blogService.updateArticle(expectedArticle.id, expectedArticle))
+      assert(!blogService.updateArticle(expectedArticle.id, expectedArticle, Some("0")))
     }
   }
 }

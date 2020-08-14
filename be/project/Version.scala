@@ -5,6 +5,7 @@ object Version {
   val guiceVersion         = "4.2.6"
   val mysqlVersion         = "5.1.49"
   val hikaryVersion        = "3.4.5"
+  val googleApiVersion     = "1.30.10"
   val scalaTestVersion     = "3.1.2"
   val htmlSanitizerVersion = "20200713.1"
 
