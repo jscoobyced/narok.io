@@ -7,7 +7,7 @@ export default class HttpService {
 
   public fetchData = async <T>(url: string): Promise<HttpResponse<T>> => {
     const headers = new Headers();
-    if (!!this.token) {
+    if (this.token) {
       headers.append('Authorization', `Bearer ${this.token}`);
     }
 
@@ -16,7 +16,7 @@ export default class HttpService {
       cache: 'no-cache',
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
-      headers
+      headers,
     });
     if (!response.ok) {
       throw new Error(response.statusText);
@@ -31,7 +31,7 @@ export default class HttpService {
   public putOrPostData = async <T>(method: string, url: string, data: any): Promise<HttpResponse<T>> => {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    if (!!this.token) {
+    if (this.token) {
       headers.append('Authorization', `Bearer ${this.token}`);
     }
 

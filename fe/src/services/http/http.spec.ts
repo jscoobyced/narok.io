@@ -37,6 +37,7 @@ describe('HTTPService', () => {
 
   it('should be able to POST data', async () => {
     const httpService = new HttpService();
+    httpService.setToken('token');
     await httpService.postData<string>('whatever', { id: 1, value: 'test' });
     expect(myGlobal.fetch).toHaveBeenCalledTimes(1);
   });
