@@ -17,12 +17,29 @@ class BlogServiceSpec extends BaseTest {
       val blogService =
         new BlogServiceImpl(
           new DatabaseRepositoryMock(articles = Iterator(expectedArticles, expectedArticle.contents),
-                                     single = expectedArticle.id,
-                                     updated = Iterator(1, expectedArticle.contents.length)),
+            single = expectedArticle.id,
+            updated = Iterator(1, expectedArticle.contents.length)),
           new GoogleServiceMock,
           new HtmlSanitizerImpl
         )
-      assert(blogService.getArticles.nonEmpty)
+      val article = blogService.getArticles(Some("0"))
+      assert(article.nonEmpty)
+      assert(!article.head.owner.email.isBlank)
+    }
+
+    it("should be able to get non-PII Article list") {
+      val blogService = {
+        new BlogServiceImpl(
+          new DatabaseRepositoryMock(articles = Iterator(expectedArticles, expectedArticle.contents),
+            single = expectedArticle.id,
+            updated = Iterator(1, expectedArticle.contents.length)),
+          new GoogleServiceMock,
+          new HtmlSanitizerImpl
+        )
+      }
+      val article = blogService.getArticles(Some(""))
+      assert(article.nonEmpty)
+      assert(article.head.owner.email.isBlank)
     }
 
     it("should be able to get an Article") {
@@ -34,7 +51,7 @@ class BlogServiceSpec extends BaseTest {
           new GoogleServiceMock,
           new HtmlSanitizerImpl
         )
-      assert(blogService.getArticle(expectedArticles.head.id).isDefined)
+      assert(blogService.getArticle(expectedArticles.head.id, Some("0")).isDefined)
     }
 
     it("should get None Article if not found") {
@@ -46,7 +63,7 @@ class BlogServiceSpec extends BaseTest {
           new GoogleServiceMock,
           new HtmlSanitizerImpl
         )
-      assert(blogService.getArticle(5).isEmpty)
+      assert(blogService.getArticle(5, Some("0")).isEmpty)
     }
 
     it("should be able to save an Article") {
