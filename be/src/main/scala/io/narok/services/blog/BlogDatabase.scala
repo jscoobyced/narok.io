@@ -32,26 +32,24 @@ class BlogDatabase @Inject()(databaseRepository: DatabaseRepository) {
         databaseRepository
           .executeQuery(getArticleContentSql, Some(List(Parameter(1, blog.id))), BlogContentMapper.toBlogContent)
           .foreach(content => {
-            article = article.addContent(content).setOwner(User(AuthConfiguration.getOwnerId, "Administrator"))
+            article = article.addContent(content)
           })
         article
       })
 
-  def article(id: Int): Option[Article] = {
+  def article(id: Int): Option[Article] =
     databaseRepository
       .executeSingleQuery[Article](getArticleSql, Some(List(Parameter(1, id))), ArticleMapper.toArticle) match {
-      case Some(result: Article) => {
+      case Some(result: Article) =>
         var article: Article = result
         databaseRepository
           .executeQuery(getArticleContentSql, Some(List(Parameter(1, article.id))), BlogContentMapper.toBlogContent)
           .foreach(content => {
-            article = article.addContent(content).setOwner(User(AuthConfiguration.getOwnerId, "Administrator"))
+            article = article.addContent(content)
           })
         Some(article)
-      }
       case _ => None
     }
-  }
 
   def saveArticle(article: Article): Int =
     databaseRepository

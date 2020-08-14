@@ -1,6 +1,7 @@
 package io.narok.services.blog
 
 import com.google.inject.Inject
+import io.narok.configuration.AuthConfiguration
 import io.narok.models.blog.Article
 import io.narok.repositories.db.DatabaseRepository
 import io.narok.routes.JsonSupport
@@ -33,15 +34,13 @@ class BlogServiceImpl @Inject()(
 
   override def saveArticle(article: Article, token: Option[String]): Int = {
     val userId = googleService.getUserId(token)
-    println(userId)
-    if (userId == article.owner.id) database.saveArticle(article)
+    if (AuthConfiguration.getOwnerIds.contains(userId)) database.saveArticle(article)
     else -1
   }
 
   override def updateArticle(id: Int, article: Article, token: Option[String]): Boolean = {
     val userId = googleService.getUserId(token)
-    println(userId)
-    if (userId == article.owner.id) database.updateArticle(id, article)
+    if (AuthConfiguration.getOwnerIds.contains(userId)) database.updateArticle(id, article)
     else false
   }
 }
