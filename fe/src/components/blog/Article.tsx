@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { AppContext } from '../../services/context/context';
 import CMS from '../../services/i18n/cms';
 import { Button } from '../common/Button';
-import { ArticleData, sortBlogContentById } from '../../models/blog/ArticleData';
+import { ArticleData, sortById } from '../../models/blog/ArticleData';
 import { buildContent, buildTitle } from './BlogContentBuilder';
 import './Article.scss';
 
@@ -82,14 +82,14 @@ export const Article = (props: {
     }
   };
 
-  const allContent = contents.map(content => buildContent(
+  const allContent = contents.sort(sortById).map(content => buildContent(
     content,
     noResult,
     hasEditPermission,
     isEditing,
     buttonText,
     onContentChange,
-  )).sort(sortBlogContentById);
+  )).sort(sortById);
 
   const titleElement = buildTitle(title, hasEditPermission, isEditing, onTitleChange);
 

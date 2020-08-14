@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Article } from './Article';
-import { ArticleData } from '../../models/blog/ArticleData';
+import { ArticleData, sortByInverseId } from '../../models/blog/ArticleData';
 import { AppContext } from '../../services/context/context';
 import CMS from '../../services/i18n/cms';
 import './BlogPage.scss';
@@ -14,7 +14,7 @@ export const BlogPage = () => {
     if (!data || data.length === 0 || data.length === undefined) {
       return;
     }
-    setArticles(data);
+    setArticles(data.sort(sortByInverseId));
   };
 
   const buildArticles = (rawArticles: ArticleData[]): JSX.Element[] => {

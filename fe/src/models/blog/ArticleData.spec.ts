@@ -1,11 +1,11 @@
 import {
-  ArticleData, toArticle, toBlogContentText, BlogContent, toBlogContentImage, Align, sortBlogContentById,
+  ArticleData, toArticle, toBlogContentText, BlogContent, toBlogContentImage, Align, sortById, sortByInverseId,
 } from './ArticleData';
 import { User } from '../User';
 
 const created = 'created';
 const modified = 'modified';
-const owner: User = { id: '12345678', name: 'Administrator' };
+const owner: User = { id: 12345678, name: 'Administrator' };
 
 describe('IArticle', () => {
   it('should map `modified` property', () => {
@@ -41,7 +41,7 @@ describe('IArticle', () => {
 
   it('should keep proper sorting of BlogContent by id', () => {
     nextId = 1;
-    const contents = [content1, content2, content3, content4].sort(sortBlogContentById);
+    const contents = [content1, content2, content3, content4].sort(sortById);
     contents.forEach(content => {
       expect(content.id).toEqual(nextId);
       nextId += 1;
@@ -50,10 +50,36 @@ describe('IArticle', () => {
 
   it('should sort BlogContent by id', () => {
     nextId = 1;
-    const contents = [content3, content2, content4, content1].sort(sortBlogContentById);
+    const contents = [content3, content2, content4, content1].sort(sortById);
     contents.forEach(content => {
       expect(content.id).toEqual(nextId);
       nextId += 1;
+    });
+  });
+
+  it('should sort Blog by id', () => {
+    const articles: ArticleData[] = [
+      toArticle(3, owner, '', [], '', ''),
+      toArticle(2, owner, '', [], '', ''),
+      toArticle(1, owner, '', [], '', ''),
+    ].sort(sortByInverseId);
+    nextId = 3;
+    articles.forEach(article => {
+      expect(article.id).toEqual(nextId);
+      nextId -= 1;
+    });
+  });
+
+  it('should keep proper sorting of Blog by id', () => {
+    const articles: ArticleData[] = [
+      toArticle(1, owner, '', [], '', ''),
+      toArticle(2, owner, '', [], '', ''),
+      toArticle(3, owner, '', [], '', ''),
+    ].sort(sortByInverseId);
+    nextId = 3;
+    articles.forEach(article => {
+      expect(article.id).toEqual(nextId);
+      nextId -= 1;
     });
   });
 });

@@ -67,8 +67,14 @@ export const toBlogContentImage = (
   value, BlogContentType.Image, align, altText, id,
 );
 
-export const sortBlogContentById = (content1: any, content2: any) => {
+export const sortById = (content1: any, content2: any) => {
   if (content1.id > content2.id) return 1;
   if (content1.id === content2.id) return 0;
   return -1;
+};
+
+export const sortByInverseId = (content1: any, content2: any) => {
+  if (content1.id > content2.id) return -1;
+  if (content1.id === content2.id) return 0;
+  return 1;
 };
