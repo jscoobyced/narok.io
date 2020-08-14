@@ -1,8 +1,44 @@
 import * as React from 'react';
-import { BlogContent, BlogContentType } from '../../models/blog/ArticleData';
+import { SecureUser } from '../../models/User';
+import { BlogContent, BlogContentType, ArticleData } from '../../models/blog/ArticleData';
 import { EditableBlogContent } from './EditableBlogContent';
 import { StaticBlogContent } from './StaticBlogContent';
 import { SimpleEditorText } from '../editor/SimpleEditor/SimpleEditor';
+import { Article } from './Article';
+
+export interface CmsContent {
+  noResult: string,
+  fromOwner: string,
+  edit: string,
+  save: string
+}
+
+export const buildArticleComponent = (
+  article: ArticleData,
+  user: SecureUser,
+  cms: CmsContent,
+): JSX.Element => {
+  const {
+    noResult, fromOwner, save, edit,
+  } = cms;
+  if (!article) {
+    return <>{noResult}</>;
+  }
+  const { referenceId: ownerId } = article.owner;
+  const userId = user.user.referenceId;
+  const hasEditPermission = !!user.user.referenceId && !!userId && userId === ownerId;
+  return (
+    <Article
+      key={`bc-${article.id}`}
+      article={article}
+      fromText={fromOwner}
+      editText={edit}
+      saveText={save}
+      hasEditPermission={hasEditPermission}
+      isEditing
+    />
+  );
+};
 
 export const buildContent = (
   content: BlogContent,

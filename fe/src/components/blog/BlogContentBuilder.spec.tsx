@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
-import { buildTitle } from './BlogContentBuilder';
+import { buildTitle, buildArticleComponent } from './BlogContentBuilder';
+import { toArticle, toBlogContentText, Align } from '../../models/blog/ArticleData';
+import { toUser, toSecureUser } from '../../models/User';
+import { mountComponent } from '../jestUtil';
 
 const getStaticTitleContent = (
   wrapper: ShallowWrapper<any, Readonly<{}>, React.Component<{}, {}, any>>,
@@ -37,5 +40,29 @@ describe('BlogContentBuilder', () => {
     expect(onChangeAction).toHaveBeenCalledTimes(0);
     title.find('.input.article__title').simulate('blur');
     expect(onChangeAction).toHaveBeenCalledTimes(1);
+  });
+
+  const user = toUser(1, 'John Smith', 'john.smith@example.org', '123456');
+  const blogContent1 = toBlogContentText('content', Align.Center, '', 1);
+  const secureUser = toSecureUser(user.id, user.name, user.email, user.referenceId, '', '', 0, 0);
+  const blogContent2 = toBlogContentText('content', Align.Center, '', 2);
+  const articleData = toArticle(1, user, 'This is a title', [blogContent1, blogContent2], '', '');
+  const cms = {
+    noResult: 'No result found.',
+    fromOwner: 'By ',
+    edit: 'Edit',
+    save: 'Save',
+  };
+
+  it('should build an article', () => {
+    const articleComponent = buildArticleComponent(articleData, secureUser, cms);
+    const wrapper = mountComponent(articleComponent);
+    expect(wrapper.find('article').length).toEqual(1);
+  });
+
+  it('should return \'No result found.\' if there is no article', () => {
+    const articleComponent = buildArticleComponent(undefined, secureUser, cms);
+    const wrapper = mountComponent(articleComponent);
+    expect(wrapper.text()).toEqual(cms.noResult);
   });
 });
