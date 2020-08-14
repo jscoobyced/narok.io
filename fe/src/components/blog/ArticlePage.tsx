@@ -25,14 +25,16 @@ export const ArticlePage = () => {
     const fromOwner = getContent(CMS.FROMOWNER);
     const edit = getContent(CMS.EDIT);
     const save = getContent(CMS.SAVE);
-    return buildArticleComponent(rawArticle,
+    return buildArticleComponent(
+      rawArticle,
       user,
       {
         noResult,
         fromOwner,
         save,
         edit,
-      });
+      },
+      true);
   };
 
   React.useEffect(() => {

@@ -28,9 +28,11 @@ export const BlogPage = () => {
     if (!rawArticles || rawArticles.length === 0) {
       return [<article key="bc-0">{noResult}</article>];
     }
-    const loadedArticles = rawArticles.map(article => buildArticleComponent(article,
-      user,
-      cms));
+    const loadedArticles = rawArticles.map(
+      article => buildArticleComponent(article,
+        user,
+        cms,
+        false));
     return loadedArticles;
   };
 
