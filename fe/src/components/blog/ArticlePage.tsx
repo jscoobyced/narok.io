@@ -3,8 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { ArticleData, toArticle } from '../../models/blog/ArticleData';
 import { AppContext } from '../../services/context/context';
 import CMS from '../../services/i18n/cms';
-import { Article } from './Article';
 import { toUser } from '../../models/User';
+import { buildArticleComponent } from './BlogContentBuilder';
 import './ArticlePage.scss';
 
 export const ArticlePage = () => {
@@ -21,26 +21,18 @@ export const ArticlePage = () => {
   };
 
   const buildArticle = (rawArticle: ArticleData): JSX.Element => {
-    const noArticle = getContent(CMS.NORESULT);
-    if (!rawArticle) {
-      return <>{noArticle}</>;
-    }
+    const noResult = getContent(CMS.NORESULT);
     const fromOwner = getContent(CMS.FROMOWNER);
     const edit = getContent(CMS.EDIT);
     const save = getContent(CMS.SAVE);
-    const { referenceId: ownerId } = rawArticle.owner;
-    const userId = user.user.referenceId;
-    return (
-      <Article
-        key={`bc-${rawArticle.id}`}
-        article={rawArticle}
-        fromText={fromOwner}
-        editText={edit}
-        saveText={save}
-        hasEditPermission={userId === ownerId}
-        isEditing
-      />
-    );
+    return buildArticleComponent(rawArticle,
+      user,
+      {
+        noResult,
+        fromOwner,
+        save,
+        edit,
+      });
   };
 
   React.useEffect(() => {

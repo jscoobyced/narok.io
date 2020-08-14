@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Article } from './Article';
 import { ArticleData, sortByInverseId } from '../../models/blog/ArticleData';
 import { AppContext } from '../../services/context/context';
 import CMS from '../../services/i18n/cms';
+import { buildArticleComponent } from './BlogContentBuilder';
 import './BlogPage.scss';
 
 export const BlogPage = () => {
@@ -18,28 +18,19 @@ export const BlogPage = () => {
   };
 
   const buildArticles = (rawArticles: ArticleData[]): JSX.Element[] => {
-    if (!rawArticles || rawArticles.length === 0) {
-      const noResult = getContent(CMS.NORESULT);
-      return [<article key="bc-0">{noResult}</article>];
-    }
+    const noResult = getContent(CMS.NORESULT);
     const fromOwner = getContent(CMS.FROMOWNER);
     const edit = getContent(CMS.EDIT);
     const save = getContent(CMS.SAVE);
-    const loadedArticles = rawArticles.map(article => {
-      const { referenceId: ownerId } = article.owner;
-      const userId = user.user.referenceId;
-      return (
-        <Article
-          key={`bc-${article.id}`}
-          article={article}
-          fromText={fromOwner}
-          editText={edit}
-          saveText={save}
-          hasEditPermission={userId === ownerId}
-          isEditing={false}
-        />
-      );
-    });
+    const cms = {
+      noResult, fromOwner, save, edit,
+    };
+    if (!rawArticles || rawArticles.length === 0) {
+      return [<article key="bc-0">{noResult}</article>];
+    }
+    const loadedArticles = rawArticles.map(article => buildArticleComponent(article,
+      user,
+      cms));
     return loadedArticles;
   };
 
