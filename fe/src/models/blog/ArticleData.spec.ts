@@ -37,23 +37,22 @@ describe('IArticle', () => {
   const content2: BlogContent = toBlogContentImage('hxxps://url', Align.Left, '', 2);
   const content3 = toBlogContentText('text', Align.Left, 'whatever', 3);
   const content4 = toBlogContentText('text', Align.Left, 'whatever', 4);
-  let nextId = 1;
 
   it('should keep proper sorting of BlogContent by id', () => {
-    nextId = 1;
     const contents = [content1, content2, content3, content4].sort(sortById);
+    let lastId = 0;
     contents.forEach(content => {
-      expect(content.id).toEqual(nextId);
-      nextId += 1;
+      expect(content.id).toBeGreaterThanOrEqual(lastId);
+      lastId = content.id;
     });
   });
 
   it('should sort BlogContent by id', () => {
-    nextId = 1;
     const contents = [content3, content2, content4, content1].sort(sortById);
+    let lastId = 0;
     contents.forEach(content => {
-      expect(content.id).toEqual(nextId);
-      nextId += 1;
+      expect(content.id).toBeGreaterThanOrEqual(lastId);
+      lastId = content.id;
     });
   });
 
@@ -61,12 +60,13 @@ describe('IArticle', () => {
     const articles: ArticleData[] = [
       toArticle(3, owner, '', [], '', ''),
       toArticle(2, owner, '', [], '', ''),
+      toArticle(3, owner, '', [], '', ''),
       toArticle(1, owner, '', [], '', ''),
     ].sort(sortByInverseId);
-    nextId = 3;
+    let lastId = 3;
     articles.forEach(article => {
-      expect(article.id).toEqual(nextId);
-      nextId -= 1;
+      expect(article.id).toBeLessThanOrEqual(lastId);
+      lastId = article.id;
     });
   });
 
@@ -76,10 +76,10 @@ describe('IArticle', () => {
       toArticle(2, owner, '', [], '', ''),
       toArticle(3, owner, '', [], '', ''),
     ].sort(sortByInverseId);
-    nextId = 3;
+    let lastId = 3;
     articles.forEach(article => {
-      expect(article.id).toEqual(nextId);
-      nextId -= 1;
+      expect(article.id).toBeLessThanOrEqual(lastId);
+      lastId = article.id;
     });
   });
 });

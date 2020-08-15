@@ -32,7 +32,8 @@ export const BlogPage = () => {
       article => buildArticleComponent(article,
         user,
         cms,
-        false));
+        false),
+    );
     return loadedArticles;
   };
 

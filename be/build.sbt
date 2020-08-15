@@ -25,4 +25,4 @@ libraryDependencies ++= {
 }
 wartremoverErrors ++= Warts.unsafe
 
-fork := true
+fork := false

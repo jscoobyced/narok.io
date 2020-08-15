@@ -11,7 +11,7 @@ import { User } from '../../models/User';
 describe('Article', () => {
   const textContent: BlogContent = toBlogContentText('content', Align.Center, '', 1);
   const imageContent: BlogContent = toBlogContentImage('url');
-  const owner: User = { id: '12345678', name: 'Administrator' };
+  const owner: User = { id: 12345678, name: 'Administrator' };
   const baseArticle: ArticleData = {
     id: 1,
     owner,
@@ -193,7 +193,7 @@ describe('Article', () => {
 
   it('should save an article', async () => {
     const article = { ...baseArticle };
-    article.id = 0;
+    article.id = -1;
     const result = { id: 1, message: '' };
     await act(async () => {
       const blogContent = mountComponent(

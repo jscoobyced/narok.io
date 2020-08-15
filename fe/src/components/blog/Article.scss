@@ -14,12 +14,13 @@
 
         .article {
             &__title {
+                grid-column: span 2;
                 padding: 5px;
                 font-size: $font-size-big;
             }
 
             &__created {
-                grid-column: span 1;
+                grid-column: span 2;
                 margin-left: auto;
                 align-self: flex-end;
             }
@@ -43,9 +44,10 @@
 
                 &-editing {
                     color: $primary;
-                    background: $background;
+                    background: white;
                     padding: 10px;
                     margin-top: 5px;
+                    min-height: 100px;
                 }
             }
 

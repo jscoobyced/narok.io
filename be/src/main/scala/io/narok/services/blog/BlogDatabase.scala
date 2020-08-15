@@ -23,7 +23,8 @@ class BlogDatabase @Inject()(databaseRepository: DatabaseRepository) {
   private val getArticleContentSql
     : String = "SELECT id, content, type, blog_id, alttext, align, status FROM blog_content" +
     " WHERE status = 0 AND blog_id = ?"
-  private val insertArticleSql = "INSERT INTO blog (title, created, modified, status) VALUES (?, ?, ?, 0)"
+  private val insertArticleSql = "INSERT INTO blog (title, user_id, created, modified, status) " +
+    "SELECT ?, u.id, ?, ?, 0 FROM user u WHERE u.reference_id = ?"
   private val insertArticleContentSql =
     "INSERT INTO blog_content (content, type, blog_id, alttext, align, status) VALUES "
   private val insertArticleContentValuesSql = "(?, ?, ?, ?, ?, 0),"
@@ -46,9 +47,12 @@ class BlogDatabase @Inject()(databaseRepository: DatabaseRepository) {
 
   def saveArticle(article: Article): Int =
     databaseRepository
-      .executeSingleUpdate(
-        insertArticleSql,
-        Some(List(Parameter(1, article.title), Parameter(2, new Date()), Parameter(3, new Date())))) match {
+      .executeSingleUpdate(insertArticleSql,
+                           Some(
+                             List(Parameter(1, article.title),
+                                  Parameter(2, new Date()),
+                                  Parameter(3, new Date()),
+                                  Parameter(4, article.owner.referenceId)))) match {
       case 0 => 0
       case id: Int =>
         if (article.contents.isEmpty) id

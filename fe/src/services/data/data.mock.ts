@@ -18,7 +18,7 @@ const lorem = '<strong>Lorem ipsum dolor sit amet</strong>, consectetur adipisci
   + 'Donec condimentum aliquet nulla, sed scelerisque orci. Phasellus massa felis, maximus eget dolor '
   + 'ut, dapibus semper ante.';
 const contents = [toBlogContentText(lorem, Align.Center, '', 1), toBlogContentText(lorem, Align.Center, '', 2)];
-const owner: User = { id: '123456789', name: 'Administrator' };
+const owner: User = { id: 123456789, name: 'Administrator' };
 const textArticle1: ArticleData = toArticle(1, owner, 'Coming soon...', contents, '2020-05-04 22:52');
 articles.push(textArticle1);
 const textArticle2 = { ...textArticle1 };
@@ -32,6 +32,8 @@ export default class DataServiceMock extends DataService {
     super('', null);
     this.data = data;
   }
+
+  public setToken = (token: string) => {};
 
   public getHomePageArticles = async ():
     Promise<ArticleData[]> => Promise.resolve(this.data !== null ? this.data : articles);
