@@ -73,7 +73,7 @@ export const Article = (props: {
         .then(result => {
           setMessage(result.message);
         });
-    } else if (currentArticle.id === 0) {
+    } else if (currentArticle.id === -1) {
       const newArticle = { ...currentArticle, owner: user.user };
       dataService.createArticle(newArticle)
         .then(result => {
@@ -82,7 +82,7 @@ export const Article = (props: {
     }
   };
 
-  const allContent = contents.sort(sortById).map(content => buildContent(
+  const allContent = contents.map(content => buildContent(
     content,
     noResult,
     hasEditPermission,

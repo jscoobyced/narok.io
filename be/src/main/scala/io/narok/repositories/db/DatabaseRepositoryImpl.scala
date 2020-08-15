@@ -73,10 +73,10 @@ class DatabaseRepositoryImpl @Inject()() extends DatabaseRepository {
               case Failure(_) =>
             }
           case Success(number: Int) => insertedKey = number
-          case Failure(_)           =>
+          case Failure(error)       => println(error.getMessage)
         }
         Try(databaseResources.close())
-      case Failure(_) =>
+      case Failure(error) => println(error.getMessage)
     }
     insertedKey
   }

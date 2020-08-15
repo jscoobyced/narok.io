@@ -7,6 +7,7 @@ export interface ArticleData {
   contents: BlogContent[];
   created: string;
   modified: string;
+  status?: number;
 }
 
 export enum Align {
@@ -21,8 +22,10 @@ export interface BlogContent {
   id: number;
   contentType: BlogContentType;
   value: string;
-  align?: Align,
-  altText?: string
+  align?: Align;
+  altText?: string;
+  blogId?: number;
+  status?: number;
 }
 
 export const toArticle = (id: number,
@@ -51,7 +54,7 @@ const toBlogContent = (
 ): BlogContent => {
   const computedAlign = align || Align.Left;
   return ({
-    id, value, contentType, align: computedAlign, altText,
+    id, value, contentType, align: computedAlign, altText, blogId: 0, status: 0,
   });
 };
 

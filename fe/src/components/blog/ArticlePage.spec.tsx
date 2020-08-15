@@ -6,14 +6,16 @@ import { mountComponent } from '../jestUtil';
 import { ArticleData, toArticle } from '../../models/blog/ArticleData';
 import { User } from '../../models/User';
 
+let nextArticleId = '1';
+
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useParams: () => ({
-    articleId: '1',
+    articleId: nextArticleId,
   }),
 }));
 
-const owner: User = { id: '12345678', name: 'Administrator' };
+const owner: User = { id: 12345678, name: 'Administrator' };
 
 describe('ArticlePage', () => {
   it('should render the article', async () => {
@@ -25,6 +27,19 @@ describe('ArticlePage', () => {
     expect(articlePage).not.toBeUndefined();
     articlePage.update();
     expect(articlePage.find('article')).toHaveLength(1);
+  });
+
+  it('should render a new article', async () => {
+    let articlePage = mount(<></>);
+    nextArticleId = '0';
+    const article: ArticleData = toArticle(-1, owner, 'test', [], 'created');
+    await act(async () => {
+      articlePage = mountComponent(<ArticlePage />, () => { }, article);
+    });
+    expect(articlePage).not.toBeUndefined();
+    articlePage.update();
+    expect(articlePage.find('article')).toHaveLength(1);
+    nextArticleId = '1';
   });
 
   it('should render empty articles', async () => {

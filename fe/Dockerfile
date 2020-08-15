@@ -3,10 +3,6 @@ WORKDIR /build
 
 ## Install dependencies packages
 ENV TZ Asia/Bangkok
-RUN set -ex; apt-get -qqy update && apt-get -qqy upgrade
-RUN set -ex; apt-get install -qqy --no-install-recommends \
-        ca-certificates apt-transport-https \
-        software-properties-common dirmngr python
 
 # Build application
 ARG JSCCURRENT="./fe"
@@ -18,8 +14,11 @@ RUN /bin/bash -c 'yarn build:${JSCMODE}'
 # Deploy
 FROM nginx:latest
 ENV TZ Asia/Bangkok
+RUN set -ex; apt-get -qqy update && apt-get -qqy upgrade
 LABEL maintainer="JscDroidDev"
-WORKDIR /build
+WORKDIR /tmp
 
+RUN rm -Rf /usr/share/nginx/html/ && mkdir -p /usr/share/nginx/html/assets
 COPY --from=build-env /build/dist /usr/share/nginx/html/
 EXPOSE 80 443
+VOLUME ["/usr/share/nginx/html/assets"]

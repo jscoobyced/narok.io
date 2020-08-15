@@ -8,7 +8,7 @@ import { AuthenticationHandler } from '../../../services/auth/handler';
 import UserServiceMock from '../../../services/auth/user.mock';
 import DataServiceMock from '../../../services/data/data.mock';
 
-const owner: User = { id: '12345678', name: 'Administrator' };
+const owner: User = { id: 12345678, name: 'Administrator' };
 
 const handler = new AuthenticationHandler();
 const userService = new UserServiceMock();

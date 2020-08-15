@@ -8,13 +8,18 @@ import { newSecureUser } from '../models/User';
 export const mountComponent = (
   children: JSX.Element,
   customSetLanguage?: (lang: string) => void,
-  data?: any
+  data?: any,
+  token?: string
 ) => {
   const language = 'en_US';
   const setLanguage = customSetLanguage || ((lang: string) => { });
   const getContent = (value: string) => '';
   const dataService = new DataServiceMock(data);
   const user = newSecureUser();
+  if(!!token) {
+    user.authToken.accessToken = token;
+    dataService.setToken(token);
+  }
   const setUser = jest.fn();
   const createUser = jest.fn();
   const handler = {
