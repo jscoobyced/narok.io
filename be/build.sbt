@@ -26,3 +26,4 @@ libraryDependencies ++= {
 wartremoverErrors ++= Warts.unsafe
 
 fork := false
+parallelExecution in Test := false
