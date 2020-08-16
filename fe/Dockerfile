@@ -20,6 +20,6 @@ WORKDIR /tmp
 
 RUN rm -Rf /usr/share/nginx/html/ && mkdir -p /usr/share/nginx/html/assets
 COPY --from=build-env /build/dist /usr/share/nginx/html/
-COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=build-env /build/nginx/default.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80 443
 VOLUME ["/usr/share/nginx/html/assets"]
