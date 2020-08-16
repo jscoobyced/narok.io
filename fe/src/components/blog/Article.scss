@@ -12,6 +12,21 @@
             grid-column: span 1;
         }
 
+        pre {
+            padding: 5px;
+            margin-bottom: 5px;
+            box-sizing: inherit;
+            hyphens: none;
+            tab-size: 4;
+            overflow-wrap: break-word;
+            background-color: $background-code;
+            border: 1px solid $border-code;
+            border-radius: 2px;
+            overflow: auto;
+            text-shadow: none;
+            text-indent: 0px;
+        }
+
         .article {
             &__title {
                 grid-column: span 2;
