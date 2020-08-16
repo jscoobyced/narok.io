@@ -16,12 +16,12 @@ class HtmlSanitizerImpl() extends HtmlSanitizer {
 
   private def createPolicy(): PolicyFactory =
     new HtmlPolicyBuilder()
-      .allowElements("a", "i", "span", "div", "ol", "ul", "li", "br", "img", "strike")
+      .allowElements("a", "i", "span", "div", "ol", "ul", "li", "br", "img", "strike", "pre")
       .allowAttributes("href", "alt", "target")
       .onElements("a")
       .allowAttributes("style")
       .onElements("span", "div", "li")
-      .allowWithoutAttributes("a", "img", "span")
+      .allowWithoutAttributes("a", "img", "span", "pre")
       .allowAttributes("src", "width", "height", "style")
       .onElements("img")
       .allowUrlProtocols("https")
