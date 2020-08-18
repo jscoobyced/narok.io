@@ -6,7 +6,7 @@ import { mountComponent } from '../jestUtil';
 import { ArticleData, toArticle } from '../../models/blog/ArticleData';
 import { User } from '../../models/User';
 
-const owner: User = { id: '12345678', name: 'Administrator' };
+const owner: User = { id: 12345678, name: 'Administrator' };
 
 describe('BlogPage', () => {
   it('should render articles', async () => {

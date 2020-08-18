@@ -3,20 +3,19 @@ import { Link } from 'react-router-dom';
 import { AppContext } from '../../services/context/context';
 import CMS from '../../services/i18n/cms';
 import { Button } from '../common/Button';
-import { ArticleData, sortById } from '../../models/blog/ArticleData';
+import {
+  ArticleData, sortById, toBlogContentText, Align,
+} from '../../models/blog/ArticleData';
 import { buildContent, buildTitle } from './BlogContentBuilder';
 import './Article.scss';
 
 export const Article = (props: {
   article: ArticleData,
-  fromText: string,
-  editText: string,
-  saveText: string,
   hasEditPermission: boolean,
   isEditing: boolean
 }) => {
   const {
-    article, fromText, editText, saveText, hasEditPermission, isEditing,
+    article, hasEditPermission, isEditing,
   } = props;
   const { getContent, dataService, user } = React.useContext(AppContext);
   const [message, setMessage] = React.useState('');
@@ -26,6 +25,10 @@ export const Article = (props: {
   } = currentArticle;
   const { name } = owner;
   const noResult = getContent(CMS.NORESULT);
+  const fromText = getContent(CMS.FROMOWNER);
+  const editText = getContent(CMS.EDIT);
+  const saveText = getContent(CMS.SAVE);
+  const addBlogContentText = getContent(CMS.ADDBLOGCONTENT);
   const contentModified = getContent(CMS.CONTENTMODIDIED);
   const buttonText = {
     boldText: getContent(CMS.BOLDTEXT),
@@ -82,6 +85,14 @@ export const Article = (props: {
     }
   };
 
+  const addBlogContent = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    const newBlogContent = Object.assign([], currentArticle.contents);
+    newBlogContent.push(toBlogContentText('', Align.Left, '', 0 + newBlogContent.length));
+    const newArticle = { ...currentArticle, contents: newBlogContent };
+    setCurrentArticle(newArticle);
+  };
+
   const allContent = contents.map(content => buildContent(
     content,
     noResult,
@@ -111,6 +122,15 @@ export const Article = (props: {
     </Button>
   );
 
+  const addBlogContentButton = hasEditPermission && isEditing && (
+    <Button
+      onClick={addBlogContent}
+      className="article__ender"
+    >
+      {addBlogContentText}
+    </Button>
+  );
+
   const displayMessage = (message && message.length >= 0)
     ? <span className="article__message">{message}</span>
     : <></>;
@@ -127,6 +147,7 @@ export const Article = (props: {
         {name}
       </span>
       {editButton}
+      {addBlogContentButton}
       {saveButton}
       <span className="article__separator" />
     </article>

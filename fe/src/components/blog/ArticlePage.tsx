@@ -37,18 +37,10 @@ export const ArticlePage = () => {
 
   const buildArticle = (rawArticle: ArticleData): JSX.Element => {
     const noResult = getContent(CMS.NORESULT);
-    const fromOwner = getContent(CMS.FROMOWNER);
-    const edit = getContent(CMS.EDIT);
-    const save = getContent(CMS.SAVE);
     return buildArticleComponent(
       rawArticle,
       user,
-      {
-        noResult,
-        fromOwner,
-        save,
-        edit,
-      },
+      noResult,
       true,
     );
   };

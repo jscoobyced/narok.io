@@ -9,14 +9,15 @@ export const mountComponent = (
   children: JSX.Element,
   customSetLanguage?: (lang: string) => void,
   data?: any,
-  token?: string
+  token?: string,
+  customGetContent?: (value: string) => string
 ) => {
   const language = 'en_US';
   const setLanguage = customSetLanguage || ((lang: string) => { });
-  const getContent = (value: string) => '';
+  const getContent = customGetContent || ((value: string) => '');
   const dataService = new DataServiceMock(data);
   const user = newSecureUser();
-  if(!!token) {
+  if (!!token) {
     user.authToken.accessToken = token;
     dataService.setToken(token);
   }

@@ -7,6 +7,7 @@ import {
 import { Article } from './Article';
 import { getText, mountComponent } from '../jestUtil';
 import { User } from '../../models/User';
+import CMS from '../../services/i18n/cms';
 
 describe('Article', () => {
   const textContent: BlogContent = toBlogContentText('content', Align.Center, '', 1);
@@ -22,6 +23,7 @@ describe('Article', () => {
   };
   const editText = 'Edit';
   const saveText = 'Save';
+  const addContentText = 'Add Text';
   const testData = [
     {
       hasEditPermission: false,
@@ -57,20 +59,26 @@ describe('Article', () => {
     },
   ];
 
+  const cms = (value: string) => {
+    if (value === CMS.EDIT) return editText;
+    if (value === CMS.SAVE) return saveText;
+    if (value === CMS.ADDBLOGCONTENT) return addContentText;
+    return '';
+  };
+
   testData.forEach((data) => {
     it(`should render text content with {${data.hasEditPermission}, ${data.isEditing}}`, () => {
       const article = { ...baseArticle };
       const blogContent = mountComponent(
         <Article
           article={article}
-          fromText="By"
-          editText={editText}
-          saveText={saveText}
           hasEditPermission={data.hasEditPermission}
           isEditing={data.isEditing}
         />,
-        () => { },
+        undefined,
         article,
+        undefined,
+        cms,
       );
       expect(blogContent.find('article')).toHaveLength(data.length);
       expect(getText(blogContent, '.article__title')).toEqual(data.title);
@@ -96,14 +104,13 @@ describe('Article', () => {
       const blogContent = mountComponent(
         <Article
           article={article}
-          fromText="By"
-          editText={editText}
-          saveText={saveText}
           hasEditPermission
           isEditing
         />,
-        () => { },
+        undefined,
         article,
+        undefined,
+        cms,
       );
       const titleComponent = blogContent
         .find('.input.article__title')
@@ -120,14 +127,13 @@ describe('Article', () => {
       const blogContent = mountComponent(
         <Article
           article={article}
-          fromText="By"
-          editText={editText}
-          saveText={saveText}
           hasEditPermission
           isEditing
         />,
-        () => { },
+        undefined,
         article,
+        undefined,
+        cms,
       );
       const blogContentComponent = blogContent
         .find('.article__content-editing')
@@ -145,14 +151,13 @@ describe('Article', () => {
       blogContent = mountComponent(
         <Article
           article={article}
-          fromText="By"
-          editText={editText}
-          saveText={saveText}
           hasEditPermission
           isEditing
         />,
-        () => { },
+        undefined,
         result,
+        undefined,
+        cms,
       );
       const titleComponent = blogContent
         .find('.input.article__title')
@@ -174,14 +179,13 @@ describe('Article', () => {
       const blogContent = mountComponent(
         <Article
           article={article}
-          fromText="By"
-          editText={editText}
-          saveText={saveText}
           hasEditPermission
           isEditing
         />,
-        () => { },
+        undefined,
         result,
+        undefined,
+        cms,
       );
       const saveButton = blogContent
         .find('span.button')
@@ -199,14 +203,13 @@ describe('Article', () => {
       const blogContent = mountComponent(
         <Article
           article={article}
-          fromText="By"
-          editText={editText}
-          saveText={saveText}
           hasEditPermission
           isEditing
         />,
-        () => { },
+        undefined,
         result,
+        undefined,
+        cms,
       );
       const bgContent = blogContent
         .find(`#ebc-c-${textContent.id}`)
@@ -228,14 +231,13 @@ describe('Article', () => {
       const blogContent = mountComponent(
         <Article
           article={article}
-          fromText="By"
-          editText={editText}
-          saveText={saveText}
           hasEditPermission
           isEditing
         />,
-        () => { },
+        undefined,
         result,
+        undefined,
+        cms,
       );
       const saveButton = blogContent
         .find('span.button')
@@ -246,16 +248,37 @@ describe('Article', () => {
   });
 
   it('should not fail if type of content is unkown', () => {
-    const article = { ...baseArticle };
+    const article = { ...baseArticle, contents: [textContent] };
     article.contents = [{} as BlogContent];
     const blogContent = mountComponent(<Article
       article={article}
-      fromText="By"
-      editText={editText}
-      saveText={saveText}
       hasEditPermission={false}
       isEditing={false}
     />);
     expect(blogContent.find('article')).toHaveLength(1);
+  });
+
+  it('should add a blog content', async () => {
+    const article = { ...baseArticle };
+    const result = { id: 1, message: 'Complete.' };
+    let blogContent = mount(<></>);
+    await act(async () => {
+      blogContent = mountComponent(
+        <Article
+          article={article}
+          hasEditPermission
+          isEditing
+        />,
+        undefined,
+        result,
+        undefined,
+        cms,
+      );
+      const addContentButton = blogContent
+        .find('span.button')
+        .findWhere(element => element !== null && element.text() === addContentText)
+        .first();
+      addContentButton.simulate('click');
+    });
   });
 });
