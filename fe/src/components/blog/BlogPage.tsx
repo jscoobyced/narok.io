@@ -19,19 +19,13 @@ export const BlogPage = () => {
 
   const buildArticles = (rawArticles: ArticleData[]): JSX.Element[] => {
     const noResult = getContent(CMS.NORESULT);
-    const fromOwner = getContent(CMS.FROMOWNER);
-    const edit = getContent(CMS.EDIT);
-    const save = getContent(CMS.SAVE);
-    const cms = {
-      noResult, fromOwner, save, edit,
-    };
     if (!rawArticles || rawArticles.length === 0) {
       return [<article key="bc-0">{noResult}</article>];
     }
     const loadedArticles = rawArticles.map(
       article => buildArticleComponent(article,
         user,
-        cms,
+        noResult,
         false),
     );
     return loadedArticles;

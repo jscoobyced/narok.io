@@ -16,12 +16,9 @@ export interface CmsContent {
 export const buildArticleComponent = (
   article: ArticleData,
   user: SecureUser,
-  cms: CmsContent,
+  noResult: string,
   isEditing: boolean,
 ): JSX.Element => {
-  const {
-    noResult, fromOwner, save, edit,
-  } = cms;
   if (!article) {
     return <>{noResult}</>;
   }
@@ -32,9 +29,6 @@ export const buildArticleComponent = (
     <Article
       key={`bc-${article.id}`}
       article={article}
-      fromText={fromOwner}
-      editText={edit}
-      saveText={save}
       hasEditPermission={hasEditPermission}
       isEditing={isEditing}
     />

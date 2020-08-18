@@ -47,22 +47,17 @@ describe('BlogContentBuilder', () => {
   const secureUser = toSecureUser(user.id, user.name, user.email, user.referenceId, '', '', 0, 0);
   const blogContent2 = toBlogContentText('content', Align.Center, '', 2);
   const articleData = toArticle(1, user, 'This is a title', [blogContent1, blogContent2], '', '');
-  const cms = {
-    noResult: 'No result found.',
-    fromOwner: 'By ',
-    edit: 'Edit',
-    save: 'Save',
-  };
+  const noResult = 'No result found.';
 
   it('should build an article', () => {
-    const articleComponent = buildArticleComponent(articleData, secureUser, cms, true);
+    const articleComponent = buildArticleComponent(articleData, secureUser, noResult, true);
     const wrapper = mountComponent(articleComponent);
     expect(wrapper.find('article').length).toEqual(1);
   });
 
   it('should return \'No result found.\' if there is no article', () => {
-    const articleComponent = buildArticleComponent(undefined, secureUser, cms, true);
+    const articleComponent = buildArticleComponent(undefined, secureUser, noResult, true);
     const wrapper = mountComponent(articleComponent);
-    expect(wrapper.text()).toEqual(cms.noResult);
+    expect(wrapper.text()).toEqual(noResult);
   });
 });
