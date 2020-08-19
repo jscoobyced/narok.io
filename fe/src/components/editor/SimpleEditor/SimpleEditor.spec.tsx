@@ -15,7 +15,7 @@ describe('SimpleEditor', () => {
       buttonText={buttonText}
     />);
     const buttons = editor.find('.jscSimpleEditor').first().children();
-    expect(buttons).toHaveLength(11);
+    expect(buttons).toHaveLength(12);
     buttons.forEach(span => {
       span.simulate('click', {
         preventDefault: () => { },

@@ -23,7 +23,7 @@ describe('editorCommands', () => {
   it('should not execute a unsupported command.', () => {
     jest.resetAllMocks();
     document.queryCommandSupported = jest.fn(() => false);
-    executeCommand('bold', '');
+    executeCommand('bold', '', true);
     expect(document.execCommand).toHaveBeenCalledTimes(0);
   });
 });

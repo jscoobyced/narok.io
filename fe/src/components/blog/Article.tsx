@@ -28,6 +28,7 @@ export const Article = (props: {
   const fromText = getContent(CMS.FROMOWNER);
   const editText = getContent(CMS.EDIT);
   const saveText = getContent(CMS.SAVE);
+  const removeText = getContent(CMS.DELETEBLOGCONTENT);
   const addBlogContentText = getContent(CMS.ADDBLOGCONTENT);
   const contentModified = getContent(CMS.CONTENTMODIDIED);
   const buttonText = {
@@ -42,6 +43,7 @@ export const Article = (props: {
     justifyCenterText: getContent(CMS.JUSTIFYCENTERTEXT),
     justifyFullText: getContent(CMS.JUSTIFYFULLTEXT),
     justifyRightText: getContent(CMS.JUSTIFYRIGHTTEXT),
+    createLinkText: getContent(CMS.CREATELINKTEXT),
   };
 
   const onContentChange = (event: React.FocusEvent<HTMLDivElement>, index: number) => {
@@ -93,6 +95,13 @@ export const Article = (props: {
     setCurrentArticle(newArticle);
   };
 
+  const removeBlogContent = (event: React.MouseEvent<HTMLElement>, index: number) => {
+    event.preventDefault();
+    const newBlogContent = currentArticle.contents.filter(content => content.id !== index);
+    const newArticle = { ...currentArticle, contents: newBlogContent };
+    setCurrentArticle(newArticle);
+  };
+
   const allContent = contents.map(content => buildContent(
     content,
     noResult,
@@ -100,6 +109,8 @@ export const Article = (props: {
     isEditing,
     buttonText,
     onContentChange,
+    removeText,
+    removeBlogContent,
   )).sort(sortById);
 
   const titleElement = buildTitle(title, hasEditPermission, isEditing, onTitleChange);
