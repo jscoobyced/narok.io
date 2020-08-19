@@ -23,7 +23,8 @@ export interface SimpleEditorText {
   justifyLeftText: string,
   justifyCenterText: string,
   justifyFullText: string,
-  justifyRightText: string
+  justifyRightText: string,
+  createLinkText: string
 }
 
 export const defaultButtonText = {
@@ -38,6 +39,7 @@ export const defaultButtonText = {
   justifyCenterText: 'center',
   justifyFullText: 'justify',
   justifyRightText: 'right',
+  createLinkText: 'Create Link',
 };
 
 export const SimpleEditor = (props: { buttonText: SimpleEditorText }) => {
@@ -54,6 +56,7 @@ export const SimpleEditor = (props: { buttonText: SimpleEditorText }) => {
     justifyCenterText,
     justifyFullText,
     justifyRightText,
+    createLinkText,
   } = buttonText;
   const [fontSize, setFontSize] = React.useState(3);
 
@@ -125,6 +128,12 @@ export const SimpleEditor = (props: { buttonText: SimpleEditorText }) => {
   const doJustifyRight = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     executeCommand('justifyRight', '');
+  };
+
+  const createLink = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    const linkUrl = prompt(createLinkText);
+    executeCommand('createLink', linkUrl);
   };
 
   return (
@@ -216,6 +225,14 @@ export const SimpleEditor = (props: { buttonText: SimpleEditorText }) => {
         onClick={doJustifyRight}
       >
         <i className="fas fa-just-right" />
+      </Button>
+      <Button
+        onMouseDown={disableMouseDown}
+        onKeyPress={disableOnKeyPress}
+        title={createLinkText}
+        onClick={createLink}
+      >
+        <i className="fas fa-link" />
       </Button>
     </div>
   );

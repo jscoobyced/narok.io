@@ -24,6 +24,7 @@ describe('Article', () => {
   const editText = 'Edit';
   const saveText = 'Save';
   const addContentText = 'Add Text';
+  const removeText = 'Remove Text';
   const testData = [
     {
       hasEditPermission: false,
@@ -63,6 +64,7 @@ describe('Article', () => {
     if (value === CMS.EDIT) return editText;
     if (value === CMS.SAVE) return saveText;
     if (value === CMS.ADDBLOGCONTENT) return addContentText;
+    if (value === CMS.DELETEBLOGCONTENT) return removeText;
     return '';
   };
 
@@ -277,6 +279,30 @@ describe('Article', () => {
       const addContentButton = blogContent
         .find('span.button')
         .findWhere(element => element !== null && element.text() === addContentText)
+        .first();
+      addContentButton.simulate('click');
+    });
+  });
+
+  it('should remove a blog content', async () => {
+    const article = { ...baseArticle };
+    const result = { id: 1, message: 'Complete.' };
+    let blogContent = mount(<></>);
+    await act(async () => {
+      blogContent = mountComponent(
+        <Article
+          article={article}
+          hasEditPermission
+          isEditing
+        />,
+        undefined,
+        result,
+        undefined,
+        cms,
+      );
+      const addContentButton = blogContent
+        .find('span.button')
+        .findWhere(element => element !== null && element.text() === removeText)
         .first();
       addContentButton.simulate('click');
     });

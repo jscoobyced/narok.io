@@ -18,6 +18,7 @@
         "FROMOWNER": "By",
         "EDIT": "Edit",
         "SAVE": "Save",
+        "DELETEBLOGCONTENT": "Delete content",
         "ADDBLOGCONTENT": "Add text content",
         "NEWARTICLE": "New article",
         "BACK": "Back",
@@ -31,7 +32,8 @@
         "JUSTIFYLEFTTEXT": "Justify left",
         "JUSTIFYCENTERTEXT": "Justify center",
         "JUSTIFYFULLTEXT": "Justified",
-        "JUSTIFYRIGHTTEXT": "Justify right"      
+        "JUSTIFYRIGHTTEXT": "Justify right",
+        "CREATELINKTEXT": "Create Link"
     },
     "fr_FR": {
         "SIGNIN": "Connexion",
@@ -47,6 +49,7 @@
         "FROMOWNER": "De",
         "EDIT": "Modifier",
         "SAVE": "Enregistrer",
+        "DELETEBLOGCONTENT": "Retirer le paragraphe",
         "ADDBLOGCONTENT": "Ajouter un paragraphe",
         "NEWARTICLE": "Nouvel article",
         "BACK": "Retour",
@@ -60,6 +63,7 @@
         "JUSTIFYLEFTTEXT": "Justifier à gauche",
         "JUSTIFYCENTERTEXT": "Justifier au centre",
         "JUSTIFYFULLTEXT": "Justifier",
-        "JUSTIFYRIGHTTEXT": "Justifier à droite"
+        "JUSTIFYRIGHTTEXT": "Justifier à droite",
+        "CREATELINKTEXT": "Créer un lient"
     }
 }

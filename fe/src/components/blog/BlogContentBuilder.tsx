@@ -41,7 +41,9 @@ export const buildContent = (
   hasEditPermission: boolean,
   isEditing: boolean,
   buttonText: SimpleEditorText,
-  onContentChange: (event: React.FocusEvent<HTMLDivElement>, index: number) => void,
+  onContentChange: (event: any, index: number) => void,
+  removeText: string,
+  removeBlogContent: (event: any, index: number) => void,
 ): JSX.Element => {
   const index = content.id;
   const result = <span key={`bp-ac-${index}`}>{noResult}</span>;
@@ -55,6 +57,8 @@ export const buildContent = (
             content={content}
             onContentChange={onContentChange}
             buttonText={buttonText}
+            removeText={removeText}
+            removeBlogContent={removeBlogContent}
           />
         );
       }
