@@ -1,6 +1,6 @@
 import DataService from './data';
 import {
-  ArticleData, toBlogContentText, toArticle, Align,
+  ArticleData, toBlogContentText, toArticle, Align, ArticleResponse,
 } from '../../models/blog/ArticleData';
 import { User } from '../../models/User';
 
@@ -35,12 +35,9 @@ export default class DataServiceMock extends DataService {
 
   public setToken = (token: string) => {};
 
-  public getHomePageArticles = async ():
-    Promise<ArticleData[]> => Promise.resolve(this.data !== null ? this.data : articles);
-
   public getArticlesByPage = async (
     page: number,
-    perPage: number): Promise<ArticleData[]> => Promise.resolve(this.data !== null ? this.data : articles);
+    perPage: number): Promise<ArticleResponse> => Promise.resolve(this.data !== null ? this.data : articles);
 
   public getArticleById = async (id: number):
     Promise<ArticleData> => Promise.resolve(this.data !== null ? this.data : textArticle1);

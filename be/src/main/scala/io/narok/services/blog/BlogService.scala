@@ -12,9 +12,10 @@ import scala.concurrent.ExecutionContext
 
 trait BlogService {
   def getArticle(id: Int, token: Option[String]): Option[Article]
-  def getArticles(token: Option[String]): List[Article]
+  def getArticles(page: Int, perPage: Int, token: Option[String]): List[Article]
   def saveArticle(article: Article, token: Option[String]): Int
   def updateArticle(id: Int, article: Article, token: Option[String]): Boolean
+  def countArticles: Int
 }
 
 class BlogServiceImpl @Inject()(
@@ -25,15 +26,14 @@ class BlogServiceImpl @Inject()(
     with JsonSupport {
   val database = new BlogDatabase(databaseRepository)
 
-  override def getArticles(token: Option[String]): List[Article] =
+  override def getArticles(page: Int, perPage: Int, token: Option[String]): List[Article] =
     htmlSanitizer
-      .sanitizeAllArticles(database.articles())
+      .sanitizeAllArticles(database.articles(page, perPage))
       .map(article => checkOwner(article, token))
 
   override def getArticle(id: Int, token: Option[String]): Option[Article] = database.article(id) match {
-    case Some(article) => {
+    case Some(article) =>
       Some(htmlSanitizer.sanitizeArticle(checkOwner(article, token)))
-    }
     case _ => None
   }
 
@@ -48,6 +48,8 @@ class BlogServiceImpl @Inject()(
     if (AuthConfiguration.getOwnerIds.contains(userId)) database.updateArticle(id, article)
     else false
   }
+
+  override def countArticles: Int = database.articlesCount
 
   private def checkOwner(article: Article, token: Option[String]): Article = {
     val userId = googleService.getUserId(token)

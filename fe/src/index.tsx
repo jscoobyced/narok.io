@@ -9,7 +9,6 @@ import { GoogleAuthenticationHandler } from './authentication/components/Google/
 import { AuthenticationHandler } from './services/auth/handler';
 import DataService from './services/data/data';
 
-/* eslint-disable */
 let dataService;
 let userService;
 let handler;

@@ -17,7 +17,7 @@ trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
   implicit val blogContentFormat: RootJsonFormat[BlogContent]         = jsonFormat7(BlogContent)
   implicit val userFormat: RootJsonFormat[User]                       = jsonFormat4(User)
   implicit val articleFormat: RootJsonFormat[Article]                 = jsonFormat7(Article)
-  implicit val articleResponseFormat: RootJsonFormat[ArticleResponse] = jsonFormat3(ArticleResponse)
+  implicit val articleResponseFormat: RootJsonFormat[ArticleResponse] = jsonFormat4(ArticleResponse)
   implicit val responseStatusFormat: RootJsonFormat[ResponseStatus]   = jsonFormat3(ResponseStatus)
   implicit val responseMessageFormat: RootJsonFormat[ResponseMessage] = jsonFormat2(ResponseMessage)
 }
@@ -30,7 +30,7 @@ abstract class BaseRoute extends WebRoute with JsonSupport {
       case e: Exception =>
         complete(
           StatusCodes.InternalServerError -> ResponseMessage(
-            ResponseStatus(false, Some(e.getMessage), Some(ErrorCode.Unhandled)),
+            ResponseStatus(success = false, Some(e.getMessage), Some(ErrorCode.Unhandled)),
             None))
     }
   // $COVERAGE-ON$

@@ -10,6 +10,11 @@ export interface ArticleData {
   status?: number;
 }
 
+export interface ArticleResponse {
+  articles: ArticleData[];
+  count: number;
+}
+
 export enum Align {
   Left = 'left', Right = 'right', Center = 'center'
 }

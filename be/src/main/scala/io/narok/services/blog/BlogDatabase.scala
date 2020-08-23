@@ -3,11 +3,9 @@ package io.narok.services.blog
 import java.util.Date
 
 import com.google.inject.Inject
-import io.narok.configuration.AuthConfiguration
-import io.narok.models.User
 import io.narok.models.blog.{Article, BlogContent}
 import io.narok.repositories.db.{DatabaseRepository, Parameter}
-import io.narok.repositories.mappers.{ArticleMapper, BlogContentMapper}
+import io.narok.repositories.mappers.{ArticleMapper, BlogContentMapper, SimpleMapper}
 
 import scala.annotation.tailrec
 
@@ -15,7 +13,8 @@ class BlogDatabase @Inject()(databaseRepository: DatabaseRepository) {
   private val getArticlesSql: String = "SELECT b.id, b.title, b.created, b.modified, b.status, " +
     "u.id, u.name, u.email, u.reference_id " +
     "FROM blog b JOIN user u ON b.user_id = u.id " +
-    "WHERE b.status = 0 AND u.status = 0 ORDER BY b.created DESC, b.modified DESC LIMIT 5"
+    "WHERE b.status = 0 AND u.status = 0 ORDER BY b.created DESC, b.modified DESC LIMIT ?, ?"
+  private val countArticles: String = "SELECT COUNT(*) FROM blog WHERE status = 0"
   private val getArticleSql: String = "SELECT b.id, b.title, b.created, b.modified, b.status, " +
     "u.id, u.name, u.email, u.reference_id " +
     "FROM blog b JOIN user u ON b.user_id = u.id " +
@@ -31,12 +30,19 @@ class BlogDatabase @Inject()(databaseRepository: DatabaseRepository) {
   private val deleteArticleContentSql       = "UPDATE blog_content SET status = 1 WHERE blog_id = ?"
   private val updateArticleSql              = "UPDATE blog SET title = ?, modified = ? WHERE id = ?"
 
-  def articles(): List[Article] = {
+  def articles(page: Int, perPage: Int): List[Article] = {
+    val offset     = page * perPage
+    val parameters = List(Parameter(1, offset), Parameter(2, perPage))
     val articles: List[Article] = databaseRepository
-      .executeQuery(getArticlesSql, None, ArticleMapper.toArticles)
+      .executeQuery(getArticlesSql, Some(parameters), ArticleMapper.toArticles)
 
     addBlogContent(articles, List())
   }
+
+  def articlesCount: Int =
+    databaseRepository
+      .executeSingleQuery[Int](countArticles, None, SimpleMapper.toInt)
+      .get
 
   def article(id: Int): Option[Article] =
     databaseRepository

@@ -21,135 +21,143 @@ class BlogRoute @Inject()(implicit executionContext: ExecutionContext,
     extends BaseRoute {
   override protected def routes: Route = blogRoutes
 
-  def blogRoutes: Route = {
-    concat(
-      path("articles") {
+  def blogRoutes: Route = concat(
+    path("articles") {
+      options {
+        responseHeaders {
+          complete(StatusCodes.OK)
+        }
+      } ~
+        get {
+          parameters("page".?, "perPage".?) {
+            (page, perPage) =>
+              optionalHeaderValueByName("Authorization") {
+                token =>
+                  responseHeaders {
+                    val currentPage = page match {
+                      case Some(value) => value.toInt
+                      case _           => 0
+                    }
+                    val currentPerPage = perPage match {
+                      case Some(value) => value.toInt
+                      case _           => 5
+                    }
+                    val articles         = blogService.getArticles(currentPage, currentPerPage, token)
+                    val numberOfArticles = blogService.countArticles
+                    complete(ResponseMessage(ResponseStatus(success = true, None, None),
+                                             Some(ArticleResponse(None, numberOfArticles, None, Some(articles)))))
+                  }
+              }
+          }
+        }
+    },
+    pathPrefix("article") {
+      pathEnd {
         options {
           responseHeaders {
             complete(StatusCodes.OK)
           }
         } ~
-          get {
-            optionalHeaderValueByName("Authorization") { token =>
-              responseHeaders {
-                val articles = blogService.getArticles(token)
-                complete(ResponseMessage(ResponseStatus(success = true, None, None),
-                                         Some(ArticleResponse(None, None, Some(articles)))))
-              }
-            }
-          }
-      },
-      pathPrefix("article") {
-        pathEnd {
-          options {
-            responseHeaders {
-              complete(StatusCodes.OK)
-            }
-          } ~
-            put {
-              decodeRequest {
-                entity(as[Article]) {
-                  article =>
-                    responseHeaders {
-                      optionalHeaderValueByName("Authorization") {
-                        token =>
-                          val insertedBlogId = blogService.saveArticle(article, token)
-                          if (insertedBlogId > 0)
-                            complete(
-                              ResponseMessage(ResponseStatus(success = true,
-                                                             Some("Article created successfully."),
-                                                             None),
-                                              Some(ArticleResponse(Some(insertedBlogId), None, None))))
-                          else
-                            complete(
-                              StatusCodes.BadRequest -> ResponseMessage(ResponseStatus(success = false,
-                                                                                       Some("Article not created."),
-                                                                                       Some(ErrorCode.CannotSave)),
-                                                                        None))
-                      }
-                    }
-                }
-              }
-            }
-        } ~
-          path(Segment) {
-            id =>
-              options {
-                responseHeaders {
-                  complete(StatusCodes.OK)
-                }
-              } ~
-                post {
-                  decodeRequest {
-                    entity(as[Article]) {
-                      article =>
-                        responseHeaders {
-                          optionalHeaderValueByName("Authorization") {
-                            token =>
-                              Try(id.toInt) match {
-                                case Success(blogId) =>
-                                  val result = blogService.updateArticle(blogId, article, token)
-                                  if (result)
-                                    complete(
-                                      ResponseMessage(ResponseStatus(success = true,
-                                                                     Some("Article saved successfully."),
-                                                                     None),
-                                                      Some(ArticleResponse(Some(blogId), None, None))))
-                                  else
-                                    complete(
-                                      StatusCodes.Forbidden -> ResponseMessage(
-                                        ResponseStatus(success = false,
-                                                       Some("Article not saved."),
-                                                       Some(ErrorCode.CannotSave)),
-                                        None))
-                                case Failure(error) =>
-                                  complete(
-                                    StatusCodes.BadRequest -> ResponseMessage(
-                                      ResponseStatus(success = false,
-                                                     Some(s"Not an article reference. ${error.getMessage}"),
-                                                     Some(ErrorCode.WrongDataType)),
-                                      None))
-                              }
-                          }
-                        }
-                    }
-                  }
-                } ~
-                get {
+          put {
+            decodeRequest {
+              entity(as[Article]) {
+                article =>
                   responseHeaders {
                     optionalHeaderValueByName("Authorization") {
                       token =>
-                        Try(id.toInt) match {
-                          case Success(blogId) =>
-                            blogService.getArticle(blogId, token) match {
-                              case Some(article: Article) =>
-                                complete(
-                                  ResponseMessage(ResponseStatus(success = true,
-                                                                 Some("Article retrieved successfully."),
-                                                                 None),
-                                                  Some(ArticleResponse(None, Some(article), None))))
-                              case _ =>
-                                complete(
-                                  StatusCodes.NotFound -> ResponseMessage(ResponseStatus(success = false,
-                                                                                         Some("Article not found."),
-                                                                                         Some(ErrorCode.CannotGet)),
-                                                                          None))
-                            }
-                          case Failure(error) =>
-                            complete(
-                              StatusCodes.BadRequest -> ResponseMessage(
-                                ResponseStatus(success = false,
-                                               Some(s"Not an article reference. ${error.getMessage}"),
-                                               Some(ErrorCode.WrongDataType)),
-                                None))
-                        }
+                        val insertedBlogId = blogService.saveArticle(article, token)
+                        if (insertedBlogId > 0)
+                          complete(
+                            ResponseMessage(ResponseStatus(success = true, Some("Article created successfully."), None),
+                                            Some(ArticleResponse(Some(insertedBlogId), 1, None, None))))
+                        else
+                          complete(
+                            StatusCodes.BadRequest -> ResponseMessage(ResponseStatus(success = false,
+                                                                                     Some("Article not created."),
+                                                                                     Some(ErrorCode.CannotSave)),
+                                                                      None))
                     }
                   }
-                }
+              }
+            }
           }
-      }
-    )
-  }
+      } ~
+        path(Segment) {
+          id =>
+            options {
+              responseHeaders {
+                complete(StatusCodes.OK)
+              }
+            } ~
+              post {
+                decodeRequest {
+                  entity(as[Article]) {
+                    article =>
+                      responseHeaders {
+                        optionalHeaderValueByName("Authorization") {
+                          token =>
+                            Try(id.toInt) match {
+                              case Success(blogId) =>
+                                val result = blogService.updateArticle(blogId, article, token)
+                                if (result)
+                                  complete(
+                                    ResponseMessage(ResponseStatus(success = true,
+                                                                   Some("Article saved successfully."),
+                                                                   None),
+                                                    Some(ArticleResponse(Some(blogId), 1, None, None))))
+                                else
+                                  complete(
+                                    StatusCodes.Forbidden -> ResponseMessage(ResponseStatus(success = false,
+                                                                                            Some("Article not saved."),
+                                                                                            Some(ErrorCode.CannotSave)),
+                                                                             None))
+                              case Failure(error) =>
+                                complete(
+                                  StatusCodes.BadRequest -> ResponseMessage(
+                                    ResponseStatus(success = false,
+                                                   Some(s"Not an article reference. ${error.getMessage}"),
+                                                   Some(ErrorCode.WrongDataType)),
+                                    None))
+                            }
+                        }
+                      }
+                  }
+                }
+              } ~
+              get {
+                responseHeaders {
+                  optionalHeaderValueByName("Authorization") {
+                    token =>
+                      Try(id.toInt) match {
+                        case Success(blogId) =>
+                          blogService.getArticle(blogId, token) match {
+                            case Some(article: Article) =>
+                              complete(
+                                ResponseMessage(ResponseStatus(success = true,
+                                                               Some("Article retrieved successfully."),
+                                                               None),
+                                                Some(ArticleResponse(None, 1, Some(article), None))))
+                            case _ =>
+                              complete(
+                                StatusCodes.NotFound -> ResponseMessage(ResponseStatus(success = false,
+                                                                                       Some("Article not found."),
+                                                                                       Some(ErrorCode.CannotGet)),
+                                                                        None))
+                          }
+                        case Failure(error) =>
+                          complete(
+                            StatusCodes.BadRequest -> ResponseMessage(
+                              ResponseStatus(success = false,
+                                             Some(s"Not an article reference. ${error.getMessage}"),
+                                             Some(ErrorCode.WrongDataType)),
+                              None))
+                      }
+                  }
+                }
+              }
+        }
+    }
+  )
 
   private def responseHeaders = {
     val origin: String = httpConnection.getOrigin
