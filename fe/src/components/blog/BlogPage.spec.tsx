@@ -14,8 +14,12 @@ describe('BlogPage', () => {
     const articles: ArticleData[] = [
       toArticle(1, owner, 'test', [], 'created'),
       toArticle(2, owner, 'test', [], 'created')];
+    const response = {
+      articles,
+      count: 2,
+    };
     await act(async () => {
-      blogPage = mountComponent(<BlogPage />, () => { }, articles);
+      blogPage = mountComponent(<BlogPage />, () => { }, response);
     });
     expect(blogPage).not.toBeUndefined();
     blogPage.update();
@@ -30,5 +34,29 @@ describe('BlogPage', () => {
     expect(blogPage).not.toBeUndefined();
     blogPage.update();
     expect(blogPage.find('article')).toHaveLength(1);
+  });
+
+  it('should render pagination', async () => {
+    let blogPage = mount(<></>);
+    const articles: ArticleData[] = [
+      toArticle(1, owner, 'test', [], 'created'),
+      toArticle(2, owner, 'test', [], 'created')];
+    const response = {
+      articles,
+      count: 10,
+    };
+    await act(async () => {
+      blogPage = mountComponent(<BlogPage />, () => { }, response);
+    });
+    expect(blogPage).not.toBeUndefined();
+    blogPage.update();
+    expect(blogPage.find('article')).toHaveLength(3);
+    const nextPageButton = blogPage.find('.input.button.article__ender').first();
+    expect(nextPageButton).toBeDefined();
+    nextPageButton.simulate('click');
+    blogPage.update();
+    const previousPageButton = blogPage.find('.input.button.article__beginner').first();
+    expect(previousPageButton).toBeDefined();
+    previousPageButton.simulate('click');
   });
 });

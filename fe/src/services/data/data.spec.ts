@@ -1,9 +1,11 @@
 import DataService from './data';
-import { ArticleData, toArticle, toBlogContentText } from '../../models/blog/ArticleData';
+import {
+  ArticleData, toArticle, toBlogContentText, ArticleResponse,
+} from '../../models/blog/ArticleData';
 import { User } from '../../models/User';
 import HttpService, { HttpResponse } from '../http/http';
 
-const owner: User = { id: '12345678', name: 'Administrator' };
+const owner: User = { id: 12345678, name: 'Administrator' };
 
 const createArticle = (title: string, content: string): ArticleData => toArticle(
   0,
@@ -29,6 +31,7 @@ class HttpServiceMock<T> extends HttpService {
       articleResponse: {
         article: this.data,
         articles: this.data,
+        count: this.data.count,
         id: this.data,
       },
       status: {
@@ -52,30 +55,33 @@ const getDataService = (mockedValue: any): DataService => {
 };
 
 describe('data service', () => {
-  const mockSuccessResponse: ArticleData = createArticle('Hello, World!', 'This is content');
-
-  it('should return blog data', async () => {
-    const result = await getDataService(mockSuccessResponse).getHomePageArticles();
-    expect(result).toEqual(mockSuccessResponse);
-  });
+  const mockSuccessResponse: ArticleResponse = {
+    articles: [createArticle('Hello, World!', 'This is content')],
+    count: 1,
+  };
 
   it('should return homepage blog data', async () => {
-    const result = await getDataService(mockSuccessResponse).getArticlesByPage(0, 5);
-    expect(result).toEqual(mockSuccessResponse);
+    const expected = mockSuccessResponse;
+    const result = await getDataService(expected).getArticlesByPage(0, 5);
+    expect(result.articles).toEqual(expected);
+    expect(result.count).toEqual(1);
   });
 
   it('should return specific blog data', async () => {
-    const result = await getDataService(mockSuccessResponse).getArticleById(1);
-    expect(result).toEqual(mockSuccessResponse);
+    const expected = mockSuccessResponse.articles[0];
+    const result = await getDataService(expected).getArticleById(1);
+    expect(result).toEqual(expected);
   });
 
   it('should save article', async () => {
-    const result = await getDataService(1).saveArticle(mockSuccessResponse);
+    const expected = mockSuccessResponse.articles[0];
+    const result = await getDataService(1).saveArticle(expected);
     expect(result.id).toEqual(1);
   });
 
   it('should create article', async () => {
-    const result = await getDataService(1).createArticle(mockSuccessResponse);
+    const expected = mockSuccessResponse.articles[0];
+    const result = await getDataService(1).createArticle(expected);
     expect(result.id).toEqual(1);
   });
 });

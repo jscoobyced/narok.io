@@ -1,4 +1,4 @@
-import { ArticleData } from '../../models/blog/ArticleData';
+import { ArticleData, ArticleResponse } from '../../models/blog/ArticleData';
 import * as Config from '../config/config';
 import HttpService, { HttpResponse } from '../http/http';
 
@@ -19,12 +19,14 @@ export default class DataService {
 
   public setToken = (token: string) => this.httpService.setToken(token);
 
-  public getHomePageArticles = async (): Promise<ArticleData[]> => this.getArticlesByPage(0, 5)
-
-  public getArticlesByPage = async (page: number, perPage: number): Promise<ArticleData[]> => {
+  public getArticlesByPage = async (page: number, perPage: number): Promise<ArticleResponse> => {
     const parameters = [{ name: 'page', value: page }, { name: 'perPage', value: perPage }];
     const httpResponse = await this.get<ArticleData[]>('articles', parameters);
-    return Promise.resolve(httpResponse.articleResponse.articles);
+    const response: ArticleResponse = {
+      articles: httpResponse.articleResponse.articles,
+      count: httpResponse.articleResponse.count,
+    };
+    return Promise.resolve(response);
   }
 
   public getArticleById = async (id: number): Promise<ArticleData> => {

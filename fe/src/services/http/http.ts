@@ -54,6 +54,7 @@ export interface HttpResponse<T> {
   articleResponse: {
     article?: T;
     articles?: T;
+    count: number;
     id?: number;
   };
   status: {

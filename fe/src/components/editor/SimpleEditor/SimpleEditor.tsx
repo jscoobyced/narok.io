@@ -132,7 +132,9 @@ export const SimpleEditor = (props: { buttonText: SimpleEditorText }) => {
 
   const createLink = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
+    /* eslint-disable no-alert */
     const linkUrl = prompt(createLinkText);
+    /* eslint-enable no-alert */
     executeCommand('createLink', linkUrl);
   };
 
