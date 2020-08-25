@@ -44,6 +44,7 @@ export const Article = (props: {
     justifyFullText: getContent(CMS.JUSTIFYFULLTEXT),
     justifyRightText: getContent(CMS.JUSTIFYRIGHTTEXT),
     createLinkText: getContent(CMS.CREATELINKTEXT),
+    insertBlockText: getContent(CMS.INSERTBLOCKTEXT),
   };
 
   const onContentChange = (event: React.FocusEvent<HTMLDivElement>, index: number) => {

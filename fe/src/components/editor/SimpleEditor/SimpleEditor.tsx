@@ -24,7 +24,8 @@ export interface SimpleEditorText {
   justifyCenterText: string,
   justifyFullText: string,
   justifyRightText: string,
-  createLinkText: string
+  createLinkText: string,
+  insertBlockText: string
 }
 
 export const defaultButtonText = {
@@ -40,6 +41,7 @@ export const defaultButtonText = {
   justifyFullText: 'justify',
   justifyRightText: 'right',
   createLinkText: 'Create Link',
+  insertBlockText: 'Insert Block',
 };
 
 export const SimpleEditor = (props: { buttonText: SimpleEditorText }) => {
@@ -57,6 +59,7 @@ export const SimpleEditor = (props: { buttonText: SimpleEditorText }) => {
     justifyFullText,
     justifyRightText,
     createLinkText,
+    insertBlockText,
   } = buttonText;
   const [fontSize, setFontSize] = React.useState(3);
 
@@ -136,6 +139,11 @@ export const SimpleEditor = (props: { buttonText: SimpleEditorText }) => {
     const linkUrl = prompt(createLinkText);
     /* eslint-enable no-alert */
     executeCommand('createLink', linkUrl);
+  };
+
+  const insertBlock = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    executeCommand('formatBlock', 'pre');
   };
 
   return (
@@ -235,6 +243,14 @@ export const SimpleEditor = (props: { buttonText: SimpleEditorText }) => {
         onClick={createLink}
       >
         <i className="fas fa-link" />
+      </Button>
+      <Button
+        onMouseDown={disableMouseDown}
+        onKeyPress={disableOnKeyPress}
+        title={insertBlockText}
+        onClick={insertBlock}
+      >
+        <i className="fas fa-pre" />
       </Button>
     </div>
   );
