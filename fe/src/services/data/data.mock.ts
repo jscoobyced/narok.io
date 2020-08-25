@@ -24,6 +24,10 @@ articles.push(textArticle1);
 const textArticle2 = { ...textArticle1 };
 textArticle2.id = 2;
 articles.push(textArticle2);
+const articleResponse: ArticleResponse = {
+  articles,
+  count: 2,
+};
 
 export default class DataServiceMock extends DataService {
   private data: any = null;
@@ -37,7 +41,7 @@ export default class DataServiceMock extends DataService {
 
   public getArticlesByPage = async (
     page: number,
-    perPage: number): Promise<ArticleResponse> => Promise.resolve(this.data !== null ? this.data : articles);
+    perPage: number): Promise<ArticleResponse> => Promise.resolve(this.data !== null ? this.data : articleResponse);
 
   public getArticleById = async (id: number):
     Promise<ArticleData> => Promise.resolve(this.data !== null ? this.data : textArticle1);

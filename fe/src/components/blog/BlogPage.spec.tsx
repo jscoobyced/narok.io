@@ -58,5 +58,6 @@ describe('BlogPage', () => {
     const previousPageButton = blogPage.find('.input.button.article__beginner').first();
     expect(previousPageButton).toBeDefined();
     previousPageButton.simulate('click');
+    blogPage.update();
   });
 });

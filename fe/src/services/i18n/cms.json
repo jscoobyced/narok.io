@@ -35,7 +35,8 @@
         "JUSTIFYCENTERTEXT": "Justify center",
         "JUSTIFYFULLTEXT": "Justified",
         "JUSTIFYRIGHTTEXT": "Justify right",
-        "CREATELINKTEXT": "Create Link"
+        "CREATELINKTEXT": "Create Link",
+        "INSERTBLOCKTEXT": "Create Block"
     },
     "fr_FR": {
         "SIGNIN": "Connexion",
@@ -68,6 +69,7 @@
         "JUSTIFYCENTERTEXT": "Justifier au centre",
         "JUSTIFYFULLTEXT": "Justifier",
         "JUSTIFYRIGHTTEXT": "Justifier à droite",
-        "CREATELINKTEXT": "Créer un lient"
+        "CREATELINKTEXT": "Créer un lient",
+        "INSERTBLOCKTEXT": "Créer un bloc"
     }
 }
