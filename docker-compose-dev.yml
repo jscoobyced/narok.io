@@ -25,6 +25,7 @@ services:
       - jscdb
     volumes:
       - "./conf:/opt/jscbe/conf"
+      - "./assets:/opt/jscbe/assets"
   jscdb:
     image: mariadb:latest
     restart: unless-stopped

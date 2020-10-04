@@ -15,6 +15,7 @@ derby.log
 
 # Configuration
 conf
+assets
 
 # Generated files
 yarn-error.log
