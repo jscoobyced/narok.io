@@ -5,7 +5,7 @@ WORKDIR /build
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ Asia/Bangkok
 RUN set -ex; apt-get install -qqy apt-utils && apt-get update && apt-get -qqy upgrade \
-    && apt-get install -qqy p7zip-full
+    && apt-get install -qqy p7zip-full nginx
 
 # Build application
 ARG JSCCURRENT="./be"
@@ -30,6 +30,8 @@ RUN mkdir -p /opt/jscbe
 
 COPY --from=build-env /build/dist/jscbe /opt/jscbe
 RUN chmod u+x /opt/jscbe/bin/jscbe
+RUN rm -Rf /usr/share/nginx/html/ && mkdir -p /usr/share/nginx/html/assets
+COPY --from=build-env /build/nginx/default.conf /etc/nginx/conf.d/default.conf
 
 WORKDIR /opt/jscbe
 
@@ -37,3 +39,4 @@ ENTRYPOINT ["bash"]
 CMD ["/opt/jscbe/bin/jscbe", "-Dsbt.gigahorse=false", "-Dconfig.resource=production.conf"]
 EXPOSE 9001
 VOLUME [ "/opt/jscbe/conf" ]
+VOLUME ["/opt/jscbe/assets"]
